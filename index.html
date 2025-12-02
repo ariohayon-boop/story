@@ -596,10 +596,44 @@
             }
         }
 
-        // Form Submission
-        document.getElementById('mainForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('Form submitted!');
+        // Form Submission – fast redirect version
+document.getElementById('mainForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Form submitted!');
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const usernameInput = document.getElementById('username');
+    const followersInput = document.getElementById('followers');
+    
+    const username = usernameInput.value.trim();
+    const followers = parseInt(followersInput.value);
+    
+    if (followers < 400) {
+        alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'שולח...';
+
+    // שולח ל-Google Sheets ברקע (בלי לחכות)
+    submitToGoogleSheets(username, followers).catch(console.error);
+
+    // שומר בלוקאל סטורג'
+    saveToLocalStorage(username, followers);
+
+    alert('הנתונים נשלחו! עוברים לסטורי...');
+    
+    // מעבר מיידי לסטורי
+    window.location.href = 'instagram://story-camera';
+
+    // פולבאק אחרי 1.5 שניות אם אינסטגרם לא נפתח
+    setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'מעבר לסטורי';
+    }, 1500);
+});
+
             
             const submitBtn = document.getElementById('submitBtn');
             const usernameInput = document.getElementById('username');
