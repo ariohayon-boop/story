@@ -426,11 +426,26 @@
         }
 
         // Load data
-        function loadData() {
-            const submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
-            console.log('📊 Loaded data:', submissions.length, 'items');
-            return submissions.sort((a, b) => b.id - a.id);
-        }
+        const GOOGLE_SCRIPT_URL = "הדבק כאן את כתובת ה-Apps Script שלך";
+
+async function loadData() {
+    console.log('📊 Loading data from Google Sheets...');
+    
+    const response = await fetch(GOOGLE_SCRIPT_URL);
+    const rows = await response.json();
+
+    // התאמה לשמות העמודות שלך בשיטס
+    const submissions = rows.map((row, index) => ({
+        timestamp: row.timestamp,
+        username: row.username,
+        followers: row.followers,
+        id: index
+    }));
+
+    console.log('📊 Loaded from Sheets:', submissions.length, 'items');
+    return submissions.sort((a, b) => b.id - a.id);
+}
+
 
         // Calculate statistics
         function calculateStats(data, participantsPeriod, viewsPeriod) {
