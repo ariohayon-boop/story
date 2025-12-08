@@ -294,6 +294,13 @@
                 <div class="stat-icon">📸</div>
                 <div class="stat-value" id="totalStories">0</div>
                 <div class="stat-label">מספר סטוריז שהועלו</div>
+                <div class="views-filter">
+                    <button class="filter-btn active" onclick="filterStories('all')">הכל</button>
+                    <button class="filter-btn" onclick="filterStories('today')">היום</button>
+                    <button class="filter-btn" onclick="filterStories('week')">שבוע</button>
+                    <button class="filter-btn" onclick="filterStories('month')">חודש</button>
+                </div>
+                <div class="stat-sublabel" id="storiesSubtext">סה"כ</div>
             </div>
 
             <!-- Total Views -->
@@ -367,6 +374,7 @@
 
         let allSubmissions = [];
         let currentFilter = 'all';
+        let storiesFilter = 'all';
 
         // Load dashboard data
         async function loadDashboardData() {
@@ -414,7 +422,7 @@
             return Math.round(followers * 0.4);
         }
 
-        // Filter submissions by date
+        // Filter submissions by date for views
         function getFilteredSubmissions() {
             const now = new Date();
             
@@ -436,28 +444,58 @@
             }
         }
 
+        // Filter submissions by date for stories
+        function getFilteredStoriesSubmissions() {
+            const now = new Date();
+            
+            switch(storiesFilter) {
+                case 'today':
+                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    return allSubmissions.filter(s => new Date(s.created_at) >= today);
+                
+                case 'week':
+                    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    return allSubmissions.filter(s => new Date(s.created_at) >= weekAgo);
+                
+                case 'month':
+                    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                    return allSubmissions.filter(s => new Date(s.created_at) >= monthAgo);
+                
+                default:
+                    return allSubmissions;
+            }
+        }
+
         // Update stats
         function updateStats() {
-            const filtered = getFilteredSubmissions();
+            // Total stories (filtered)
+            const storiesFiltered = getFilteredStoriesSubmissions();
+            document.getElementById('totalStories').textContent = storiesFiltered.length;
             
-            // Total stories
-            document.getElementById('totalStories').textContent = allSubmissions.length;
+            // Stories subtext
+            let storiesSubtext = '';
+            if (storiesFilter === 'today') storiesSubtext = 'היום';
+            else if (storiesFilter === 'week') storiesSubtext = 'השבוע';
+            else if (storiesFilter === 'month') storiesSubtext = 'החודש';
+            else storiesSubtext = 'סה"כ';
+            document.getElementById('storiesSubtext').textContent = storiesSubtext;
             
-            // Total views
-            const totalViews = filtered.reduce((sum, s) => {
+            // Total views (filtered)
+            const viewsFiltered = getFilteredSubmissions();
+            const totalViews = viewsFiltered.reduce((sum, s) => {
                 return sum + calculateViews(s.instagram_followers || 0);
             }, 0);
             
             document.getElementById('totalViews').textContent = totalViews.toLocaleString('he-IL');
             
-            // Update subtext
-            let subtext = '';
-            if (currentFilter === 'today') subtext = 'היום';
-            else if (currentFilter === 'week') subtext = 'השבוע';
-            else if (currentFilter === 'month') subtext = 'החודש';
-            else subtext = 'סה"כ';
+            // Views subtext
+            let viewsSubtext = '';
+            if (currentFilter === 'today') viewsSubtext = 'היום';
+            else if (currentFilter === 'week') viewsSubtext = 'השבוע';
+            else if (currentFilter === 'month') viewsSubtext = 'החודש';
+            else viewsSubtext = 'סה"כ';
             
-            document.getElementById('viewsSubtext').textContent = subtext;
+            document.getElementById('viewsSubtext').textContent = viewsSubtext;
         }
 
         // Update submissions table
@@ -506,8 +544,24 @@
         function filterViews(filter) {
             currentFilter = filter;
             
-            // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => {
+            // Update active button in views card only
+            const viewsCard = event.target.closest('.stat-card');
+            viewsCard.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update stats
+            updateStats();
+        }
+
+        // Filter stories
+        function filterStories(filter) {
+            storiesFilter = filter;
+            
+            // Update active button in stories card only
+            const storiesCard = event.target.closest('.stat-card');
+            storiesCard.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
