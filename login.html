@@ -536,13 +536,9 @@
 
                 console.log('📤 Fetching businesses from Google Sheets...');
 
-                // Fetch businesses from Google Sheets
-                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getBusinesses');
-                const data = await response.json();
+                // Fetch businesses using JSONP (to avoid CORS)
+                const businesses = await fetchJSONP(GOOGLE_SCRIPT_URL + '?action=getBusinesses');
                 
-                // תמיכה בשני פורמטים: Array או Object עם businesses property
-                const businesses = Array.isArray(data) ? data : (data.businesses || []);
-
                 console.log('📥 Received businesses:', businesses);
 
                 // Find matching business
@@ -602,6 +598,29 @@
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // JSONP function to bypass CORS
+        function fetchJSONP(url) {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'jsonpCallback_' + Date.now();
+                const script = document.createElement('script');
+                
+                window[callbackName] = function(data) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    resolve(data);
+                };
+                
+                script.src = url + '&callback=' + callbackName;
+                script.onerror = () => {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    reject(new Error('JSONP request failed'));
+                };
+                
+                document.body.appendChild(script);
+            });
         }
 
         console.log('✅ All functions loaded!');
