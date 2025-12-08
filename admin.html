@@ -549,18 +549,16 @@
             try {
                 console.log('📊 Loading dashboard data for:', businessId);
 
-                // Fetch submissions
-                const submissionsResponse = await fetch(
+                // Fetch submissions using JSONP
+                const submissions = await fetchJSONP(
                     `${GOOGLE_SCRIPT_URL}?action=getSubmissions&businessId=${businessId}`
                 );
-                const submissions = await submissionsResponse.json();
                 console.log('📥 Submissions:', submissions);
 
-                // Fetch coupons
-                const couponsResponse = await fetch(
+                // Fetch coupons using JSONP
+                const coupons = await fetchJSONP(
                     `${GOOGLE_SCRIPT_URL}?action=getCoupons&businessId=${businessId}`
                 );
-                const coupons = await couponsResponse.json();
                 console.log('📥 Coupons:', coupons);
 
                 // Update stats
@@ -704,6 +702,29 @@
             localStorage.removeItem('loggedInInstagram');
             localStorage.removeItem('loggedInPasswordHash');
             window.location.href = 'login.html';
+        }
+
+        // JSONP function to bypass CORS
+        function fetchJSONP(url) {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'jsonpCallback_' + Date.now();
+                const script = document.createElement('script');
+                
+                window[callbackName] = function(data) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    resolve(data);
+                };
+                
+                script.src = url + '&callback=' + callbackName;
+                script.onerror = () => {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    reject(new Error('JSONP request failed'));
+                };
+                
+                document.body.appendChild(script);
+            });
         }
 
         // Load data on page load
