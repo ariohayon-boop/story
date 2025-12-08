@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>התחברות - קמפיין אינסטגרם חכם</title>
+    <title>התחברות - קמפיין אינסטגרם</title>
+    
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -34,7 +38,6 @@
             position: relative;
         }
 
-        /* Animated background orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -48,449 +51,217 @@
             width: 500px;
             height: 500px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            top: -200px;
-            right: -200px;
-            animation-delay: 0s;
+            top: -250px;
+            right: -250px;
         }
 
         .orb-2 {
             width: 400px;
             height: 400px;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            bottom: -150px;
-            left: -150px;
-            animation-delay: 5s;
-        }
-
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: 10s;
+            bottom: -200px;
+            left: -200px;
+            animation-delay: -10s;
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30px, -30px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        /* Noise texture overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
+        .container {
+            position: relative;
             z-index: 1;
-        }
-
-        .content-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 60px 20px;
-            position: relative;
-            z-index: 2;
+            padding: 40px 20px;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 440px;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Glass morphism card */
         .login-card {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            padding: 48px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 8px 32px 0 rgba(31, 38, 135, 0.37),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Shimmer effect on card border */
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            padding: 48px;
+            max-width: 450px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                transparent
-            );
-            animation: shimmer 3s infinite;
         }
 
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
-            50%, 100% {
-                left: 100%;
-            }
-        }
-
-        /* Logo/Icon area */
-        .logo-area {
-            text-align: center;
-            margin-bottom: 32px;
-            animation: fadeIn 1s ease-out 0.2s both;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .logo-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--primary-gradient);
-            border-radius: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6);
-            }
-        }
-
-        h1 {
-            font-family: 'Almarai', sans-serif;
+        .title {
             font-size: 32px;
             font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
-            animation: fadeIn 1s ease-out 0.3s both;
+            margin-bottom: 12px;
         }
 
         .subtitle {
-            text-align: center;
             color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 300;
+            text-align: center;
+            font-size: 16px;
             margin-bottom: 40px;
-            line-height: 1.6;
-            animation: fadeIn 1s ease-out 0.4s both;
         }
 
-        /* Form styling */
         .form-group {
             margin-bottom: 24px;
-            animation: slideInRight 0.6s ease-out both;
-        }
-
-        .form-group:nth-child(1) { animation-delay: 0.5s; }
-        .form-group:nth-child(2) { animation-delay: 0.6s; }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .form-label {
             display: block;
             color: var(--text-primary);
-            font-weight: 500;
-            font-size: 14px;
+            font-weight: 600;
             margin-bottom: 8px;
-            letter-spacing: 0.3px;
+            font-size: 14px;
         }
 
         .form-input {
             width: 100%;
-            padding: 14px 16px;
-            border-radius: 12px;
+            padding: 14px 18px;
+            background: var(--surface);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             color: var(--text-primary);
-            font-family: 'Tajawal', sans-serif;
             font-size: 15px;
-            font-weight: 400;
             transition: all 0.3s ease;
-            outline: none;
+            font-family: 'Tajawal', sans-serif;
         }
 
         .form-input:focus {
-            border-color: rgba(102, 126, 234, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            outline: none;
+            background: var(--surface-hover);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .form-input::placeholder {
             color: var(--text-tertiary);
         }
 
-        /* Submit button with gradient */
         .submit-btn {
             width: 100%;
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 700;
             padding: 16px;
-            border-radius: 12px;
+            background: var(--primary-gradient);
             border: none;
+            border-radius: 12px;
+            color: white;
             font-size: 16px;
-            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-            position: relative;
-            overflow: hidden;
-            margin-top: 32px;
-            animation: fadeIn 1s ease-out 0.8s both;
+            margin-top: 8px;
         }
 
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.5s;
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         .submit-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Success/Error messages */
         .success-message, .error-message {
-            padding: 20px;
+            display: none;
+            padding: 16px;
             border-radius: 12px;
-            margin-top: 24px;
+            margin-top: 20px;
             text-align: center;
             font-weight: 600;
-            font-size: 14px;
-            display: none;
-            animation: bounceIn 0.5s ease-out;
-        }
-
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
         }
 
         .success-message {
-            background: rgba(79, 172, 254, 0.1);
-            border: 1px solid rgba(79, 172, 254, 0.3);
-            color: #4facfe;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
         }
 
         .error-message {
-            background: rgba(245, 87, 108, 0.1);
-            border: 1px solid rgba(245, 87, 108, 0.3);
-            color: #f5576c;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
         }
 
-        /* Signup link */
         .signup-link {
             text-align: center;
-            margin-top: 32px;
+            margin-top: 24px;
             color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 300;
-            animation: fadeIn 1s ease-out 0.9s both;
         }
 
         .signup-link a {
-            color: var(--text-primary);
-            font-weight: 600;
+            color: #667eea;
             text-decoration: none;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transition: opacity 0.3s ease;
+            font-weight: 600;
+            transition: color 0.3s ease;
         }
 
         .signup-link a:hover {
-            opacity: 0.8;
+            color: #764ba2;
         }
 
-        /* Mobile responsive */
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {
             .login-card {
-                padding: 36px 28px;
+                padding: 32px 24px;
             }
 
-            h1 {
+            .title {
                 font-size: 28px;
-            }
-
-            .subtitle {
-                font-size: 14px;
-            }
-
-            .orb-1, .orb-2, .orb-3 {
-                width: 300px;
-                height: 300px;
-            }
-        }
-
-        /* Loading spinner */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-            margin-left: 8px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated background orbs -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
 
-    <!-- Content -->
-    <div class="content-wrapper">
-        <div class="login-container">
-            <div class="login-card">
-                <div class="logo-area">
-                    <div class="logo-icon">🔐</div>
+    <div class="container">
+        <div class="login-card">
+            <h1 class="title">התחברות</h1>
+            <p class="subtitle">היכנסו לדשבורד שלכם</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">מזהה עסק</label>
+                    <input 
+                        type="text" 
+                        name="businessId"
+                        id="businessIdInput"
+                        class="form-input" 
+                        placeholder="business-id-1234"
+                        required
+                    >
                 </div>
 
-                <h1>ברוכים השבים</h1>
-                <div class="subtitle">
-                    התחברו לדשבורד שלכם כדי לנהל את הקמפיין
+                <div class="form-group">
+                    <label class="form-label">סיסמה</label>
+                    <input 
+                        type="password" 
+                        name="password"
+                        class="form-input" 
+                        placeholder="הזן סיסמה"
+                        required
+                    >
                 </div>
 
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label class="form-label">מזהה עסק *</label>
-                        <input 
-                            type="text" 
-                            name="businessId"
-                            class="form-input" 
-                            placeholder="לדוגמה: parker-bar-a7b3"
-                            required
-                        >
-                    </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>🚀 כניסה לדשבורד</span>
+                </button>
+            </form>
 
-                    <div class="form-group">
-                        <label class="form-label">סיסמה *</label>
-                        <input 
-                            type="password" 
-                            name="password"
-                            class="form-input" 
-                            placeholder="הקלד את הסיסמה שלך"
-                            required
-                        >
-                    </div>
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
 
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span>🚀 כניסה לדשבורד</span>
-                    </button>
-                </form>
-
-                <div class="success-message" id="successMessage"></div>
-                <div class="error-message" id="errorMessage"></div>
-
-                <div class="signup-link">
-                    עדיין לא רשומים? <a href="signup.html">הצטרפו עכשיו</a>
-                </div>
+            <div class="signup-link">
+                עדיין לא רשומים? <a href="signup.html">צרו חשבון</a>
             </div>
         </div>
     </div>
@@ -498,14 +269,19 @@
     <script>
         console.log('✅ Login page loaded!');
 
-        // Google Sheets URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQdwWsoAlPvBS-GMMPrLTSvArmrHSO58sA-yyr3NSEqgfbOLzUUn3cjl_tj11WMMS6/exec';
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized!');
 
-        // Check if businessId is in URL (from signup redirect)
+        // Pre-fill businessId from URL
         const urlParams = new URLSearchParams(window.location.search);
         const businessIdFromUrl = urlParams.get('business');
         if (businessIdFromUrl) {
-            document.querySelector('input[name="businessId"]').value = businessIdFromUrl;
+            document.getElementById('businessIdInput').value = businessIdFromUrl;
+            console.log('✅ Pre-filled businessId:', businessIdFromUrl);
         }
 
         // Form submission
@@ -517,110 +293,76 @@
             const successMsg = document.getElementById('successMessage');
             const errorMsg = document.getElementById('errorMessage');
 
-            // Hide previous messages
             successMsg.style.display = 'none';
             errorMsg.style.display = 'none';
 
-            // Get form data
             const formData = new FormData(e.target);
             const businessId = formData.get('businessId').trim();
             const password = formData.get('password');
 
-            // Disable button and show loading
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>⏳ מתחבר</span><span class="loading-spinner"></span>';
+            submitBtn.innerHTML = '<span>⏳ מתחבר...</span>';
 
             try {
                 // Hash password
                 const passwordHash = await simpleHash(password);
 
-                console.log('📤 Fetching businesses from Google Sheets...');
+                console.log('📤 Checking credentials...');
 
-                // Fetch businesses using JSONP (to avoid CORS)
-                const businesses = await fetchJSONP(GOOGLE_SCRIPT_URL + '?action=getBusinesses');
-                
-                console.log('📥 Received businesses:', businesses);
+                // Query Supabase
+                const { data: businesses, error } = await supabase
+                    .from('businesses')
+                    .select('*')
+                    .eq('business_id', businessId)
+                    .eq('password_hash', passwordHash)
+                    .eq('status', 'active')
+                    .single();
 
-                // Find matching business
-                const business = businesses.find(b => 
-                    b.businessId === businessId && 
-                    b.passwordHash === passwordHash &&
-                    b.status === 'active'
-                );
-
-                if (business) {
-                    console.log('✅ Login successful!');
-
-                    // Save to localStorage
-                    localStorage.setItem('loggedInBusinessId', businessId);
-                    localStorage.setItem('loggedInBusinessName', business.businessName);
-                    localStorage.setItem('loggedInInstagram', business.instagramHandle);
-                    localStorage.setItem('loggedInPasswordHash', passwordHash);
-
-                    // Show success message
-                    successMsg.innerHTML = `
-                        <div style="font-size: 28px; margin-bottom: 12px;">🎉</div>
-                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">התחברת בהצלחה!</div>
-                        <div style="font-size: 14px; opacity: 0.9;">מעביר לדשבורד...</div>
-                    `;
-                    successMsg.style.display = 'block';
-
-                    // Redirect to admin dashboard
-                    setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 1500);
-
-                } else {
-                    console.log('❌ Login failed - invalid credentials');
-                    
+                if (error || !businesses) {
+                    console.error('❌ Login failed:', error);
                     errorMsg.textContent = '❌ מזהה עסק או סיסמה שגויים';
                     errorMsg.style.display = 'block';
-                    
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<span>🚀 כניסה לדשבורד</span>';
+                    return;
                 }
+
+                console.log('✅ Login successful!', businesses);
+
+                // Save to localStorage
+                localStorage.setItem('loggedInBusinessId', businesses.business_id);
+                localStorage.setItem('loggedInBusinessName', businesses.business_name);
+                localStorage.setItem('loggedInInstagram', businesses.instagram_handle);
+                localStorage.setItem('loggedInPasswordHash', passwordHash);
+
+                // Show success
+                successMsg.innerHTML = `
+                    <div style="font-size: 28px; margin-bottom: 12px;">🎉</div>
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">התחברת בהצלחה!</div>
+                    <div style="font-size: 14px; opacity: 0.9;">מעביר לדשבורד...</div>
+                `;
+                successMsg.style.display = 'block';
+
+                // Redirect
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1500);
 
             } catch (error) {
                 console.error('❌ Error:', error);
-                
-                errorMsg.textContent = '⚠️ שגיאה בתהליך ההתחברות. נסו שוב בעוד כמה רגעים.';
+                errorMsg.textContent = '❌ שגיאה: ' + error.message;
                 errorMsg.style.display = 'block';
-                
+            } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>🚀 כניסה לדשבורד</span>';
             }
         });
 
-        // Simple password hashing (same as signup)
+        // Simple password hashing
         async function simpleHash(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password + 'SALT_2024');
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        // JSONP function to bypass CORS
-        function fetchJSONP(url) {
-            return new Promise((resolve, reject) => {
-                const callbackName = 'jsonpCallback_' + Date.now();
-                const script = document.createElement('script');
-                
-                window[callbackName] = function(data) {
-                    delete window[callbackName];
-                    document.body.removeChild(script);
-                    resolve(data);
-                };
-                
-                script.src = url + '&callback=' + callbackName;
-                script.onerror = () => {
-                    delete window[callbackName];
-                    document.body.removeChild(script);
-                    reject(new Error('JSONP request failed'));
-                };
-                
-                document.body.appendChild(script);
-            });
         }
 
         console.log('✅ All functions loaded!');
