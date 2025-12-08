@@ -439,16 +439,9 @@
             }
         });
 
-        // Generate business ID
+        // Generate business ID = שם העסק כמו שהוא
         function generateBusinessId(businessName) {
-            const cleaned = businessName
-                .toLowerCase()
-                .replace(/[^a-z0-9\s]/g, '')
-                .replace(/\s+/g, '-')
-                .substring(0, 20);
-            
-            const random = Math.random().toString(36).substring(2, 6);
-            return `${cleaned}-${random}`;
+            return businessName.trim();
         }
 
         // Simple password hashing
