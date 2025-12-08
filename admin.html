@@ -307,7 +307,7 @@
                     <button class="filter-btn" onclick="filterViews('week')">שבוע</button>
                     <button class="filter-btn" onclick="filterViews('month')">חודש</button>
                 </div>
-                <div class="stat-sublabel" id="viewsSubtext">40% מסך העוקבים</div>
+                <div class="stat-sublabel" id="viewsSubtext"></div>
             </div>
         </div>
 
@@ -451,10 +451,11 @@
             document.getElementById('totalViews').textContent = totalViews.toLocaleString('he-IL');
             
             // Update subtext
-            let subtext = '40% מסך העוקבים';
-            if (currentFilter === 'today') subtext += ' - היום';
-            else if (currentFilter === 'week') subtext += ' - השבוע';
-            else if (currentFilter === 'month') subtext += ' - החודש';
+            let subtext = '';
+            if (currentFilter === 'today') subtext = 'היום';
+            else if (currentFilter === 'week') subtext = 'השבוע';
+            else if (currentFilter === 'month') subtext = 'החודש';
+            else subtext = 'סה"כ';
             
             document.getElementById('viewsSubtext').textContent = subtext;
         }
