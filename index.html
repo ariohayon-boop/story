@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>סטורי = בירה חינם!</title>
+    
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -882,37 +886,34 @@
             const listContainer = document.getElementById('businessList');
             
             try {
-                // טעינת רשימת עסקים מ-Google Sheets using JSONP
-                const allBusinesses = await fetchJSONP(GOOGLE_SCRIPT_URL + '?action=getBusinesses');
+                // טעינת רשימת עסקים מ-Supabase
+                const { data: businesses, error } = await supabase
+                    .from('businesses')
+                    .select('business_id, business_name, instagram_handle, location, category, status')
+                    .eq('status', 'active');
+                
+                if (error) throw error;
+                
+                // המרה לפורמט הישן
+                allBusinesses = (businesses || []).map(b => ({
+                    businessId: b.business_id,
+                    businessName: b.business_name,
+                    instagramHandle: b.instagram_handle,
+                    location: b.location,
+                    category: b.category
+                }));
                 
                 console.log('✅ Loaded businesses:', allBusinesses);
                 
                 if (allBusinesses.length === 0) {
-                    // אם אין עסקים, הצג את Parker כדיפולט
-                    allBusinesses = [{
-                        businessId: 'parker-default',
-                        businessName: 'פארקר בר',
-                        instagramHandle: '@parker',
-                        location: 'כפר סבא',
-                        category: 'בר'
-                    }];
+                    listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
+                } else {
+                    displayBusinesses(allBusinesses);
                 }
-                
-                displayBusinesses(allBusinesses);
                 
             } catch (error) {
                 console.error('❌ Error loading businesses:', error);
-                
-                // Fallback - הצג Parker בכל מקרה
-                allBusinesses = [{
-                    businessId: 'parker-default',
-                    businessName: 'פארקר בר',
-                    instagramHandle: '@parker',
-                    location: 'כפר סבא',
-                    category: 'בר'
-                }];
-                
-                displayBusinesses(allBusinesses);
+                listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
             }
         }
 
@@ -962,9 +963,10 @@
             // שמירה ב-localStorage
             localStorage.setItem('selectedBusiness', JSON.stringify(business));
             
-            // העתקת היוזר לקליפבורד
-            navigator.clipboard.writeText(business.instagramHandle).then(() => {
-                console.log('📋 Copied to clipboard:', business.instagramHandle);
+            // העתקת היוזר לקליפבורד (ללא @)
+            const username = business.instagramHandle.replace('@', '');
+            navigator.clipboard.writeText(username).then(() => {
+                console.log('📋 Copied to clipboard:', username);
             });
             
             // הפעלת כפתור submit
@@ -972,7 +974,7 @@
             document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✓';
             
             // הצגת הודעה
-            showNotification(`✓ ${business.businessName} - ${business.instagramHandle} הועתק!`);
+            showNotification(`✓ ${business.businessName} - ${username} הועתק!`);
         }
 
         function showNotification(message) {
@@ -1032,37 +1034,33 @@
             });
         }
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQdwWsoAlPvBS-GMMPrLTSvArmrHSO58sA-yyr3NSEqgfbOLzUUn3cjl_tj11WMMS6/exec';
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized!');
 
-        async function submitToGoogleSheets(username, followers, businessId) {
-            console.log('📤 Sending to Google Sheets...', {username, followers, businessId});
-            
-            const timestamp = new Date().toLocaleString('he-IL', {
-                timeZone: 'Asia/Jerusalem'
-            });
-            
-            const data = {
-                type: 'submission',
-                businessId: businessId,
-                timestamp: timestamp,
-                username: username,
-                followers: followers
-            };
+        async function submitToSupabase(username, followers, businessId) {
+            console.log('📤 Sending to Supabase...', {username, followers, businessId});
             
             try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
+                const { data, error } = await supabase
+                    .from('submissions')
+                    .insert([{
+                        business_id: businessId,
+                        username: username,
+                        instagram_followers: parseInt(followers),
+                        created_at: new Date().toISOString()
+                    }])
+                    .select()
+                    .single();
                 
-                console.log('✅ Data sent to Google Sheets:', data);
+                if (error) throw error;
+                
+                console.log('✅ Data saved to Supabase:', data);
                 return true;
             } catch (error) {
-                console.error('❌ Error sending to Google Sheets:', error);
+                console.error('❌ Error sending to Supabase:', error);
                 return false;
             }
         }
@@ -1134,8 +1132,8 @@
             console.log('📱 Opening Instagram immediately...');
             window.location.href = 'instagram://story-camera';
             
-            // שלח נתונים ברקע (כולל businessId!)
-            submitToGoogleSheets(username, followers, selectedBusinessData.businessId).catch(err => {
+            // שלח נתונים ברקע ל-Supabase (כולל businessId!)
+            submitToSupabase(username, followers, selectedBusinessData.businessId).catch(err => {
                 console.error('Background error:', err);
             });
             saveToLocalStorage(username, followers);
@@ -1450,29 +1448,6 @@
             }).catch(err => {
                 console.error('Copy error:', err);
                 alert('לא הצלחנו להעתיק. העתק ידנית: ' + code);
-            });
-        }
-
-        // JSONP function to bypass CORS
-        function fetchJSONP(url) {
-            return new Promise((resolve, reject) => {
-                const callbackName = 'jsonpCallback_' + Date.now();
-                const script = document.createElement('script');
-                
-                window[callbackName] = function(data) {
-                    delete window[callbackName];
-                    document.body.removeChild(script);
-                    resolve(data);
-                };
-                
-                script.src = url + '&callback=' + callbackName;
-                script.onerror = () => {
-                    delete window[callbackName];
-                    document.body.removeChild(script);
-                    reject(new Error('JSONP request failed'));
-                };
-                
-                document.body.appendChild(script);
             });
         }
 
