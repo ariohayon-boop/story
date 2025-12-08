@@ -271,6 +271,23 @@
                 padding: 8px;
             }
         }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -320,8 +337,11 @@
 
         <!-- Submissions Table -->
         <div class="data-section">
-            <div class="section-title">
-                📊 סטוריז אחרונים
+            <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>📊 סטוריז אחרונים</span>
+                <button class="toggle-btn" id="toggleHistoryBtn" onclick="toggleHistory()">
+                    הצג הכל ⬇️
+                </button>
             </div>
             <div style="overflow-x: auto;">
                 <table class="data-table" id="submissionsTable">
@@ -330,7 +350,7 @@
                             <th>תאריך</th>
                             <th>משתמש</th>
                             <th>עוקבים</th>
-                            <th>צפיות משוערות</th>
+                            <th>צפיות</th>
                         </tr>
                     </thead>
                     <tbody id="submissionsBody">
@@ -368,6 +388,14 @@
             window.location.href = 'login.html';
         }
 
+        // התנתקות אוטומטית בסגירת הדפדפן/טאב
+        window.addEventListener('beforeunload', function() {
+            localStorage.removeItem('loggedInBusinessId');
+            localStorage.removeItem('loggedInBusinessName');
+            localStorage.removeItem('loggedInInstagram');
+            localStorage.removeItem('loggedInPasswordHash');
+        });
+
         // Update header
         document.getElementById('businessName').textContent = businessName || 'העסק שלי';
         document.getElementById('instagramHandle').textContent = instagramHandle || '@business';
@@ -375,6 +403,7 @@
         let allSubmissions = [];
         let currentFilter = 'all';
         let storiesFilter = 'all';
+        let showAllHistory = false;
 
         // Load dashboard data
         async function loadDashboardData() {
@@ -516,7 +545,12 @@
                 return;
             }
 
-            tbody.innerHTML = allSubmissions.map(submission => {
+            // הצג 2 אחרונים או הכל
+            const submissionsToShow = showAllHistory 
+                ? allSubmissions 
+                : allSubmissions.slice(0, 2);
+
+            tbody.innerHTML = submissionsToShow.map(submission => {
                 const date = new Date(submission.created_at);
                 const formattedDate = date.toLocaleString('he-IL', {
                     day: '2-digit',
@@ -538,6 +572,26 @@
                     </tr>
                 `;
             }).join('');
+            
+            // עדכון כפתור
+            const btn = document.getElementById('toggleHistoryBtn');
+            if (allSubmissions.length <= 2) {
+                btn.style.display = 'none';
+            } else {
+                btn.style.display = 'block';
+                btn.textContent = showAllHistory ? 'הצג 2 אחרונים ⬆️' : 'הצג הכל ⬇️';
+            }
+        }
+
+        // Toggle history view
+        function toggleHistory() {
+            showAllHistory = !showAllHistory;
+            updateSubmissionsTable();
+            
+            // גלילה למעלה אם מציגים רק 2
+            if (!showAllHistory) {
+                document.querySelector('.data-section').scrollIntoView({behavior: 'smooth'});
+            }
         }
 
         // Filter views
