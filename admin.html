@@ -105,6 +105,32 @@
             font-size: 14px;
         }
 
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .refresh-btn {
+            padding: 12px 24px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 12px;
+            color: #10b981;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(16, 185, 129, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .refresh-btn.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
         .logout-btn {
             padding: 12px 24px;
             background: rgba(239, 68, 68, 0.2);
@@ -301,7 +327,10 @@
                 <h1 id="businessName">טוען...</h1>
                 <p id="instagramHandle">@loading</p>
             </div>
-            <button class="logout-btn" onclick="logout()">🚪 התנתק</button>
+            <div class="header-buttons">
+                <button class="refresh-btn" onclick="refreshData()">🔄 רענן</button>
+                <button class="logout-btn" onclick="logout()">🚪 התנתק</button>
+            </div>
         </div>
 
         <!-- Stats Grid -->
@@ -622,6 +651,18 @@
             
             // Update stats
             updateStats();
+        }
+
+        // Refresh data
+        async function refreshData() {
+            const btn = document.querySelector('.refresh-btn');
+            btn.classList.add('loading');
+            btn.textContent = '🔄 טוען...';
+            
+            await loadDashboardData();
+            
+            btn.classList.remove('loading');
+            btn.textContent = '🔄 רענן';
         }
 
         // Logout
