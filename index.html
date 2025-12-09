@@ -31,7 +31,6 @@
             margin: 0;
         }
 
-        /* Background container - ALWAYS VISIBLE */
         .background-container {
             position: fixed;
             top: 0;
@@ -41,7 +40,6 @@
             z-index: -2;
         }
 
-        /* Animated background images */
         .background-image {
             position: absolute;
             top: 0;
@@ -50,520 +48,497 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
         }
 
         .background-image.active {
             opacity: 1;
         }
 
-        .background-image:nth-child(1) { background-image: url('bar-bg1.jpg'); }
-        .background-image:nth-child(2) { background-image: url('bar-bg2.jpg'); }
-        .background-image:nth-child(3) { background-image: url('bar-bg3.jpg'); }
-        .background-image:nth-child(4) { background-image: url('bar-bg4.jpg'); }
+        .background-image:nth-child(1) { background-image: url('img/1.jpg'); }
+        .background-image:nth-child(2) { background-image: url('img/2.jpg'); }
+        .background-image:nth-child(3) { background-image: url('img/3.jpg'); }
+        .background-image:nth-child(4) { background-image: url('img/4.jpg'); }
 
-        /* Dark overlay for better text readability */
-        .background-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: -1;
-        }
-
-        /* Content wrapper */
-        .content-wrapper {
+        .container {
+            min-height: 100vh;
+            padding: 16px;
             position: relative;
             z-index: 1;
-            padding: 20px;
-            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
         }
 
-        /* Page container */
-        .page-wrapper {
-            max-width: 480px;
+        .inner-container {
+            max-width: 450px;
             margin: 0 auto;
+            width: 100%;
         }
 
-        /* Glass card - COMPATIBLE VERSION */
-        .content-card {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 32px 24px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Pseudo-element for blur effect */
-        .content-card::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: inherit;
-            filter: blur(20px);
-            z-index: -1;
-            opacity: 0.8;
-        }
-
-        /* Typography - WHITE for visibility */
-        h1 {
-            font-size: 38px;
-            font-weight: 800;
+        .logo-section {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
+            padding-top: 30px;
+        }
+
+        .logo-placeholder {
             color: white;
-            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 2;
+            font-size: 40px;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .main-title {
+            font-size: 36px;
+            font-weight: 900;
+            text-align: center;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+            margin-bottom: 10px;
             line-height: 1.3;
         }
 
-        h2 {
-            font-size: 22px;
-            font-weight: 700;
-            text-align: right;
-            color: white;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 2;
+        .subtitle {
+            font-size: 18px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            margin-bottom: 24px;
         }
 
-        /* Three-step layout */
         .steps-container {
-            margin-bottom: 50px;
-            position: relative;
-            z-index: 2;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .step {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 18px;
-            margin-bottom: 28px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .step:active {
-            transform: scale(0.98);
-        }
+        .step:last-child { border-bottom: none; }
 
-        .step-number-badge {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
-            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            color: white;
             font-weight: 800;
-            color: #1e293b;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+            margin-left: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .step-content {
-            flex: 1;
-            text-align: right;
-        }
+        .step-content { flex: 1; }
 
         .step-title {
-            font-size: 17px;
-            font-weight: 700;
             color: white;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-            line-height: 1.4;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         .step-desc {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.95);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-            line-height: 1.5;
         }
 
-        /* Highlight box */
         .highlight-box {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 24px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 16px;
+            padding: 18px;
             text-align: center;
-            margin-bottom: 50px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            position: relative;
-            z-index: 2;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
         }
 
         .highlight-text {
             color: white;
             font-size: 24px;
             font-weight: 800;
-            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* Scroll arrow */
         .scroll-arrow {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            margin-bottom: 60vh;
+            text-align: center;
+            margin-bottom: 24px;
             cursor: pointer;
-            animation: bounce 2s infinite;
-            position: relative;
-            z-index: 2;
         }
 
         .scroll-arrow svg {
             width: 40px;
             height: 40px;
             fill: white;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(5px); }
         }
 
-        /* Location/tag section */
-        .location-tag-box {
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 14px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
+        .content-card {
             background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .location-label-small {
-            font-size: 14px;
+        .content-card h2 {
             color: white;
-            font-weight: 600;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
         }
 
-        .copy-btn-small {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: white;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        .form-group { margin-bottom: 16px; }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 14px;
+            font-size: 17px;
             font-family: 'Rubik', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1e293b;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .copy-btn-small:active {
-            transform: scale(0.95);
-        }
-
-        .copy-btn-small svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .copy-success-small {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #10b981;
+            background: rgba(255, 255, 255, 0.25);
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .copy-success-small.show {
-            opacity: 1;
+        .form-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+
+        .form-input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
-        /* Business Search Section */
         .business-search-section {
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .search-label {
-            font-size: 15px;
             color: white;
             font-weight: 600;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
             margin-bottom: 12px;
+            font-size: 15px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 14px;
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.95);
+            padding: 14px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-size: 16px;
             font-family: 'Rubik', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
             margin-bottom: 12px;
+            transition: all 0.3s ease;
         }
+
+        .search-input::placeholder { color: rgba(255, 255, 255, 0.6); }
 
         .search-input:focus {
             outline: none;
             border-color: white;
-            background: white;
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .business-list {
             max-height: 200px;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 8px;
+            border-radius: 12px;
         }
 
         .business-item {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
             margin-bottom: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
         .business-item:hover {
-            background: rgba(255, 255, 255, 0.35);
-            border-color: white;
-            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-4px);
         }
 
-        .business-item:last-child {
-            margin-bottom: 0;
+        .business-item.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.3);
         }
 
         .business-name {
             color: white;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 16px;
             margin-bottom: 4px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
         }
 
         .business-meta {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
             display: flex;
             gap: 12px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
         }
 
         .loading-businesses {
             text-align: center;
-            color: white;
-            font-size: 14px;
             padding: 20px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Form elements */
-        .form-group {
-            margin-bottom: 16px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
-            background: white;
-            transition: all 0.2s ease;
-            font-family: 'Rubik', sans-serif;
-            direction: rtl;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
-        }
-
-        .form-input::placeholder {
-            color: #94a3b8;
-        }
-
-        /* Primary CTA button */
         .submit-btn {
             width: 100%;
-            background-color: white;
-            color: #1e293b;
-            font-weight: 800;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            font-size: 18px;
+            border-radius: 14px;
+            color: white;
+            font-size: 19px;
+            font-weight: 800;
             font-family: 'Rubik', sans-serif;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+            margin-top: 16px;
         }
 
-        .submit-btn:active {
-            transform: scale(0.98);
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(102, 126, 234, 0.6);
         }
 
         .submit-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.7;
             cursor: not-allowed;
+            transform: none;
         }
 
-        /* Mobile responsive */
-        @media (max-width: 480px) {
-            .content-wrapper {
-                padding: 12px;
-            }
+        /* Upload Section */
+        .upload-section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
 
-            .content-card {
-                padding: 24px 20px;
-            }
+        .upload-section h2 {
+            color: white;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+        }
 
-            h1 {
-                font-size: 34px;
-            }
+        .upload-instructions {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
 
-            h2 {
-                font-size: 20px;
-            }
+        .upload-box {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-            .step {
-                padding: 14px;
-            }
+        .upload-box:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: white;
+        }
 
-            .step-number-badge {
-                width: 42px;
-                height: 42px;
-                font-size: 20px;
-            }
+        .upload-icon { font-size: 40px; margin-bottom: 12px; }
+        .upload-text { color: white; font-size: 16px; font-weight: 600; }
+        .upload-subtext { color: rgba(255, 255, 255, 0.7); font-size: 13px; margin-top: 8px; }
 
-            .highlight-text {
-                font-size: 20px;
-            }
+        #screenshotInput { display: none; }
 
-            .submit-btn {
-                font-size: 16px;
-                padding: 14px;
-            }
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            margin: 16px 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 800;
+            font-family: 'Rubik', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+            margin-top: 16px;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
+        }
+
+        .verify-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status-loading {
+            background: rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            color: white;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            color: white;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.3);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: white;
         }
 
         .loading-spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            border-top-color: white;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
+            margin-left: 8px;
+            vertical-align: middle;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 12px; }
+            .main-title { font-size: 28px; }
+            .content-card { padding: 20px 16px; }
+            .form-input { padding: 14px 16px; font-size: 16px; }
         }
     </style>
 </head>
 <body>
-    <!-- Background container -->
     <div class="background-container">
         <div class="background-image active"></div>
         <div class="background-image"></div>
         <div class="background-image"></div>
         <div class="background-image"></div>
     </div>
-    <div class="background-overlay"></div>
 
-    <!-- Content -->
-    <div class="content-wrapper">
-        <div class="page-wrapper">
-            <!-- Hero Section - NO CARD! -->
-            <h1>סטורי = בירה חינם!</h1>
+    <div class="container">
+        <div class="inner-container">
+            <div class="logo-section">
+                <div class="logo-placeholder">STORIT</div>
+            </div>
+
+            <h1 class="main-title">סטורי = בירה 🍺</h1>
+            <p class="subtitle">תייגו אותנו בסטורי וקבלו בירה בחינם!</p>
 
             <div class="steps-container">
                 <div class="step">
-                    <div class="step-number-badge">1</div>
+                    <div class="step-number">1</div>
                     <div class="step-content">
-                        <div class="step-title">מצלמים את החוויה במקום</div>
-                        <div class="step-desc">תפסו את הרגע המושלם</div>
+                        <div class="step-title">בחרו עסק</div>
+                        <div class="step-desc">חפשו את העסק שאתם נמצאים בו</div>
                     </div>
                 </div>
-
                 <div class="step">
-                    <div class="step-number-badge">2</div>
+                    <div class="step-number">2</div>
                     <div class="step-content">
-                        <div class="step-title">מעלים לאינסטגרם ומתייגים אותנו</div>
-                        <div class="step-desc">שתפו את החוויה שלכם</div>
+                        <div class="step-title">העלו סטורי</div>
+                        <div class="step-desc">תייגו את העסק בסטורי שלכם</div>
                     </div>
                 </div>
-
                 <div class="step">
-                    <div class="step-number-badge">3</div>
+                    <div class="step-number">3</div>
                     <div class="step-content">
-                        <div class="step-title">מראים למלצר</div>
-                        <div class="step-desc">וקבלו את הפרס שלכם</div>
+                        <div class="step-title">צלמו מסך</div>
+                        <div class="step-desc">העלו צילום מסך של הסטורי</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">קבלו פרס!</div>
+                        <div class="step-desc">הראו למלצר וקבלו בירה חינם</div>
                     </div>
                 </div>
             </div>
 
             <div class="highlight-box">
-                <div class="highlight-text">ויש לכם בירה חינם!</div>
+                <div class="highlight-text">🍺 ויש לכם בירה חינם!</div>
             </div>
 
             <div class="scroll-arrow" onclick="scrollToForm()">
@@ -572,52 +547,51 @@
                 </svg>
             </div>
 
-            <!-- Form Section Card -->
             <div class="content-card" id="form">
-                <h2>מלאו כדי לעבור לסטורי</h2>
+                <h2>מלאו פרטים</h2>
                 
                 <form id="mainForm">
                     <div class="form-group">
-                        <input 
-                            type="text" 
-                            id="username"
-                            class="form-input" 
-                            placeholder="@yourusername"
-                            required
-                        >
+                        <input type="text" id="username" class="form-input" placeholder="@שם_משתמש_באינסטגרם" required>
                     </div>
 
                     <div class="form-group">
-                        <input 
-                            type="number" 
-                            id="followers"
-                            class="form-input" 
-                            placeholder="מספר עוקבים"
-                            required
-                        >
+                        <input type="number" id="followers" class="form-input" placeholder="מספר עוקבים" required>
                     </div>
 
                     <div class="business-search-section">
                         <div class="search-label">🔍 בחר את העסק שאתה רוצה לתייג:</div>
-                        
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            class="search-input"
-                            placeholder="חפש עסק לפי שם..."
-                            oninput="filterBusinesses()"
-                        >
-
+                        <input type="text" id="searchInput" class="search-input" placeholder="חפש עסק לפי שם..." oninput="filterBusinesses()">
                         <div class="business-list" id="businessList">
-                            <!-- כאן יופיעו העסקים -->
                             <div class="loading-businesses">⏳ טוען עסקים...</div>
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
-                        בחר עסק תחילה
-                    </button>
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>בחר עסק תחילה</button>
                 </form>
+            </div>
+
+            <div class="upload-section" id="uploadSection" style="display: none;">
+                <h2>📸 העלו צילום מסך</h2>
+                <div class="upload-instructions">
+                    ✓ צלמו מסך של הסטורי שהעליתם<br>
+                    ✓ ודאו שהתיוג של העסק נראה בבירור
+                </div>
+
+                <div class="upload-box" id="uploadBox" onclick="document.getElementById('screenshotInput').click()">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">לחצו להעלאת תמונה</div>
+                    <div class="upload-subtext">או גררו תמונה לכאן</div>
+                </div>
+
+                <input type="file" id="screenshotInput" accept="image/*" onchange="handleImageUpload(event)">
+
+                <div id="previewContainer" style="display: none;">
+                    <img id="imagePreview" class="image-preview" alt="Preview">
+                    <button class="verify-btn" id="verifyBtn" onclick="verifyScreenshot()">✓ אמת את הסטורי</button>
+                </div>
+
+                <div id="statusMessage" style="display: none;"></div>
             </div>
         </div>
     </div>
@@ -625,19 +599,38 @@
     <script>
         console.log('✅ Script loaded!');
 
-        // ===== Business List Management =====
         let allBusinesses = [];
         let selectedBusinessData = null;
+        let currentSubmissionId = null;
+        let uploadedImageBase64 = null;
 
-        // Load businesses on page load
+        // Background rotation
+        let currentBg = 0;
+        const backgrounds = document.querySelectorAll('.background-image');
+        function rotateBackground() {
+            backgrounds[currentBg].classList.remove('active');
+            currentBg = (currentBg + 1) % backgrounds.length;
+            backgrounds[currentBg].classList.add('active');
+        }
+        setInterval(rotateBackground, 5000);
+
+        function scrollToForm() {
+            document.getElementById('form').scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Supabase
+        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Edge Function URL
+        const VERIFY_FUNCTION_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co/functions/v1/verify-story';
+
         window.addEventListener('load', loadBusinesses);
 
         async function loadBusinesses() {
-            console.log('📥 Loading businesses...');
             const listContainer = document.getElementById('businessList');
-            
             try {
-                // טעינת רשימת עסקים מ-Supabase
                 const { data: businesses, error } = await supabase
                     .from('businesses')
                     .select('business_id, business_name, instagram_handle, location, category, status')
@@ -645,7 +638,6 @@
                 
                 if (error) throw error;
                 
-                // המרה לפורמט הישן
                 allBusinesses = (businesses || []).map(b => ({
                     businessId: b.business_id,
                     businessName: b.business_name,
@@ -654,12 +646,9 @@
                     category: b.category
                 }));
                 
-                console.log('✅ Loaded businesses:', allBusinesses);
-                
-                // לא מציגים כלום בהתחלה - רק אחרי חיפוש
-                
+                listContainer.innerHTML = '';
             } catch (error) {
-                console.error('❌ Error loading businesses:', error);
+                console.error('Error:', error);
                 listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
             }
         }
@@ -669,7 +658,7 @@
             listContainer.innerHTML = '';
             
             if (businesses.length === 0) {
-                listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
+                listContainer.innerHTML = '<div class="loading-businesses">לא נמצאו עסקים</div>';
                 return;
             }
             
@@ -677,7 +666,6 @@
                 const item = document.createElement('div');
                 item.className = 'business-item';
                 item.onclick = () => selectBusiness(business);
-                
                 item.innerHTML = `
                     <div class="business-name">${business.businessName}</div>
                     <div class="business-meta">
@@ -685,186 +673,66 @@
                         <span>📱 ${business.instagramHandle}</span>
                     </div>
                 `;
-                
                 listContainer.appendChild(item);
             });
         }
 
         function filterBusinesses() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            
-            // אם אין חיפוש, לא מציגים כלום
             if (searchTerm.length === 0) {
                 document.getElementById('businessList').innerHTML = '';
                 return;
             }
-            
-            const filtered = allBusinesses.filter(business => 
-                business.businessName.toLowerCase().includes(searchTerm) ||
-                business.location.toLowerCase().includes(searchTerm) ||
-                business.category.toLowerCase().includes(searchTerm) ||
-                business.instagramHandle.toLowerCase().includes(searchTerm)
+            const filtered = allBusinesses.filter(b => 
+                b.businessName.toLowerCase().includes(searchTerm) ||
+                b.location.toLowerCase().includes(searchTerm) ||
+                b.category.toLowerCase().includes(searchTerm) ||
+                b.instagramHandle.toLowerCase().includes(searchTerm)
             );
-            
             displayBusinesses(filtered);
         }
 
         function selectBusiness(business) {
-            console.log('✅ Selected:', business);
-            
             selectedBusinessData = business;
-            
-            // שמירה ב-localStorage
             localStorage.setItem('selectedBusiness', JSON.stringify(business));
             
-            // העתקת היוזר לקליפבורד (ללא @)
             const username = business.instagramHandle.replace('@', '');
-            navigator.clipboard.writeText(username).then(() => {
-                console.log('📋 Copied to clipboard:', username);
-            });
+            navigator.clipboard.writeText(username);
             
-            // הפעלת כפתור submit
             document.getElementById('submitBtn').disabled = false;
             document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✓';
             
-            // הצגת הודעה
             showNotification(`✓ ${business.businessName} - ${username} הועתק!`);
         }
 
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: #10b981;
-                color: white;
-                padding: 14px 24px;
-                border-radius: 10px;
-                font-weight: 600;
-                z-index: 9999;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+                position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                background: #10b981; color: white; padding: 14px 24px; border-radius: 10px;
+                font-weight: 600; z-index: 9999; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
                 animation: slideIn 0.3s ease;
             `;
             notification.textContent = message;
             document.body.appendChild(notification);
-            
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => notification.remove(), 300);
             }, 2000);
         }
 
-        // ===== Background image rotation =====
-        let currentBg = 0;
-        const backgrounds = document.querySelectorAll('.background-image');
-        
-        function rotateBackground() {
-            backgrounds[currentBg].classList.remove('active');
-            currentBg = (currentBg + 1) % backgrounds.length;
-            backgrounds[currentBg].classList.add('active');
-        }
-        
-        // Change background every 5 seconds
-        setInterval(rotateBackground, 5000);
-
-        function scrollToForm() {
-            document.getElementById('form').scrollIntoView({behavior: 'smooth'});
-        }
-
-        function copyLocation() {
-            const locationText = document.getElementById('locationText').textContent;
-            const copySuccess = document.getElementById('copySuccess');
-            
-            navigator.clipboard.writeText(locationText).then(function() {
-                copySuccess.classList.add('show');
-                setTimeout(function() {
-                    copySuccess.classList.remove('show');
-                }, 2000);
-            }).catch(function(err) {
-                console.error('Copy error:', err);
-                alert('שגיאה בהעתקה. נסה שוב.');
-            });
-        }
-
-        // Initialize Supabase
-        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized!');
-
-        async function submitToSupabase(username, followers, businessId) {
-            console.log('📤 Sending to Supabase...', {username, followers, businessId});
-            
-            try {
-                const { data, error } = await supabase
-                    .from('submissions')
-                    .insert([{
-                        business_id: businessId,
-                        username: username,
-                        instagram_followers: parseInt(followers),
-                        created_at: new Date().toISOString()
-                    }])
-                    .select()
-                    .single();
-                
-                if (error) throw error;
-                
-                console.log('✅ Data saved to Supabase:', data);
-                return true;
-            } catch (error) {
-                console.error('❌ Error sending to Supabase:', error);
-                return false;
-            }
-        }
-
-        function saveToLocalStorage(username, followers) {
-            console.log('💾 Saving to Local Storage...', {username, followers});
-            
-            const timestamp = new Date().toLocaleString('he-IL', {
-                timeZone: 'Asia/Jerusalem'
-            });
-            
-            try {
-                let submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
-                
-                submissions.push({
-                    timestamp: timestamp,
-                    username: username,
-                    followers: followers,
-                    id: Date.now()
-                });
-                
-                localStorage.setItem('submissions', JSON.stringify(submissions));
-                console.log('✅ Data saved to Local Storage:', submissions);
-                return true;
-            } catch (error) {
-                console.error('❌ Error saving to Local Storage:', error);
-                return false;
-            }
-        }
-
+        // Form submission
         document.getElementById('mainForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            console.log('🎯 Form submitted!');
             
             const submitBtn = document.getElementById('submitBtn');
-            const usernameInput = document.getElementById('username');
-            const followersInput = document.getElementById('followers');
+            const username = document.getElementById('username').value.trim();
+            const followers = parseInt(document.getElementById('followers').value);
             
-            const username = usernameInput.value.trim();
-            const followers = parseInt(followersInput.value);
-            
-            // בדיקה שנבחר עסק
             if (!selectedBusinessData) {
                 alert('נא לבחור עסק תחילה!');
                 return;
             }
-            
-            console.log('Username:', username);
-            console.log('Followers:', followers);
-            console.log('Selected Business:', selectedBusinessData);
             
             if (followers < 400) {
                 alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
@@ -872,36 +740,167 @@
             }
             
             submitBtn.disabled = true;
-            submitBtn.textContent = 'פותח...';
+            submitBtn.textContent = 'שומר...';
             
-            // שמירת הפרטים למשתמש מאוחר יותר (כולל businessId!)
-            localStorage.setItem('currentUser', JSON.stringify({
-                username, 
-                followers,
-                businessId: selectedBusinessData.businessId,
-                businessName: selectedBusinessData.businessName
-            }));
-            
-            // פתח אינסטגרם מיד!
-            console.log('📱 Opening Instagram immediately...');
-            window.location.href = 'instagram://story-camera';
-            
-            // שלח נתונים ברקע ל-Supabase (כולל businessId!)
-            submitToSupabase(username, followers, selectedBusinessData.businessId).catch(err => {
-                console.error('Background error:', err);
-            });
-            saveToLocalStorage(username, followers);
-            
-            // הצג את סקשן העלאת התמונה אחרי 3 שניות
-            setTimeout(() => {
-                submitBtn.textContent = 'העלאת הסטורי הצליחה?';
+            try {
+                const { data, error } = await supabase
+                    .from('submissions')
+                    .insert([{
+                        business_id: selectedBusinessData.businessId,
+                        username: username,
+                        instagram_followers: followers,
+                        status: 'pending',
+                        ai_confidence: 0,
+                        created_at: new Date().toISOString()
+                    }])
+                    .select()
+                    .single();
+                
+                if (error) throw error;
+                
+                currentSubmissionId = data.id;
+                
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username, followers,
+                    submissionId: data.id,
+                    businessId: selectedBusinessData.businessId,
+                    businessName: selectedBusinessData.businessName,
+                    instagramHandle: selectedBusinessData.instagramHandle
+                }));
+                
+                window.location.href = 'instagram://story-camera';
+                
+                setTimeout(() => {
+                    document.getElementById('uploadSection').style.display = 'block';
+                    document.getElementById('uploadSection').scrollIntoView({behavior: 'smooth'});
+                    submitBtn.textContent = 'פתח שוב את אינסטגרם';
+                    submitBtn.disabled = false;
+                    submitBtn.onclick = () => window.location.href = 'instagram://story-camera';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('שגיאה בשמירת הנתונים. נסה שוב.');
                 submitBtn.disabled = false;
-            }, 3000);
-            
-            console.log('✅ All done!');
+                submitBtn.textContent = 'מעבר לסטורי ✓';
+            }
         });
 
-        console.log('✅ All functions loaded successfully!');
+        // Image upload
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('התמונה גדולה מדי. מקסימום 5MB.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageBase64 = e.target.result;
+                document.getElementById('imagePreview').src = uploadedImageBase64;
+                document.getElementById('previewContainer').style.display = 'block';
+                document.getElementById('uploadBox').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Drag and drop
+        const uploadBox = document.getElementById('uploadBox');
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.background = 'rgba(255, 255, 255, 0.3)';
+        });
+        uploadBox.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadBox.style.background = 'rgba(255, 255, 255, 0.15)';
+        });
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.style.background = 'rgba(255, 255, 255, 0.15)';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                document.getElementById('screenshotInput').files = e.dataTransfer.files;
+                handleImageUpload({ target: { files: [file] } });
+            }
+        });
+
+        // Verify screenshot via Edge Function
+        async function verifyScreenshot() {
+            if (!uploadedImageBase64) {
+                alert('נא להעלות תמונה קודם');
+                return;
+            }
+            
+            const verifyBtn = document.getElementById('verifyBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = 'בודק... <span class="loading-spinner"></span>';
+            
+            statusMessage.style.display = 'block';
+            statusMessage.className = 'status-message status-loading';
+            statusMessage.innerHTML = '🔍 הבינה המלאכותית בודקת את התמונה...';
+            
+            try {
+                // Call Edge Function
+                const response = await fetch(VERIFY_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    },
+                    body: JSON.stringify({
+                        imageBase64: uploadedImageBase64.split(',')[1],
+                        businessHandle: currentUser.instagramHandle,
+                        submissionId: currentSubmissionId
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Verification result:', result);
+                
+                // Update database
+                const { error: updateError } = await supabase
+                    .from('submissions')
+                    .update({
+                        status: result.status || 'manual_review',
+                        ai_confidence: result.confidence || 0,
+                        verified_at: result.verified ? new Date().toISOString() : null
+                    })
+                    .eq('id', currentSubmissionId);
+                
+                if (updateError) throw updateError;
+                
+                // Show result
+                if (result.verified) {
+                    statusMessage.className = 'status-message status-success';
+                    statusMessage.innerHTML = '🎉 מאושר! הראה את המסך הזה למלצר וקבל את הפרס שלך!';
+                } else {
+                    statusMessage.className = 'status-message status-pending';
+                    statusMessage.innerHTML = '⏳ התמונה נשלחה לבדיקה. הראה את המסך הזה למלצר.';
+                }
+                verifyBtn.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Verification error:', error);
+                
+                try {
+                    await supabase
+                        .from('submissions')
+                        .update({ status: 'manual_review', ai_confidence: 0 })
+                        .eq('id', currentSubmissionId);
+                } catch (e) {}
+                
+                statusMessage.className = 'status-message status-pending';
+                statusMessage.innerHTML = '⏳ התמונה נשלחה לבדיקה. הראה את המסך הזה למלצר.';
+                verifyBtn.style.display = 'none';
+            }
+        }
+
+        console.log('✅ All functions loaded!');
     </script>
 </body>
 </html>
