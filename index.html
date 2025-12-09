@@ -784,6 +784,13 @@
         let currentSubmissionId = null;
         let uploadedImageBase64 = null;
 
+        // שחזור submissionId מ-localStorage (אם חזרנו מאינסטגרם)
+        const savedSubmissionId = localStorage.getItem('currentSubmissionId');
+        if (savedSubmissionId) {
+            currentSubmissionId = savedSubmissionId;
+            console.log('🔄 Restored submissionId:', currentSubmissionId);
+        }
+
         // Edge Function URL
         const VERIFY_FUNCTION_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co/functions/v1/verify-story';
 
@@ -1046,6 +1053,13 @@
             
             // שמור ב-Supabase
             const savedData = await submitToSupabase(username, followers, selectedBusinessData.businessId);
+            
+            // שמור את ה-submissionId ב-localStorage!
+            if (savedData && savedData.id) {
+                localStorage.setItem('currentSubmissionId', savedData.id);
+                console.log('💾 Saved submissionId:', savedData.id);
+            }
+            
             saveToLocalStorage(username, followers);
             
             // פתח אינסטגרם מיד!
@@ -1164,6 +1178,8 @@
                 if (result.verified) {
                     statusMessage.className = 'status-message status-success';
                     statusMessage.innerHTML = '🎉 מאושר! הראה את המסך הזה למלצר וקבל את הפרס שלך!';
+                    // נקה את ה-localStorage
+                    localStorage.removeItem('currentSubmissionId');
                 } else {
                     statusMessage.className = 'status-message status-pending';
                     statusMessage.innerHTML = '⏳ התמונה נשלחה לבדיקה. הראה את המסך הזה למלצר.';
