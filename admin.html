@@ -439,11 +439,12 @@
             try {
                 console.log('📊 Loading dashboard data for:', businessId);
 
-                // Fetch submissions from Supabase
+                // Fetch only VERIFIED submissions from Supabase
                 const { data: submissions, error } = await supabase
                     .from('submissions')
                     .select('*')
                     .eq('business_id', businessId)
+                    .eq('status', 'verified')
                     .order('created_at', { ascending: false });
 
                 if (error) {
@@ -451,7 +452,7 @@
                     throw error;
                 }
 
-                console.log('✅ Submissions loaded:', submissions);
+                console.log('✅ Verified submissions loaded:', submissions);
                 allSubmissions = submissions || [];
 
                 // Update stats
