@@ -737,7 +737,7 @@
             }
         });
 
-        // Reset password form
+        // Reset password form - calls Edge Function to send real email
         document.getElementById('resetForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -750,35 +750,29 @@
             resetError.classList.remove('show');
 
             try {
-                // Check if email exists
-                const { data: business, error } = await supabase
-                    .from('businesses')
-                    .select('business_id, email')
-                    .eq('email', resetEmail)
-                    .single();
+                // Call Edge Function to send reset email
+                const response = await fetch('https://xrbzofqgyukkdjwumdft.supabase.co/functions/v1/send-reset-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    },
+                    body: JSON.stringify({ email: resetEmail })
+                });
 
-                if (error || !business) {
-                    // For security, show success even if email doesn't exist
-                    // This prevents email enumeration attacks
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'שגיאה בשליחה');
                 }
 
-                // In a real implementation, you would:
-                // 1. Generate a unique reset token
-                // 2. Save it to the database with expiration
-                // 3. Send an email with the reset link
-                
-                // For now, we'll simulate success
-                // You'll need to implement email sending (via Supabase Edge Function or external service)
-
-                console.log('📧 Password reset requested for:', resetEmail);
-
-                // Show success
+                // Show success (always show success for security - don't reveal if email exists)
                 document.getElementById('resetFormView').style.display = 'none';
                 document.getElementById('resetSuccessView').style.display = 'block';
 
             } catch (error) {
                 console.error('❌ Reset error:', error);
-                document.getElementById('resetErrorText').textContent = 'שגיאה בשליחה. נסו שוב.';
+                document.getElementById('resetErrorText').textContent = error.message || 'שגיאה בשליחה. נסו שוב.';
                 resetError.classList.add('show');
             }
 
