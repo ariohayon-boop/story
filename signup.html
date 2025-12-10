@@ -905,35 +905,34 @@
                 const minFollowers = parseInt(document.getElementById('minFollowers').value);
 
                 // Check if email already exists
-                const { data: existingBusiness } = await supabase
+                const { data: existingBusiness, error: checkError } = await supabase
                     .from('businesses')
-                    .select('email')
-                    .eq('email', email)
+                    .select('admin_email')
+                    .eq('admin_email', email)
                     .single();
 
-                if (existingBusiness) {
+                if (existingBusiness && !checkError) {
                     throw new Error('כתובת האימייל כבר רשומה במערכת');
                 }
 
                 // Hash password
                 const passwordHash = await hashPassword(password);
 
-                // Create business
-                const { data, error } = await supabase
+                // Create business - using admin_email (not email) based on actual DB schema
+                let insertData = {
+                    business_id: businessId,
+                    business_name: businessName,
+                    instagram_handle: instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle,
+                    category: category,
+                    location: location,
+                    admin_email: email,  // Column is called admin_email, not email
+                    password_hash: passwordHash,
+                    status: 'active'
+                };
+
+                let { data, error } = await supabase
                     .from('businesses')
-                    .insert([{
-                        business_id: businessId,
-                        business_name: businessName,
-                        instagram_handle: instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle,
-                        category: category,
-                        location: location,
-                        email: email,
-                        password_hash: passwordHash,
-                        reward: reward,
-                        min_followers: minFollowers,
-                        status: 'active',
-                        created_at: new Date().toISOString()
-                    }])
+                    .insert([insertData])
                     .select()
                     .single();
 
@@ -944,7 +943,7 @@
                 // Save to localStorage for auto-login
                 localStorage.setItem('loggedInBusinessId', businessId);
                 localStorage.setItem('loggedInBusinessName', businessName);
-                localStorage.setItem('loggedInInstagram', instagramHandle);
+                localStorage.setItem('loggedInInstagram', instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle);
                 localStorage.setItem('loggedInEmail', email);
 
                 // Show success
@@ -953,7 +952,20 @@
 
             } catch (error) {
                 console.error('❌ Signup error:', error);
-                showError(error.message || 'שגיאה ביצירת החשבון. נסו שוב.');
+                
+                // Better error messages
+                let errorMsg = 'שגיאה ביצירת החשבון. נסו שוב.';
+                
+                if (error.message?.includes('duplicate') || error.message?.includes('unique')) {
+                    errorMsg = 'כתובת האימייל כבר רשומה במערכת';
+                } else if (error.message?.includes('column') || error.code === '42703') {
+                    errorMsg = 'שגיאת מערכת - יש לעדכן את מבנה הטבלה בסופאבייס';
+                    console.error('Missing columns in database. Run the migration SQL.');
+                } else if (error.message) {
+                    errorMsg = error.message;
+                }
+                
+                showError(errorMsg);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>✨</span><span>צור חשבון</span>';
             }
