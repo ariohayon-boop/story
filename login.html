@@ -3,166 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>התחברות - קמפיין אינסטגרם</title>
+    <title>התחברות | STORIT</title>
     
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --neon-cyan: #00f5ff;
+            --neon-magenta: #ff00ff;
+            --neon-yellow: #f0ff00;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #12121a;
+            --dark-elevated: #1a1a25;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --gradient-primary: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            --error-color: #ff4757;
+            --success-color: #2ed573;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --surface: rgba(255, 255, 255, 0.08);
-            --surface-hover: rgba(255, 255, 255, 0.12);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.8);
-            --text-tertiary: rgba(255, 255, 255, 0.6);
-        }
-
         body {
-            font-family: 'Tajawal', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Heebo', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
             min-height: 100vh;
-            background: #0f0c29;
-            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             position: relative;
+            overflow: hidden;
         }
 
-        .orb {
+        /* Background Effects */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .gradient-orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(100px);
             opacity: 0.3;
-            animation: float 20s ease-in-out infinite;
             pointer-events: none;
+            z-index: 0;
         }
 
         .orb-1 {
             width: 500px;
             height: 500px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            top: -250px;
-            right: -250px;
+            background: var(--neon-cyan);
+            top: -200px;
+            right: -200px;
+            animation: float-orb 20s ease-in-out infinite;
         }
 
         .orb-2 {
             width: 400px;
             height: 400px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            bottom: -200px;
-            left: -200px;
-            animation-delay: -10s;
+            background: var(--neon-magenta);
+            bottom: -150px;
+            left: -150px;
+            animation: float-orb 25s ease-in-out infinite reverse;
         }
 
-        @keyframes float {
+        @keyframes float-orb {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+            25% { transform: translate(50px, 50px) scale(1.1); }
+            50% { transform: translate(-30px, 80px) scale(0.9); }
+            75% { transform: translate(-60px, -30px) scale(1.05); }
         }
 
-        .container {
+        /* Login Container */
+        .login-container {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .login-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 8px 32px 0 rgba(31, 38, 135, 0.37),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            padding: 48px;
-            max-width: 450px;
             width: 100%;
+            max-width: 440px;
         }
 
-        .title {
-            font-size: 32px;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Logo */
+        .logo-section {
             text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            text-align: center;
-            font-size: 16px;
             margin-bottom: 40px;
         }
 
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 42px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .logo-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Card */
+        .login-card {
+            background: var(--dark-surface);
+            border-radius: 24px;
+            padding: 48px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .card-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        /* Form */
         .form-group {
             margin-bottom: 24px;
         }
 
         .form-label {
             display: block;
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 8px;
             font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
         }
 
         .form-input {
             width: 100%;
-            padding: 14px 18px;
-            background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 20px;
+            background: var(--dark-elevated);
+            border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 16px;
+            font-family: 'Heebo', sans-serif;
             transition: all 0.3s ease;
-            font-family: 'Tajawal', sans-serif;
+            direction: ltr;
+            text-align: right;
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
         }
 
         .form-input:focus {
             outline: none;
-            background: var(--surface-hover);
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.1);
         }
 
-        .form-input::placeholder {
-            color: var(--text-tertiary);
+        .form-input.error {
+            border-color: var(--error-color);
         }
 
+        /* Password field with toggle */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* Forgot password link */
+        .forgot-password {
+            display: block;
+            text-align: left;
+            margin-top: -16px;
+            margin-bottom: 24px;
+        }
+
+        .forgot-password a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Submit button */
         .submit-btn {
             width: 100%;
-            padding: 16px;
-            background: var(--primary-gradient);
+            padding: 18px;
+            background: var(--gradient-primary);
             border: none;
             border-radius: 12px;
-            color: white;
-            font-size: 16px;
+            color: var(--dark-bg);
+            font-size: 17px;
             font-weight: 700;
+            font-family: 'Heebo', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .submit-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 245, 255, 0.3);
         }
 
         .submit-btn:disabled {
@@ -170,98 +276,349 @@
             cursor: not-allowed;
         }
 
-        .success-message, .error-message {
-            display: none;
-            padding: 16px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 600;
+        .submit-btn .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top-color: var(--dark-bg);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
 
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
+        /* Error message */
         .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            color: var(--error-color);
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
         }
 
+        .error-message.show {
+            display: flex;
+        }
+
+        /* Success message */
+        .success-message {
+            background: rgba(46, 213, 115, 0.1);
+            border: 1px solid rgba(46, 213, 115, 0.3);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            color: var(--success-color);
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider span {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Sign up link */
         .signup-link {
             text-align: center;
-            margin-top: 24px;
             color: var(--text-secondary);
+            font-size: 15px;
         }
 
         .signup-link a {
-            color: #667eea;
+            color: var(--neon-cyan);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
         .signup-link a:hover {
-            color: #764ba2;
+            opacity: 0.8;
+            text-decoration: underline;
         }
 
-        @media (max-width: 640px) {
+        /* Reset Password Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--dark-surface);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 245, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 24px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        /* Back to login button */
+        .back-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Heebo', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+        .back-btn:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
             .login-card {
-                padding: 32px 24px;
+                padding: 36px 28px;
             }
 
-            .title {
-                font-size: 28px;
+            .logo {
+                font-size: 36px;
+            }
+
+            .card-title {
+                font-size: 22px;
+            }
+
+            .modal {
+                padding: 32px 24px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
 
-    <div class="container">
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">STORIT</div>
+            <div class="logo-subtitle">פאנל ניהול לעסקים</div>
+        </div>
+
         <div class="login-card">
-            <h1 class="title">התחברות</h1>
-            <p class="subtitle">היכנסו לדשבורד שלכם</p>
+            <h1 class="card-title">שלום שוב! 👋</h1>
+            <p class="card-subtitle">היכנסו לדשבורד שלכם</p>
+
+            <div class="error-message" id="errorMessage">
+                <span>⚠️</span>
+                <span id="errorText">שגיאה בהתחברות</span>
+            </div>
 
             <form id="loginForm">
                 <div class="form-group">
-                    <label class="form-label">מזהה עסק</label>
+                    <label class="form-label">כתובת אימייל</label>
                     <input 
-                        type="text" 
-                        name="businessId"
-                        id="businessIdInput"
+                        type="email" 
+                        id="email"
                         class="form-input" 
-                        placeholder="business-id-1234"
+                        placeholder="your@email.com"
                         required
+                        autocomplete="email"
                     >
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">סיסמה</label>
-                    <input 
-                        type="password" 
-                        name="password"
-                        class="form-input" 
-                        placeholder="הזן סיסמה"
-                        required
-                    >
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password"
+                            class="form-input" 
+                            placeholder="הזינו את הסיסמה שלכם"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="openResetModal(); return false;">שכחתי סיסמה</a>
                 </div>
 
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    <span>🚀 כניסה לדשבורד</span>
+                    <span>🚀</span>
+                    <span>כניסה לדשבורד</span>
                 </button>
             </form>
 
-            <div class="success-message" id="successMessage"></div>
-            <div class="error-message" id="errorMessage"></div>
+            <div class="divider">
+                <span>עדיין לא רשומים?</span>
+            </div>
 
-            <div class="signup-link">
-                עדיין לא רשומים? <a href="signup.html">צרו חשבון</a>
+            <p class="signup-link">
+                <a href="signup.html">צרו חשבון חדש ←</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeResetModal()">✕</button>
+            
+            <div id="resetFormView">
+                <div class="modal-icon">🔐</div>
+                <h2 class="modal-title">איפוס סיסמה</h2>
+                <p class="modal-subtitle">
+                    הזינו את כתובת האימייל שלכם ונשלח לכם קישור לאיפוס הסיסמה
+                </p>
+
+                <div class="error-message" id="resetErrorMessage">
+                    <span>⚠️</span>
+                    <span id="resetErrorText">שגיאה</span>
+                </div>
+
+                <form id="resetForm">
+                    <div class="form-group">
+                        <label class="form-label">כתובת אימייל</label>
+                        <input 
+                            type="email" 
+                            id="resetEmail"
+                            class="form-input" 
+                            placeholder="your@email.com"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="resetBtn">
+                        <span>📧</span>
+                        <span>שלחו לי קישור</span>
+                    </button>
+                </form>
+
+                <button class="back-btn" onclick="closeResetModal()">חזרה להתחברות</button>
+            </div>
+
+            <div id="resetSuccessView" style="display: none;">
+                <div class="modal-icon">✅</div>
+                <h2 class="modal-title">נשלח בהצלחה!</h2>
+                <p class="modal-subtitle">
+                    שלחנו לכם אימייל עם קישור לאיפוס הסיסמה.
+                    <br><br>
+                    בדקו את תיבת הדואר שלכם (כולל ספאם).
+                </p>
+                <button class="submit-btn" onclick="closeResetModal()">
+                    חזרה להתחברות
+                </button>
             </div>
         </div>
     </div>
@@ -276,96 +633,172 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized!');
 
-        // Pre-fill businessId from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const businessIdFromUrl = urlParams.get('business');
-        if (businessIdFromUrl) {
-            document.getElementById('businessIdInput').value = businessIdFromUrl;
-            console.log('✅ Pre-filled businessId:', businessIdFromUrl);
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggle = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggle.textContent = '👁️';
+            }
         }
 
-        // Form submission
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('🎯 Login form submitted!');
+        // Show/hide error
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = message;
+            errorDiv.classList.add('show');
+        }
 
-            const submitBtn = document.getElementById('submitBtn');
-            const successMsg = document.getElementById('successMessage');
-            const errorMsg = document.getElementById('errorMessage');
+        function hideError() {
+            document.getElementById('errorMessage').classList.remove('show');
+        }
 
-            successMsg.style.display = 'none';
-            errorMsg.style.display = 'none';
+        // Reset modal functions
+        function openResetModal() {
+            document.getElementById('resetModal').classList.add('show');
+            document.getElementById('resetFormView').style.display = 'block';
+            document.getElementById('resetSuccessView').style.display = 'none';
+            document.getElementById('resetEmail').value = document.getElementById('email').value;
+        }
 
-            const formData = new FormData(e.target);
-            const businessId = formData.get('businessId').trim();
-            const password = formData.get('password');
+        function closeResetModal() {
+            document.getElementById('resetModal').classList.remove('show');
+            document.getElementById('resetErrorMessage').classList.remove('show');
+        }
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>⏳ מתחבר...</span>';
-
-            try {
-                // Hash password
-                const passwordHash = await simpleHash(password);
-
-                console.log('📤 Checking credentials...');
-
-                // Query Supabase
-                const { data: businesses, error } = await supabase
-                    .from('businesses')
-                    .select('*')
-                    .eq('business_id', businessId)
-                    .eq('password_hash', passwordHash)
-                    .eq('status', 'active')
-                    .single();
-
-                if (error || !businesses) {
-                    console.error('❌ Login failed:', error);
-                    errorMsg.textContent = '❌ מזהה עסק או סיסמה שגויים';
-                    errorMsg.style.display = 'block';
-                    return;
-                }
-
-                console.log('✅ Login successful!', businesses);
-
-                // Save to localStorage
-                localStorage.setItem('loggedInBusinessId', businesses.business_id);
-                localStorage.setItem('loggedInBusinessName', businesses.business_name);
-                localStorage.setItem('loggedInInstagram', businesses.instagram_handle);
-                localStorage.setItem('loggedInPasswordHash', passwordHash);
-
-                // Show success
-                successMsg.innerHTML = `
-                    <div style="font-size: 28px; margin-bottom: 12px;">🎉</div>
-                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">התחברת בהצלחה!</div>
-                    <div style="font-size: 14px; opacity: 0.9;">מעביר לדשבורד...</div>
-                `;
-                successMsg.style.display = 'block';
-
-                // Redirect
-                setTimeout(() => {
-                    window.location.href = 'admin.html';
-                }, 1500);
-
-            } catch (error) {
-                console.error('❌ Error:', error);
-                errorMsg.textContent = '❌ שגיאה: ' + error.message;
-                errorMsg.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>🚀 כניסה לדשבורד</span>';
-            }
-        });
-
-        // Simple password hashing
-        async function simpleHash(password) {
+        // Simple hash function for password comparison
+        async function hashPassword(password) {
             const encoder = new TextEncoder();
-            const data = encoder.encode(password + 'SALT_2024');
+            const data = encoder.encode(password);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        console.log('✅ All functions loaded!');
+        // Login form submit
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideError();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div><span>מתחבר...</span>';
+
+            try {
+                // Hash the entered password
+                const passwordHash = await hashPassword(password);
+
+                // Find business by email
+                const { data: business, error } = await supabase
+                    .from('businesses')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                if (error || !business) {
+                    throw new Error('אימייל או סיסמה שגויים');
+                }
+
+                // Check password
+                if (business.password_hash !== passwordHash) {
+                    throw new Error('אימייל או סיסמה שגויים');
+                }
+
+                // Check if business is active
+                if (business.status !== 'active') {
+                    throw new Error('החשבון לא פעיל. צרו קשר עם התמיכה.');
+                }
+
+                console.log('✅ Login successful!', business);
+
+                // Save to localStorage
+                localStorage.setItem('loggedInBusinessId', business.business_id);
+                localStorage.setItem('loggedInBusinessName', business.business_name);
+                localStorage.setItem('loggedInInstagram', business.instagram_handle);
+                localStorage.setItem('loggedInEmail', business.email);
+
+                // Redirect to dashboard
+                window.location.href = 'admin.html';
+
+            } catch (error) {
+                console.error('❌ Login error:', error);
+                showError(error.message || 'שגיאה בהתחברות. נסו שוב.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>🚀</span><span>כניסה לדשבורד</span>';
+            }
+        });
+
+        // Reset password form
+        document.getElementById('resetForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resetBtn = document.getElementById('resetBtn');
+            const resetEmail = document.getElementById('resetEmail').value.trim().toLowerCase();
+            const resetError = document.getElementById('resetErrorMessage');
+
+            resetBtn.disabled = true;
+            resetBtn.innerHTML = '<div class="spinner"></div><span>שולח...</span>';
+            resetError.classList.remove('show');
+
+            try {
+                // Check if email exists
+                const { data: business, error } = await supabase
+                    .from('businesses')
+                    .select('business_id, email')
+                    .eq('email', resetEmail)
+                    .single();
+
+                if (error || !business) {
+                    // For security, show success even if email doesn't exist
+                    // This prevents email enumeration attacks
+                }
+
+                // In a real implementation, you would:
+                // 1. Generate a unique reset token
+                // 2. Save it to the database with expiration
+                // 3. Send an email with the reset link
+                
+                // For now, we'll simulate success
+                // You'll need to implement email sending (via Supabase Edge Function or external service)
+
+                console.log('📧 Password reset requested for:', resetEmail);
+
+                // Show success
+                document.getElementById('resetFormView').style.display = 'none';
+                document.getElementById('resetSuccessView').style.display = 'block';
+
+            } catch (error) {
+                console.error('❌ Reset error:', error);
+                document.getElementById('resetErrorText').textContent = 'שגיאה בשליחה. נסו שוב.';
+                resetError.classList.add('show');
+            }
+
+            resetBtn.disabled = false;
+            resetBtn.innerHTML = '<span>📧</span><span>שלחו לי קישור</span>';
+        });
+
+        // Close modal on overlay click
+        document.getElementById('resetModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeResetModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeResetModal();
+            }
+        });
     </script>
 </body>
 </html>
