@@ -505,9 +505,36 @@
                 return;
             }
 
-            // In production, validate token against database
-            // For now, just show the form
-            console.log('Reset token:', resetToken, 'Email:', email);
+            try {
+                // Check if token exists and is not expired
+                const { data: business, error } = await supabase
+                    .from('businesses')
+                    .select('reset_token, reset_token_expires')
+                    .eq('admin_email', email.toLowerCase())
+                    .eq('reset_token', resetToken)
+                    .single();
+
+                if (error || !business) {
+                    console.log('Token not found');
+                    showInvalidView();
+                    return;
+                }
+
+                // Check if token expired
+                const expiresAt = new Date(business.reset_token_expires);
+                if (expiresAt < new Date()) {
+                    console.log('Token expired');
+                    showInvalidView();
+                    return;
+                }
+
+                console.log('✅ Token is valid');
+                // Token is valid, show the form
+                
+            } catch (err) {
+                console.error('Validation error:', err);
+                showInvalidView();
+            }
         });
 
         function showInvalidView() {
@@ -604,17 +631,36 @@
             submitBtn.innerHTML = '<div class="spinner"></div><span>מעדכן...</span>';
 
             try {
+                // First verify token is still valid
+                const { data: business, error: checkError } = await supabase
+                    .from('businesses')
+                    .select('reset_token, reset_token_expires')
+                    .eq('admin_email', email.toLowerCase())
+                    .eq('reset_token', resetToken)
+                    .single();
+
+                if (checkError || !business) {
+                    throw new Error('הקישור לא תקין. בקשו קישור חדש.');
+                }
+
+                const expiresAt = new Date(business.reset_token_expires);
+                if (expiresAt < new Date()) {
+                    throw new Error('הקישור פג תוקף. בקשו קישור חדש.');
+                }
+
                 // Hash new password
                 const passwordHash = await hashPassword(newPassword);
 
-                // Update in database (column is admin_email)
+                // Update password and clear token
                 const { error } = await supabase
                     .from('businesses')
                     .update({ 
-                        password_hash: passwordHash
+                        password_hash: passwordHash,
+                        reset_token: null,
+                        reset_token_expires: null
                     })
-                    .eq('admin_email', email);
-                    // In production, also verify the reset token
+                    .eq('admin_email', email.toLowerCase())
+                    .eq('reset_token', resetToken);
 
                 if (error) throw error;
 
