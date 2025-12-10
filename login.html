@@ -697,11 +697,11 @@
                 // Hash the entered password
                 const passwordHash = await hashPassword(password);
 
-                // Find business by email
+                // Find business by email (column is admin_email)
                 const { data: business, error } = await supabase
                     .from('businesses')
                     .select('*')
-                    .eq('email', email)
+                    .eq('admin_email', email)
                     .single();
 
                 if (error || !business) {
@@ -724,7 +724,7 @@
                 localStorage.setItem('loggedInBusinessId', business.business_id);
                 localStorage.setItem('loggedInBusinessName', business.business_name);
                 localStorage.setItem('loggedInInstagram', business.instagram_handle);
-                localStorage.setItem('loggedInEmail', business.email);
+                localStorage.setItem('loggedInEmail', business.admin_email);
 
                 // Redirect to dashboard
                 window.location.href = 'admin.html';
