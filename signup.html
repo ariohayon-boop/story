@@ -3,321 +3,747 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הצטרפו אלינו - קמפיין אינסטגרם חכם</title>
+    <title>הצטרפו אלינו | STORIT</title>
     
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --neon-cyan: #00f5ff;
+            --neon-magenta: #ff00ff;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #12121a;
+            --dark-elevated: #1a1a25;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --gradient-primary: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            --error-color: #ff4757;
+            --success-color: #2ed573;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --surface: rgba(255, 255, 255, 0.08);
-            --surface-hover: rgba(255, 255, 255, 0.12);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.8);
-            --text-tertiary: rgba(255, 255, 255, 0.6);
-        }
-
         body {
-            font-family: 'Tajawal', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Heebo', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
             min-height: 100vh;
-            background: #0f0c29;
-            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             position: relative;
+            overflow-x: hidden;
         }
 
-        .orb {
+        /* Background Effects */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .gradient-orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(100px);
             opacity: 0.3;
-            animation: float 20s ease-in-out infinite;
             pointer-events: none;
+            z-index: 0;
         }
 
         .orb-1 {
             width: 500px;
             height: 500px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            top: -250px;
-            right: -250px;
+            background: var(--neon-cyan);
+            top: -200px;
+            right: -200px;
+            animation: float-orb 20s ease-in-out infinite;
         }
 
         .orb-2 {
             width: 400px;
             height: 400px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            bottom: -200px;
-            left: -200px;
-            animation-delay: -10s;
+            background: var(--neon-magenta);
+            bottom: -150px;
+            left: -150px;
+            animation: float-orb 25s ease-in-out infinite reverse;
         }
 
-        @keyframes float {
+        @keyframes float-orb {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+            25% { transform: translate(50px, 50px) scale(1.1); }
+            50% { transform: translate(-30px, 80px) scale(0.9); }
+            75% { transform: translate(-60px, -30px) scale(1.05); }
         }
 
-        .container {
+        /* Container */
+        .signup-container {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .signup-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 8px 32px 0 rgba(31, 38, 135, 0.37),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            padding: 48px;
-            max-width: 500px;
             width: 100%;
+            max-width: 500px;
+            margin: 40px 0;
         }
 
-        .title {
-            font-size: 32px;
-            font-weight: 800;
-            background: var(--primary-gradient);
+        /* Logo */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 42px;
+            font-weight: 700;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-align: center;
-            margin-bottom: 12px;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
         }
 
-        .subtitle {
-            color: var(--text-secondary);
+        .logo-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Card */
+        .signup-card {
+            background: var(--dark-surface);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .card-header {
             text-align: center;
-            font-size: 16px;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
+        }
+
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .progress-step {
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: var(--gradient-primary);
+        }
+
+        .progress-step.completed {
+            background: var(--success-color);
+        }
+
+        /* Form */
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 245, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
         }
 
         .form-label {
             display: block;
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 8px;
             font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-label .required {
+            color: var(--neon-magenta);
         }
 
         .form-input {
             width: 100%;
             padding: 14px 18px;
-            background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--dark-elevated);
+            border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             color: var(--text-primary);
             font-size: 15px;
+            font-family: 'Heebo', sans-serif;
             transition: all 0.3s ease;
-            font-family: 'Tajawal', sans-serif;
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
         }
 
         .form-input:focus {
             outline: none;
-            background: var(--surface-hover);
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.1);
         }
 
-        .form-input::placeholder {
-            color: var(--text-tertiary);
+        .form-input.error {
+            border-color: var(--error-color);
         }
 
-        .submit-btn {
+        .form-select {
             width: 100%;
+            padding: 14px 18px;
+            background: var(--dark-elevated);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 16px center;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+        }
+
+        .form-select option {
+            background: var(--dark-surface);
+            color: var(--text-primary);
+        }
+
+        /* Password field */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--neon-cyan);
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Buttons */
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-primary {
+            flex: 1;
             padding: 16px;
-            background: var(--primary-gradient);
+            background: var(--gradient-primary);
             border: none;
             border-radius: 12px;
-            color: white;
+            color: var(--dark-bg);
             font-size: 16px;
             font-weight: 700;
+            font-family: 'Heebo', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .submit-btn:hover:not(:disabled) {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 245, 255, 0.3);
         }
 
-        .submit-btn:disabled {
+        .btn-primary:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        .success-message, .error-message {
-            display: none;
-            padding: 16px;
+        .btn-secondary {
+            padding: 16px 24px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
-            margin-top: 20px;
-            text-align: center;
+            color: var(--text-secondary);
+            font-size: 16px;
             font-weight: 600;
+            font-family: 'Heebo', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top-color: var(--dark-bg);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
 
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Messages */
+        .message {
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .message.error {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            color: var(--error-color);
+        }
+
+        .message.show {
+            display: flex;
+        }
+
+        /* Login link */
         .login-link {
             text-align: center;
             margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
+            font-size: 14px;
         }
 
         .login-link a {
-            color: #667eea;
+            color: var(--neon-cyan);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.3s ease;
         }
 
         .login-link a:hover {
-            color: #764ba2;
+            text-decoration: underline;
         }
 
-        @media (max-width: 640px) {
+        /* Success View */
+        .success-view {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(46, 213, 115, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin: 0 auto 24px;
+            animation: successPop 0.5s ease;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .success-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .success-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            color: var(--dark-bg);
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Heebo', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
             .signup-card {
                 padding: 32px 24px;
             }
 
-            .title {
-                font-size: 28px;
+            .logo {
+                font-size: 36px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-row {
+                flex-direction: column-reverse;
+            }
+
+            .btn-secondary {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
 
-    <div class="container">
+    <!-- Signup Container -->
+    <div class="signup-container">
+        <div class="logo-section">
+            <div class="logo">STORIT</div>
+            <div class="logo-subtitle">הצטרפו לפלטפורמת השיווק החדשנית</div>
+        </div>
+
         <div class="signup-card">
-            <h1 class="title">הצטרפו אלינו</h1>
-            <p class="subtitle">צרו דף קמפיין ייחודי לעסק שלכם</p>
-
-            <form id="signupForm">
-                <div class="form-group">
-                    <label class="form-label">שם העסק *</label>
-                    <input 
-                        type="text" 
-                        name="businessName"
-                        class="form-input" 
-                        placeholder="לדוגמה: פארקר בר"
-                        required
-                    >
+            <!-- Form Content -->
+            <div id="formContent">
+                <div class="card-header">
+                    <h1 class="card-title">יצירת חשבון חדש</h1>
+                    <p class="card-subtitle">מלאו את הפרטים ותתחילו תוך דקות</p>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">יוזר אינסטגרם *</label>
-                    <input 
-                        type="text" 
-                        name="instagramHandle"
-                        class="form-input" 
-                        placeholder="@yourbusiness"
-                        required
-                    >
+                <div class="progress-steps">
+                    <div class="progress-step active" id="step1Indicator"></div>
+                    <div class="progress-step" id="step2Indicator"></div>
+                    <div class="progress-step" id="step3Indicator"></div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">מיקום העסק *</label>
-                    <input 
-                        type="text" 
-                        name="location"
-                        class="form-input" 
-                        placeholder="לדוגמה: כפר סבא"
-                        required
-                    >
+                <div class="message error" id="errorMessage">
+                    <span>⚠️</span>
+                    <span id="errorText">שגיאה</span>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">קטגוריה *</label>
-                    <input 
-                        type="text" 
-                        name="category"
-                        class="form-input" 
-                        placeholder="לדוגמה: בר, מסעדה, קפה"
-                        required
-                    >
+                <form id="signupForm">
+                    <!-- Step 1: Business Info -->
+                    <div class="form-section active" id="step1">
+                        <div class="section-title">
+                            <div class="section-icon">🏪</div>
+                            <span>פרטי העסק</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">שם העסק <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="businessName"
+                                class="form-input" 
+                                placeholder="לדוגמה: הבר של יוסי"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">יוזר אינסטגרם <span class="required">*</span></label>
+                                <input 
+                                    type="text" 
+                                    id="instagramHandle"
+                                    class="form-input" 
+                                    placeholder="@yourbusiness"
+                                    required
+                                    style="direction: ltr; text-align: right;"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">קטגוריה <span class="required">*</span></label>
+                                <select id="category" class="form-select" required>
+                                    <option value="">בחרו קטגוריה</option>
+                                    <option value="bar">בר / פאב</option>
+                                    <option value="restaurant">מסעדה</option>
+                                    <option value="cafe">בית קפה</option>
+                                    <option value="club">מועדון</option>
+                                    <option value="other">אחר</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">מיקום העסק <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="location"
+                                class="form-input" 
+                                placeholder="עיר או שכונה"
+                                required
+                            >
+                        </div>
+
+                        <div class="button-row">
+                            <button type="button" class="btn-primary" onclick="nextStep(1)">
+                                <span>המשך</span>
+                                <span>←</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Account Info -->
+                    <div class="form-section" id="step2">
+                        <div class="section-title">
+                            <div class="section-icon">👤</div>
+                            <span>פרטי החשבון</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">אימייל <span class="required">*</span></label>
+                            <input 
+                                type="email" 
+                                id="email"
+                                class="form-input" 
+                                placeholder="your@email.com"
+                                required
+                                style="direction: ltr; text-align: right;"
+                            >
+                            <div class="password-hint">ישמש להתחברות ולאיפוס סיסמה</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">סיסמה <span class="required">*</span></label>
+                            <div class="password-wrapper">
+                                <input 
+                                    type="password" 
+                                    id="password"
+                                    class="form-input" 
+                                    placeholder="לפחות 8 תווים"
+                                    required
+                                    minlength="8"
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('password', this)">
+                                    👁️
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">אימות סיסמה <span class="required">*</span></label>
+                            <div class="password-wrapper">
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword"
+                                    class="form-input" 
+                                    placeholder="הזינו שוב את הסיסמה"
+                                    required
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword', this)">
+                                    👁️
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="button-row">
+                            <button type="button" class="btn-secondary" onclick="prevStep(2)">חזרה</button>
+                            <button type="button" class="btn-primary" onclick="nextStep(2)">
+                                <span>המשך</span>
+                                <span>←</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Campaign Settings -->
+                    <div class="form-section" id="step3">
+                        <div class="section-title">
+                            <div class="section-icon">🎁</div>
+                            <span>הגדרות הקמפיין</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">מה הפרס שתציעו? <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="reward"
+                                class="form-input" 
+                                placeholder="לדוגמה: בירה חינם, קינוח, 10% הנחה..."
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">מינימום עוקבים</label>
+                            <select id="minFollowers" class="form-select">
+                                <option value="200">200 עוקבים</option>
+                                <option value="400" selected>400 עוקבים</option>
+                                <option value="600">600 עוקבים</option>
+                                <option value="1000">1,000 עוקבים</option>
+                            </select>
+                            <div class="password-hint">רק משתמשים עם יותר עוקבים יוכלו להשתתף</div>
+                        </div>
+
+                        <div class="button-row">
+                            <button type="button" class="btn-secondary" onclick="prevStep(3)">חזרה</button>
+                            <button type="submit" class="btn-primary" id="submitBtn">
+                                <span>✨</span>
+                                <span>צור חשבון</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="login-link">
+                    כבר יש לכם חשבון? <a href="login.html">התחברו כאן</a>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label">אימייל לניהול *</label>
-                    <input 
-                        type="email" 
-                        name="email"
-                        class="form-input" 
-                        placeholder="your@email.com"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">סיסמה לדשבורד *</label>
-                    <input 
-                        type="password" 
-                        name="password"
-                        class="form-input" 
-                        placeholder="בחר סיסמה חזקה (6+ תווים)"
-                        minlength="6"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">אימות סיסמה *</label>
-                    <input 
-                        type="password" 
-                        name="confirmPassword"
-                        class="form-input" 
-                        placeholder="הקלד שוב את הסיסמה"
-                        minlength="6"
-                        required
-                    >
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span>✨ צור חשבון</span>
-                </button>
-            </form>
-
-            <div class="success-message" id="successMessage"></div>
-            <div class="error-message" id="errorMessage"></div>
-
-            <div class="login-link">
-                כבר רשומים? <a href="login.html">התחברו כאן</a>
+            <!-- Success View -->
+            <div class="success-view" id="successView">
+                <div class="success-icon">🎉</div>
+                <h2 class="success-title">החשבון נוצר בהצלחה!</h2>
+                <p class="success-subtitle">
+                    ברוכים הבאים ל-STORIT!
+                    <br>
+                    החשבון שלכם מוכן ואתם יכולים להתחיל לקבל סטוריז.
+                </p>
+                <a href="admin.html" class="success-btn">
+                    <span>🚀</span>
+                    <span>כניסה לדשבורד</span>
+                </a>
             </div>
         </div>
     </div>
@@ -330,130 +756,208 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized!');
 
-        // Form submission
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('🎯 Form submitted!');
+        let currentStep = 1;
 
-            const submitBtn = document.getElementById('submitBtn');
-            const successMsg = document.getElementById('successMessage');
-            const errorMsg = document.getElementById('errorMessage');
-
-            successMsg.style.display = 'none';
-            errorMsg.style.display = 'none';
-
-            const formData = new FormData(e.target);
-            const data = {
-                businessName: formData.get('businessName').trim(),
-                instagramHandle: formData.get('instagramHandle').trim(),
-                location: formData.get('location').trim(),
-                category: formData.get('category').trim(),
-                email: formData.get('email').trim(),
-                password: formData.get('password'),
-                confirmPassword: formData.get('confirmPassword')
-            };
-
-            // Validate Instagram handle
-            if (!data.instagramHandle.startsWith('@')) {
-                data.instagramHandle = '@' + data.instagramHandle;
+        // Toggle password
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
             }
-
-            // Validate passwords match
-            if (data.password !== data.confirmPassword) {
-                errorMsg.textContent = '❌ הסיסמאות אינן תואמות!';
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>⏳ יוצר חשבון...</span>';
-
-            try {
-                // Generate unique business ID
-                const businessId = generateBusinessId(data.businessName);
-                
-                // Hash password
-                const passwordHash = await simpleHash(data.password);
-
-                console.log('📤 Creating business in Supabase...');
-
-                // Insert into Supabase
-                const { data: business, error } = await supabase
-                    .from('businesses')
-                    .insert([{
-                        business_id: businessId,
-                        business_name: data.businessName,
-                        instagram_handle: data.instagramHandle,
-                        location: data.location,
-                        category: data.category,
-                        admin_email: data.email,
-                        password_hash: passwordHash,
-                        status: 'active'
-                    }])
-                    .select()
-                    .single();
-
-                if (error) {
-                    console.error('❌ Supabase error:', error);
-                    
-                    if (error.code === '23505') {
-                        errorMsg.textContent = '❌ עסק או אימייל כבר קיימים במערכת!';
-                    } else {
-                        errorMsg.textContent = `❌ שגיאה: ${error.message}`;
-                    }
-                    errorMsg.style.display = 'block';
-                    return;
-                }
-
-                console.log('✅ Business created!', business);
-
-                // Show success
-                successMsg.innerHTML = `
-                    <div style="font-size: 28px; margin-bottom: 12px;">🎉</div>
-                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">נרשמתם בהצלחה!</div>
-                    <div style="font-size: 14px; margin-bottom: 12px; opacity: 0.9;">
-                        מעביר לדף התחברות...
-                    </div>
-                `;
-                successMsg.style.display = 'block';
-
-                // Save to localStorage
-                localStorage.setItem('signupSuccess', 'true');
-                localStorage.setItem('signupBusinessId', businessId);
-                localStorage.setItem('signupEmail', data.email);
-
-                // Redirect to login
-                setTimeout(() => {
-                    window.location.href = `login.html?business=${businessId}`;
-                }, 2000);
-
-            } catch (error) {
-                console.error('❌ Error:', error);
-                errorMsg.textContent = '❌ שגיאה: ' + error.message;
-                errorMsg.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>✨ צור חשבון</span>';
-            }
-        });
-
-        // Generate business ID = שם העסק כמו שהוא
-        function generateBusinessId(businessName) {
-            return businessName.trim();
         }
 
-        // Simple password hashing
-        async function simpleHash(password) {
+        // Show error
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            document.getElementById('errorText').textContent = message;
+            errorDiv.classList.add('show');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        // Navigation
+        function nextStep(fromStep) {
+            hideError();
+
+            // Validate current step
+            if (!validateStep(fromStep)) return;
+
+            // Move to next step
+            document.getElementById(`step${fromStep}`).classList.remove('active');
+            document.getElementById(`step${fromStep + 1}`).classList.add('active');
+            
+            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
+            document.getElementById(`step${fromStep}Indicator`).classList.add('completed');
+            document.getElementById(`step${fromStep + 1}Indicator`).classList.add('active');
+            
+            currentStep = fromStep + 1;
+        }
+
+        function prevStep(fromStep) {
+            hideError();
+
+            document.getElementById(`step${fromStep}`).classList.remove('active');
+            document.getElementById(`step${fromStep - 1}`).classList.add('active');
+            
+            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
+            document.getElementById(`step${fromStep - 1}Indicator`).classList.remove('completed');
+            document.getElementById(`step${fromStep - 1}Indicator`).classList.add('active');
+            
+            currentStep = fromStep - 1;
+        }
+
+        // Validation
+        function validateStep(step) {
+            if (step === 1) {
+                const businessName = document.getElementById('businessName').value.trim();
+                const instagramHandle = document.getElementById('instagramHandle').value.trim();
+                const category = document.getElementById('category').value;
+                const location = document.getElementById('location').value.trim();
+
+                if (!businessName) {
+                    showError('נא להזין את שם העסק');
+                    return false;
+                }
+                if (!instagramHandle) {
+                    showError('נא להזין יוזר אינסטגרם');
+                    return false;
+                }
+                if (!category) {
+                    showError('נא לבחור קטגוריה');
+                    return false;
+                }
+                if (!location) {
+                    showError('נא להזין מיקום');
+                    return false;
+                }
+            }
+
+            if (step === 2) {
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (!email || !email.includes('@')) {
+                    showError('נא להזין כתובת אימייל תקינה');
+                    return false;
+                }
+                if (password.length < 8) {
+                    showError('הסיסמה חייבת להכיל לפחות 8 תווים');
+                    return false;
+                }
+                if (password !== confirmPassword) {
+                    showError('הסיסמאות לא תואמות');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Hash password
+        async function hashPassword(password) {
             const encoder = new TextEncoder();
-            const data = encoder.encode(password + 'SALT_2024');
+            const data = encoder.encode(password);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        console.log('✅ All functions loaded!');
+        // Generate business ID
+        function generateBusinessId() {
+            return 'biz_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        }
+
+        // Form submit
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideError();
+
+            if (!validateStep(3)) {
+                const reward = document.getElementById('reward').value.trim();
+                if (!reward) {
+                    showError('נא להזין את הפרס שתציעו');
+                    return;
+                }
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div><span>יוצר חשבון...</span>';
+
+            try {
+                const businessId = generateBusinessId();
+                const businessName = document.getElementById('businessName').value.trim();
+                const instagramHandle = document.getElementById('instagramHandle').value.trim();
+                const category = document.getElementById('category').value;
+                const location = document.getElementById('location').value.trim();
+                const email = document.getElementById('email').value.trim().toLowerCase();
+                const password = document.getElementById('password').value;
+                const reward = document.getElementById('reward').value.trim();
+                const minFollowers = parseInt(document.getElementById('minFollowers').value);
+
+                // Check if email already exists
+                const { data: existingBusiness } = await supabase
+                    .from('businesses')
+                    .select('email')
+                    .eq('email', email)
+                    .single();
+
+                if (existingBusiness) {
+                    throw new Error('כתובת האימייל כבר רשומה במערכת');
+                }
+
+                // Hash password
+                const passwordHash = await hashPassword(password);
+
+                // Create business
+                const { data, error } = await supabase
+                    .from('businesses')
+                    .insert([{
+                        business_id: businessId,
+                        business_name: businessName,
+                        instagram_handle: instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle,
+                        category: category,
+                        location: location,
+                        email: email,
+                        password_hash: passwordHash,
+                        reward: reward,
+                        min_followers: minFollowers,
+                        status: 'active',
+                        created_at: new Date().toISOString()
+                    }])
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                console.log('✅ Business created:', data);
+
+                // Save to localStorage for auto-login
+                localStorage.setItem('loggedInBusinessId', businessId);
+                localStorage.setItem('loggedInBusinessName', businessName);
+                localStorage.setItem('loggedInInstagram', instagramHandle);
+                localStorage.setItem('loggedInEmail', email);
+
+                // Show success
+                document.getElementById('formContent').style.display = 'none';
+                document.getElementById('successView').style.display = 'block';
+
+            } catch (error) {
+                console.error('❌ Signup error:', error);
+                showError(error.message || 'שגיאה ביצירת החשבון. נסו שוב.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>✨</span><span>צור חשבון</span>';
+            }
+        });
     </script>
 </body>
 </html>
