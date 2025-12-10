@@ -607,15 +607,13 @@
                 // Hash new password
                 const passwordHash = await hashPassword(newPassword);
 
-                // Update in database
+                // Update in database (column is admin_email)
                 const { error } = await supabase
                     .from('businesses')
                     .update({ 
-                        password_hash: passwordHash,
-                        reset_token: null,
-                        reset_token_expires: null
+                        password_hash: passwordHash
                     })
-                    .eq('email', email);
+                    .eq('admin_email', email);
                     // In production, also verify the reset token
 
                 if (error) throw error;
