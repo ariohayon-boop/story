@@ -470,46 +470,6 @@
             font-weight: 500;
         }
 
-        /* ===== STATS BAR ===== */
-        .stats-bar {
-            position: relative;
-            z-index: 1;
-            background: var(--dark-surface);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px;
-        }
-
-        .stats-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 20px;
-        }
-
-        .stat-item-number {
-            font-size: 48px;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .stat-item-label {
-            font-size: 15px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
         /* ===== HOW IT WORKS ===== */
         .how-it-works {
             position: relative;
@@ -671,140 +631,79 @@
             line-height: 1.6;
         }
 
-        /* ===== PRICING ===== */
-        .pricing {
+        /* ===== CONTACT SECTION ===== */
+        .contact-section {
             position: relative;
             z-index: 1;
             padding: 120px 40px;
         }
 
-        .pricing-cards {
-            max-width: 1000px;
+        .contact-container {
+            max-width: 800px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-
-        .pricing-card {
-            background: var(--dark-surface);
-            border-radius: 24px;
-            padding: 48px 40px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border-color: var(--neon-cyan);
-            background: linear-gradient(180deg, rgba(0, 245, 255, 0.05) 0%, var(--dark-surface) 100%);
-        }
-
-        .pricing-card.featured::before {
-            content: 'הכי פופולרי';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 6px 20px;
-            background: var(--gradient-primary);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--dark-bg);
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .pricing-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .pricing-description {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        .pricing-price {
-            margin-bottom: 32px;
-        }
-
-        .pricing-amount {
-            font-size: 56px;
-            font-weight: 900;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .pricing-amount.gradient {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .pricing-period {
-            font-size: 16px;
-            color: var(--text-muted);
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 32px;
-        }
-
-        .pricing-features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 15px;
-            color: var(--text-secondary);
-        }
-
-        .pricing-features li:last-child {
-            border-bottom: none;
-        }
-
-        .pricing-features li::before {
-            content: '✓';
-            color: var(--neon-cyan);
-            font-weight: 700;
-        }
-
-        .pricing-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Heebo', sans-serif;
-            text-decoration: none;
-            display: block;
             text-align: center;
         }
 
-        .pricing-btn.primary {
-            background: var(--gradient-primary);
+        .contact-box {
+            background: var(--dark-surface);
+            border-radius: 32px;
+            padding: 60px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .contact-title {
+            font-size: clamp(32px, 4vw, 44px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .contact-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 50px;
+            background: #25D366;
             border: none;
-            color: var(--dark-bg);
+            border-radius: 16px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
 
-        .pricing-btn.secondary {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-primary);
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(37, 211, 102, 0.4);
+            background: #20b358;
         }
 
-        .pricing-btn:hover {
-            transform: translateY(-2px);
+        .whatsapp-icon {
+            font-size: 24px;
         }
 
         /* ===== CTA SECTION ===== */
@@ -813,12 +712,13 @@
             z-index: 1;
             padding: 120px 40px;
             text-align: center;
+            background: var(--dark-surface);
         }
 
         .cta-box {
             max-width: 800px;
             margin: 0 auto;
-            background: var(--dark-surface);
+            background: var(--dark-elevated);
             border-radius: 32px;
             padding: 80px 60px;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -863,7 +763,7 @@
         footer {
             position: relative;
             z-index: 1;
-            background: var(--dark-surface);
+            background: var(--dark-elevated);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 60px 40px 30px;
         }
@@ -951,11 +851,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .pricing-cards {
-                grid-template-columns: 1fr;
-                max-width: 450px;
-            }
-
             .floating-stats {
                 display: none;
             }
@@ -974,26 +869,18 @@
                 padding: 100px 20px 60px;
             }
 
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .stat-item-number {
-                font-size: 36px;
-            }
-
             .section-header {
                 margin-bottom: 50px;
             }
 
             .how-it-works,
             .benefits,
-            .pricing,
+            .contact-section,
             .cta-section {
                 padding: 80px 20px;
             }
 
+            .contact-box,
             .cta-box {
                 padding: 50px 30px;
             }
@@ -1006,6 +893,11 @@
             .phone-mockup {
                 width: 280px;
                 height: 560px;
+            }
+
+            .whatsapp-btn {
+                padding: 16px 40px;
+                font-size: 16px;
             }
         }
 
@@ -1035,7 +927,7 @@
         <div class="nav-links">
             <a href="#how-it-works">איך זה עובד</a>
             <a href="#benefits">יתרונות</a>
-            <a href="#pricing">מחירים</a>
+            <a href="#contact">צור קשר</a>
             <a href="login.html" class="nav-cta">התחברות</a>
         </div>
     </nav>
@@ -1055,8 +947,8 @@
                     מאנשים אמיתיים - לא מפרסומות.
                 </p>
                 <div class="hero-buttons">
-                    <a href="signup.html" class="btn-primary">
-                        התחילו בחינם
+                    <a href="#contact" class="btn-primary">
+                        דברו איתנו
                         <span>←</span>
                     </a>
                     <a href="#how-it-works" class="btn-secondary">איך זה עובד?</a>
@@ -1099,28 +991,6 @@
                     <div class="stat-number">2.5K</div>
                     <div class="stat-label">צפיות ממוצעות</div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Bar -->
-    <section class="stats-bar">
-        <div class="stats-container">
-            <div class="stat-item">
-                <div class="stat-item-number">50+</div>
-                <div class="stat-item-label">עסקים פעילים</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-item-number">10K+</div>
-                <div class="stat-item-label">סטוריז שהועלו</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-item-number">2M+</div>
-                <div class="stat-item-label">צפיות נוצרו</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-item-number">98%</div>
-                <div class="stat-item-label">שביעות רצון</div>
             </div>
         </div>
     </section>
@@ -1226,49 +1096,19 @@
         </div>
     </section>
 
-    <!-- Pricing -->
-    <section class="pricing" id="pricing">
-        <div class="section-header">
-            <div class="section-tag">💳 תמחור שקוף</div>
-            <h2 class="section-title">בחרו את המסלול שלכם</h2>
-            <p class="section-subtitle">
-                התחילו בחינם, שדרגו כשתהיו מוכנים
-            </p>
-        </div>
-
-        <div class="pricing-cards">
-            <div class="pricing-card">
-                <div class="pricing-name">סטארטר</div>
-                <div class="pricing-description">מושלם להתחלה ולבדיקת המערכת</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount">₪0</span>
-                    <span class="pricing-period">/ לחודש</span>
-                </div>
-                <ul class="pricing-features">
-                    <li>עד 50 סטוריז בחודש</li>
-                    <li>דשבורד בסיסי</li>
-                    <li>אימות AI אוטומטי</li>
-                    <li>תמיכה במייל</li>
-                </ul>
-                <a href="signup.html" class="pricing-btn secondary">התחילו בחינם</a>
-            </div>
-
-            <div class="pricing-card featured">
-                <div class="pricing-name">פרו</div>
-                <div class="pricing-description">לעסקים שרוצים לצמוח</div>
-                <div class="pricing-price">
-                    <span class="pricing-amount gradient">₪199</span>
-                    <span class="pricing-period">/ לחודש</span>
-                </div>
-                <ul class="pricing-features">
-                    <li>סטוריז ללא הגבלה</li>
-                    <li>דשבורד מתקדם + אנליטיקס</li>
-                    <li>אימות AI אוטומטי</li>
-                    <li>תמיכה בוואטסאפ</li>
-                    <li>קמפיינים מרובים</li>
-                    <li>ייצוא נתונים</li>
-                </ul>
-                <a href="signup.html" class="pricing-btn primary">התחילו עכשיו</a>
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            <div class="contact-box">
+                <h2 class="contact-title">בואו נתחיל יחד</h2>
+                <p class="contact-description">
+                    מוכנים לגלות איך STORIT יכול להפוך את הלקוחות שלכם לשגרירי מותג?<br>
+                    דברו איתנו ונכין עבורכם הצעה מותאמת אישית.
+                </p>
+                <a href="https://wa.me/972504095458?text=היי, אני רוצה לשמוע עוד על STORIT לעסק שלי" class="whatsapp-btn" target="_blank">
+                    <span class="whatsapp-icon">📱</span>
+                    צרו קשר בוואטסאפ
+                </a>
             </div>
         </div>
     </section>
@@ -1281,11 +1121,11 @@
                 הצטרפו לעשרות עסקים שכבר משתמשים ב-STORIT להגדלת החשיפה שלהם
             </p>
             <div class="cta-buttons">
-                <a href="signup.html" class="btn-primary">
-                    צרו חשבון בחינם
+                <a href="https://wa.me/972504095458?text=היי, אני רוצה לשמוע עוד על STORIT לעסק שלי" class="btn-primary" target="_blank">
+                    דברו איתנו בוואטסאפ
                     <span>←</span>
                 </a>
-                <a href="mailto:hello@storit.co.il" class="btn-secondary">דברו איתנו</a>
+                <a href="mailto:hello@storit.co.il" class="btn-secondary">שלחו מייל</a>
             </div>
         </div>
     </section>
