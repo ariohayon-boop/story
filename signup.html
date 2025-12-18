@@ -730,7 +730,7 @@
                         </div>
 
                         <div class="button-row">
-                            <button type="button" class="btn-primary" onclick="nextStep(1)">
+                            <button type="button" class="btn-primary" id="step1NextBtn">
                                 <span>המשך</span>
                                 <span>←</span>
                             </button>
@@ -768,7 +768,7 @@
                                     required
                                     minlength="8"
                                 >
-                                <button type="button" class="password-toggle" onclick="togglePassword('password', this)">
+                                <button type="button" class="password-toggle" id="passwordToggle1">
                                     👁️
                                 </button>
                             </div>
@@ -784,15 +784,15 @@
                                     placeholder="הזינו שוב את הסיסמה"
                                     required
                                 >
-                                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword', this)">
+                                <button type="button" class="password-toggle" id="passwordToggle2">
                                     👁️
                                 </button>
                             </div>
                         </div>
 
                         <div class="button-row">
-                            <button type="button" class="btn-secondary" onclick="prevStep(2)">חזרה</button>
-                            <button type="button" class="btn-primary" onclick="nextStep(2)">
+                            <button type="button" class="btn-secondary" id="step2BackBtn">חזרה</button>
+                            <button type="button" class="btn-primary" id="step2NextBtn">
                                 <span>המשך</span>
                                 <span>←</span>
                             </button>
@@ -829,7 +829,7 @@
                         </div>
 
                         <div class="button-row">
-                            <button type="button" class="btn-secondary" onclick="prevStep(3)">חזרה</button>
+                            <button type="button" class="btn-secondary" id="step3BackBtn">חזרה</button>
                             <button type="submit" class="btn-primary" id="submitBtn">
                                 <span>✨</span>
                                 <span>צור חשבון</span>
@@ -889,7 +889,7 @@
                         </p>
                     </div>
 
-                    <button class="btn-instagram" id="connectInstagramBtn" onclick="connectInstagram()">
+                    <button class="btn-instagram" id="connectInstagramBtn">
                         <span>📸</span>
                         <span>חבר את חשבון Instagram שלי</span>
                     </button>
@@ -898,7 +898,7 @@
                         * חייב להיות חשבון Instagram Business מחובר לדף Facebook
                     </p>
 
-                    <span class="skip-link" onclick="skipInstagramConnect()">
+                    <span class="skip-link" id="skipInstagramLink">
                         דלג לעכשיו →
                     </span>
                 </div>
@@ -909,11 +909,12 @@
     <script>
         console.log('✅ Signup page loaded!');
 
-        // Initialize Supabase
+        // Initialize Supabase (ONLY ONCE!)
         const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized!');
 
         // Facebook OAuth settings
         const FB_APP_ID = '2700329290344167';
@@ -935,6 +936,15 @@
             }
         }
 
+        // Event listeners for password toggles
+        document.getElementById('passwordToggle1').addEventListener('click', function() {
+            togglePassword('password', this);
+        });
+
+        document.getElementById('passwordToggle2').addEventListener('click', function() {
+            togglePassword('confirmPassword', this);
+        });
+
         // Show error
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
@@ -945,37 +955,6 @@
 
         function hideError() {
             document.getElementById('errorMessage').classList.remove('show');
-        }
-
-        // Navigation
-        function nextStep(fromStep) {
-            hideError();
-
-            // Validate current step
-            if (!validateStep(fromStep)) return;
-
-            // Move to next step
-            document.getElementById(`step${fromStep}`).classList.remove('active');
-            document.getElementById(`step${fromStep + 1}`).classList.add('active');
-            
-            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
-            document.getElementById(`step${fromStep}Indicator`).classList.add('completed');
-            document.getElementById(`step${fromStep + 1}Indicator`).classList.add('active');
-            
-            currentStep = fromStep + 1;
-        }
-
-        function prevStep(fromStep) {
-            hideError();
-
-            document.getElementById(`step${fromStep}`).classList.remove('active');
-            document.getElementById(`step${fromStep - 1}`).classList.add('active');
-            
-            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
-            document.getElementById(`step${fromStep - 1}Indicator`).classList.remove('completed');
-            document.getElementById(`step${fromStep - 1}Indicator`).classList.add('active');
-            
-            currentStep = fromStep - 1;
         }
 
         // Validation
@@ -1023,8 +1002,64 @@
                 }
             }
 
+            if (step === 3) {
+                const reward = document.getElementById('reward').value.trim();
+                if (!reward) {
+                    showError('נא להזין את הפרס שתציעו');
+                    return false;
+                }
+            }
+
             return true;
         }
+
+        // Navigation functions
+        function nextStep(fromStep) {
+            hideError();
+
+            // Validate current step
+            if (!validateStep(fromStep)) return;
+
+            // Move to next step
+            document.getElementById(`step${fromStep}`).classList.remove('active');
+            document.getElementById(`step${fromStep + 1}`).classList.add('active');
+            
+            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
+            document.getElementById(`step${fromStep}Indicator`).classList.add('completed');
+            document.getElementById(`step${fromStep + 1}Indicator`).classList.add('active');
+            
+            currentStep = fromStep + 1;
+        }
+
+        function prevStep(fromStep) {
+            hideError();
+
+            document.getElementById(`step${fromStep}`).classList.remove('active');
+            document.getElementById(`step${fromStep - 1}`).classList.add('active');
+            
+            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
+            document.getElementById(`step${fromStep - 1}Indicator`).classList.remove('completed');
+            document.getElementById(`step${fromStep - 1}Indicator`).classList.add('active');
+            
+            currentStep = fromStep - 1;
+        }
+
+        // Event listeners for navigation buttons
+        document.getElementById('step1NextBtn').addEventListener('click', function() {
+            nextStep(1);
+        });
+
+        document.getElementById('step2BackBtn').addEventListener('click', function() {
+            prevStep(2);
+        });
+
+        document.getElementById('step2NextBtn').addEventListener('click', function() {
+            nextStep(2);
+        });
+
+        document.getElementById('step3BackBtn').addEventListener('click', function() {
+            prevStep(3);
+        });
 
         // Hash password
         async function hashPassword(password) {
@@ -1073,18 +1108,16 @@
             window.location.href = 'admin.html';
         }
 
+        // Event listeners for Instagram buttons
+        document.getElementById('connectInstagramBtn').addEventListener('click', connectInstagram);
+        document.getElementById('skipInstagramLink').addEventListener('click', skipInstagramConnect);
+
         // Form submit
         document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             hideError();
 
-            if (!validateStep(3)) {
-                const reward = document.getElementById('reward').value.trim();
-                if (!reward) {
-                    showError('נא להזין את הפרס שתציעו');
-                    return;
-                }
-            }
+            if (!validateStep(3)) return;
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
@@ -1170,6 +1203,8 @@
                 submitBtn.innerHTML = '<span>✨</span><span>צור חשבון</span>';
             }
         });
+
+        console.log('✅ All event listeners attached!');
     </script>
 </body>
 </html>
