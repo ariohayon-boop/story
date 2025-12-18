@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך הגדרת Facebook OAuth | STORIT</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            direction: rtl;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .warning-box h2 {
+            color: #92400e;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .warning-box p {
+            color: #78350f;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .step {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-right: 4px solid #667eea;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-left: 12px;
+        }
+
+        .step h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .step p {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .step ul {
+            padding-right: 24px;
+            margin-bottom: 16px;
+        }
+
+        .step li {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .code-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-box code {
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Rubik', sans-serif;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .success-box {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 32px;
+        }
+
+        .success-box h2 {
+            color: #065f46;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .success-box p {
+            color: #047857;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .screenshot {
+            width: 100%;
+            border-radius: 8px;
+            margin: 16px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .step h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">STORIT</div>
+        
+        <h1>🔧 מדריך הגדרת Facebook OAuth</h1>
+
+        <div class="warning-box">
+            <h2>⚠️ חשוב מאוד!</h2>
+            <p>
+                אם אתה מקבל שגיאה "Something went wrong" מ-Facebook,
+                זה אומר שהאפליקציה שלך לא מוגדרת נכון ב-Facebook Developers.
+                <br><br>
+                עקוב אחרי השלבים הבאים <strong>בדיוק כפי שרשום</strong> כדי לתקן את הבעיה.
+            </p>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step">
+            <span class="step-number">1</span>
+            <h3>כניסה ל-Facebook Developers</h3>
+            <p>
+                לך לדף:
+                <a href="https://developers.facebook.com/apps" target="_blank" class="link">
+                    developers.facebook.com/apps
+                </a>
+            </p>
+            <p>בחר את האפליקציה שלך (App ID: <code>2700329290344167</code>)</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+            <span class="step-number">2</span>
+            <h3>הוסף Facebook Login</h3>
+            <p>בתפריט הצד השמאלי, חפש <strong>"Products"</strong></p>
+            <ul>
+                <li>אם <strong>Facebook Login</strong> לא מופיע ברשימה - לחץ על <strong>"+Add Product"</strong></li>
+                <li>בחר <strong>"Facebook Login"</strong> ולחץ <strong>"Set Up"</strong></li>
+                <li>אם הוא כבר מופיע - לחץ עליו ישירות</li>
+            </ul>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+            <span class="step-number">3</span>
+            <h3>הגדר Valid OAuth Redirect URIs</h3>
+            <p>תחת <strong>Facebook Login → Settings</strong>, גלול למטה עד ל:</p>
+            <p><strong>"Valid OAuth Redirect URIs"</strong></p>
+            
+            <p>העתק והדבק את הכתובת הזו <strong>בדיוק כמו שהיא</strong>:</p>
+            
+            <div class="code-box">
+                <code id="redirectUri">https://story-seven-psi.vercel.app/oauth-callback.html</code>
+            </div>
+            
+            <button class="copy-btn" onclick="copyRedirectUri()">📋 העתק כתובת</button>
+
+            <p style="margin-top: 16px; color: #ef4444; font-weight: 600;">
+                ⚠️ שים לב: הכתובת חייבת להתחיל ב-<strong>https://</strong> (לא http)
+            </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+            <span class="step-number">4</span>
+            <h3>הפעל Strict Mode (אופציונלי אבל מומלץ)</h3>
+            <p>באותו מקום, תמצא אופציה:</p>
+            <p><strong>"Use Strict Mode for Redirect URIs"</strong></p>
+            <p>הפעל אותה (Toggle ON) - זה יעזור למנוע בעיות אבטחה</p>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+            <span class="step-number">5</span>
+            <h3>שמור את השינויים</h3>
+            <p>לחץ על הכפתור <strong>"Save Changes"</strong> בתחתית הדף</p>
+            <p style="color: #ef4444; font-weight: 600;">
+                ⚠️ חשוב! אם לא תשמור - השינויים לא יחולו!
+            </p>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step">
+            <span class="step-number">6</span>
+            <h3>וודא שהאפליקציה במצב Live</h3>
+            <p>בפינה השמאלית העליונה של הדף, תראה Toggle:</p>
+            <ul>
+                <li><strong>Development</strong> = אדום/כתום</li>
+                <li><strong>Live</strong> = ירוק</li>
+            </ul>
+            <p>אם האפליקציה במצב <strong>Development</strong>, רק מנהלי האפליקציה יוכלו להתחבר.</p>
+            <p>כדי לאפשר לכולם - החלף ל-<strong>Live</strong></p>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="step">
+            <span class="step-number">7</span>
+            <h3>בדוק שהכל עובד</h3>
+            <p>חזור לדף ההרשמה של STORIT ונסה שוב:</p>
+            <a href="signup.html" class="link">signup.html</a>
+            <p style="margin-top: 12px;">צור חשבון חדש ולחץ על "חבר Instagram"</p>
+        </div>
+
+        <div class="success-box">
+            <h2>✅ סיימת!</h2>
+            <p>
+                אם עקבת אחרי כל השלבים, חיבור ה-Instagram צריך לעבוד בצורה מושלמת.
+                <br><br>
+                אם עדיין יש בעיה - שלח לי צילום מסך של דף ההגדרות ב-Facebook Developers.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 32px; padding-top: 32px; border-top: 2px solid #e2e8f0;">
+            <a href="signup.html" class="link">← חזור לדף ההרשמה</a>
+        </div>
+    </div>
+
+    <script>
+        function copyRedirectUri() {
+            const uri = document.getElementById('redirectUri').textContent;
+            navigator.clipboard.writeText(uri).then(() => {
+                const btn = event.target;
+                btn.textContent = '✅ הועתק!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = '📋 העתק כתובת';
+                    btn.style.background = '#667eea';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
