@@ -23,6 +23,7 @@
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.4);
             --gradient-primary: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            --gradient-instagram: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737);
             --error-color: #ff4757;
             --success-color: #2ed573;
         }
@@ -390,6 +391,35 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        .btn-instagram {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-instagram);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Heebo', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(131, 58, 180, 0.4);
+        }
+
+        .btn-instagram:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(131, 58, 180, 0.5);
+        }
+
+        .btn-instagram:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .spinner {
             width: 20px;
             height: 20px;
@@ -503,6 +533,88 @@
         .success-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 40px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Instagram Connect Section */
+        .instagram-connect-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .instagram-connect-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instagram-info-box {
+            background: rgba(131, 58, 180, 0.1);
+            border: 1px solid rgba(131, 58, 180, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instagram-info-box p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .instagram-info-box strong {
+            color: var(--text-primary);
+        }
+
+        .instagram-steps {
+            margin: 16px 0;
+        }
+
+        .instagram-steps .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .instagram-steps .step-num {
+            background: rgba(131, 58, 180, 0.3);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .instagram-note {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .skip-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .skip-link:hover {
+            color: var(--text-secondary);
         }
 
         /* Responsive */
@@ -731,19 +843,65 @@
                 </div>
             </div>
 
-            <!-- Success View -->
+            <!-- Success View with Instagram Connect -->
             <div class="success-view" id="successView">
                 <div class="success-icon">🎉</div>
                 <h2 class="success-title">החשבון נוצר בהצלחה!</h2>
                 <p class="success-subtitle">
                     ברוכים הבאים ל-STORIT!
                     <br>
-                    החשבון שלכם מוכן ואתם יכולים להתחיל לקבל סטוריז.
+                    עכשיו בואו נחבר את חשבון Instagram שלכם.
                 </p>
-                <a href="admin.html" class="success-btn">
-                    <span>🚀</span>
-                    <span>כניסה לדשבורד</span>
-                </a>
+
+                <!-- Instagram Connect Section -->
+                <div class="instagram-connect-section">
+                    <h3 class="instagram-connect-title">
+                        📸 חיבור Instagram (מומלץ)
+                    </h3>
+
+                    <div class="instagram-info-box">
+                        <p>
+                            <strong>📌 חשוב לדעת:</strong><br>
+                            אנחנו <strong>לא</strong> שומרים את שם המשתמש והסיסמה שלך.
+                        </p>
+                        
+                        <div class="instagram-steps">
+                            <div class="step">
+                                <span class="step-num">1</span>
+                                <span>תלחץ על "חבר Instagram"</span>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">2</span>
+                                <span>תועבר לדף Facebook מאובטח</span>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">3</span>
+                                <span>תאשר שהאפליקציה יכולה לראות סטוריז שמתייגים אותך</span>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">4</span>
+                                <span>תחזור אלינו - והכל מוכן!</span>
+                            </div>
+                        </div>
+
+                        <p style="margin-top: 16px;">
+                            <strong>🔒 זה בטוח ומוגן לחלוטין על ידי Facebook.</strong>
+                        </p>
+                    </div>
+
+                    <button class="btn-instagram" id="connectInstagramBtn" onclick="connectInstagram()">
+                        <span>📸</span>
+                        <span>חבר את חשבון Instagram שלי</span>
+                    </button>
+
+                    <p class="instagram-note">
+                        * חייב להיות חשבון Instagram Business מחובר לדף Facebook
+                    </p>
+
+                    <span class="skip-link" onclick="skipInstagramConnect()">
+                        דלג לעכשיו →
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -757,7 +915,13 @@
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        // Facebook OAuth settings
+        const FB_APP_ID = '2700329290344167';
+        const REDIRECT_URI = 'https://story-seven-psi.vercel.app/oauth-callback.html';
+        const SCOPES = 'instagram_basic,instagram_manage_insights,pages_read_engagement,pages_show_list';
+
         let currentStep = 1;
+        let createdBusinessId = null;
 
         // Toggle password
         function togglePassword(inputId, button) {
@@ -876,6 +1040,39 @@
             return 'biz_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
         }
 
+        // Connect Instagram
+        function connectInstagram() {
+            const businessId = createdBusinessId || localStorage.getItem('loggedInBusinessId');
+            
+            if (!businessId) {
+                alert('שגיאה: לא נמצא מזהה עסק. נא ליצור חשבון תחילה.');
+                return;
+            }
+            
+            const btn = document.getElementById('connectInstagramBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="spinner" style="border-color: rgba(255,255,255,0.3); border-top-color: white;"></div><span>מכין...</span>';
+            
+            // Build OAuth URL
+            const authUrl = 
+                `https://www.facebook.com/v18.0/dialog/oauth?` +
+                `client_id=${FB_APP_ID}` +
+                `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+                `&scope=${SCOPES}` +
+                `&state=${businessId}` +
+                `&response_type=code`;
+            
+            console.log('Redirecting to Facebook OAuth:', authUrl);
+            
+            // Redirect to Facebook
+            window.location.href = authUrl;
+        }
+
+        // Skip Instagram connect
+        function skipInstagramConnect() {
+            window.location.href = 'admin.html';
+        }
+
         // Form submit
         document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -918,14 +1115,14 @@
                 // Hash password
                 const passwordHash = await hashPassword(password);
 
-                // Create business - using admin_email (not email) based on actual DB schema
+                // Create business
                 let insertData = {
                     business_id: businessId,
                     business_name: businessName,
                     instagram_handle: instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle,
                     category: category,
                     location: location,
-                    admin_email: email,  // Column is called admin_email, not email
+                    admin_email: email,
                     password_hash: passwordHash,
                     status: 'active'
                 };
@@ -940,13 +1137,16 @@
 
                 console.log('✅ Business created:', data);
 
+                // Save business ID for Instagram connect
+                createdBusinessId = businessId;
+
                 // Save to localStorage for auto-login
                 localStorage.setItem('loggedInBusinessId', businessId);
                 localStorage.setItem('loggedInBusinessName', businessName);
                 localStorage.setItem('loggedInInstagram', instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle);
                 localStorage.setItem('loggedInEmail', email);
 
-                // Show success
+                // Show success with Instagram connect
                 document.getElementById('formContent').style.display = 'none';
                 document.getElementById('successView').style.display = 'block';
 
