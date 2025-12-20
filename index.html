@@ -639,6 +639,12 @@
             from { opacity: 1; transform: translateX(-50%) translateY(0); }
             to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         }
+
+        /* Selected business highlight */
+        .business-item.selected {
+            background: rgba(16, 185, 129, 0.4);
+            border-color: #10b981;
+        }
     </style>
 </head>
 <body>
@@ -778,6 +784,12 @@
     <script>
         console.log('✅ Script loaded!');
 
+        // ===== INITIALIZE SUPABASE FIRST! =====
+        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized!');
+
         // ===== Business List Management =====
         let allBusinesses = [];
         let selectedBusinessData = null;
@@ -800,6 +812,7 @@
         async function loadBusinesses() {
             console.log('📥 Loading businesses...');
             const listContainer = document.getElementById('businessList');
+            listContainer.innerHTML = '<div class="loading-businesses">⏳ טוען עסקים...</div>';
             
             try {
                 // טעינת רשימת עסקים מ-Supabase
@@ -808,7 +821,12 @@
                     .select('business_id, business_name, instagram_handle, location, category, status')
                     .eq('status', 'active');
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('❌ Supabase error:', error);
+                    throw error;
+                }
+                
+                console.log('📦 Raw data from Supabase:', businesses);
                 
                 // המרה לפורמט הישן
                 allBusinesses = (businesses || []).map(b => ({
@@ -821,11 +839,16 @@
                 
                 console.log('✅ Loaded businesses:', allBusinesses);
                 
-                // לא מציגים כלום בהתחלה - רק אחרי חיפוש
+                // הצג הודעה שאפשר לחפש
+                if (allBusinesses.length > 0) {
+                    listContainer.innerHTML = '<div class="loading-businesses">🔍 הקלד שם עסק לחיפוש...</div>';
+                } else {
+                    listContainer.innerHTML = '<div class="loading-businesses">😔 אין עסקים זמינים כרגע</div>';
+                }
                 
             } catch (error) {
                 console.error('❌ Error loading businesses:', error);
-                listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
+                listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים. נסה לרענן את הדף.</div>';
             }
         }
 
@@ -834,13 +857,16 @@
             listContainer.innerHTML = '';
             
             if (businesses.length === 0) {
-                listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
+                listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים מתאימים</div>';
                 return;
             }
             
             businesses.forEach(business => {
                 const item = document.createElement('div');
                 item.className = 'business-item';
+                if (selectedBusinessData && selectedBusinessData.businessId === business.businessId) {
+                    item.classList.add('selected');
+                }
                 item.onclick = () => selectBusiness(business);
                 
                 item.innerHTML = `
@@ -858,9 +884,11 @@
         function filterBusinesses() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             
-            // אם אין חיפוש, לא מציגים כלום
+            // אם אין חיפוש, הצג הודעה
             if (searchTerm.length === 0) {
-                document.getElementById('businessList').innerHTML = '';
+                if (allBusinesses.length > 0) {
+                    document.getElementById('businessList').innerHTML = '<div class="loading-businesses">🔍 הקלד שם עסק לחיפוש...</div>';
+                }
                 return;
             }
             
@@ -886,7 +914,12 @@
             const username = business.instagramHandle.replace('@', '');
             navigator.clipboard.writeText(username).then(() => {
                 console.log('📋 Copied to clipboard:', username);
+            }).catch(err => {
+                console.log('📋 Clipboard error (normal on some devices):', err);
             });
+            
+            // עדכון תצוגת הרשימה עם הסימון
+            filterBusinesses();
             
             // הפעלת כפתור submit
             document.getElementById('submitBtn').disabled = false;
@@ -952,12 +985,6 @@
                 alert('שגיאה בהעתקה. נסה שוב.');
             });
         }
-
-        // Initialize Supabase
-        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized!');
 
         async function submitToSupabase(username, followers, businessId) {
             console.log('📤 Sending to Supabase...', {username, followers, businessId});
