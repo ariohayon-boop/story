@@ -31,6 +31,7 @@
             margin: 0;
         }
 
+        /* Background container - ALWAYS VISIBLE */
         .background-container {
             position: fixed;
             top: 0;
@@ -40,6 +41,7 @@
             z-index: -2;
         }
 
+        /* Animated background images */
         .background-image {
             position: absolute;
             top: 0;
@@ -62,6 +64,7 @@
         .background-image:nth-child(3) { background-image: url('bar-bg3.jpg'); }
         .background-image:nth-child(4) { background-image: url('bar-bg4.jpg'); }
 
+        /* Dark overlay for better text readability */
         .background-overlay {
             position: fixed;
             top: 0;
@@ -72,6 +75,7 @@
             z-index: -1;
         }
 
+        /* Content wrapper */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -79,11 +83,13 @@
             min-height: 100vh;
         }
 
+        /* Page container */
         .page-wrapper {
             max-width: 480px;
             margin: 0 auto;
         }
 
+        /* Glass card - COMPATIBLE VERSION */
         .content-card {
             background: rgba(255, 255, 255, 0.2);
             padding: 32px 24px;
@@ -95,6 +101,7 @@
             overflow: hidden;
         }
 
+        /* Pseudo-element for blur effect */
         .content-card::before {
             content: '';
             position: absolute;
@@ -108,6 +115,7 @@
             opacity: 0.8;
         }
 
+        /* Typography - WHITE for visibility */
         h1 {
             font-size: 38px;
             font-weight: 800;
@@ -131,6 +139,7 @@
             z-index: 2;
         }
 
+        /* Three-step layout */
         .steps-container {
             margin-bottom: 50px;
             position: relative;
@@ -190,6 +199,27 @@
             line-height: 1.5;
         }
 
+        /* Highlight box */
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 50px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            z-index: 2;
+        }
+
+        .highlight-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Scroll arrow */
         .scroll-arrow {
             display: flex;
             justify-content: center;
@@ -209,11 +239,87 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
+        /* Location/tag section */
+        .location-tag-box {
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 14px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .location-label-small {
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .copy-btn-small {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Rubik', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .copy-btn-small:active {
+            transform: scale(0.95);
+        }
+
+        .copy-btn-small svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .copy-success-small {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .copy-success-small.show {
+            opacity: 1;
+        }
+
+        /* Business Search Section */
         .business-search-section {
             border: 2px solid rgba(255, 255, 255, 0.4);
             padding: 16px;
@@ -279,11 +385,6 @@
             margin-bottom: 0;
         }
 
-        .business-item.selected {
-            background: rgba(16, 185, 129, 0.4);
-            border-color: #10b981;
-        }
-
         .business-name {
             color: white;
             font-weight: 700;
@@ -308,6 +409,7 @@
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
         }
 
+        /* Form elements */
         .form-group {
             margin-bottom: 16px;
             position: relative;
@@ -337,6 +439,7 @@
             color: #94a3b8;
         }
 
+        /* Primary CTA button */
         .submit-btn {
             width: 100%;
             background-color: white;
@@ -363,14 +466,42 @@
             cursor: not-allowed;
         }
 
+        /* Mobile responsive */
         @media (max-width: 480px) {
-            .content-wrapper { padding: 12px; }
-            .content-card { padding: 24px 20px; }
-            h1 { font-size: 34px; }
-            h2 { font-size: 20px; }
-            .step { padding: 14px; }
-            .step-number-badge { width: 42px; height: 42px; font-size: 20px; }
-            .submit-btn { font-size: 16px; padding: 14px; }
+            .content-wrapper {
+                padding: 12px;
+            }
+
+            .content-card {
+                padding: 24px 20px;
+            }
+
+            h1 {
+                font-size: 34px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .step {
+                padding: 14px;
+            }
+
+            .step-number-badge {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
+
+            .highlight-text {
+                font-size: 20px;
+            }
+
+            .submit-btn {
+                font-size: 16px;
+                padding: 14px;
+            }
         }
 
         .loading-spinner {
@@ -388,116 +519,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        .upload-section {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 32px 24px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .upload-section h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 16px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-        }
-
-        .upload-instructions {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .upload-box {
-            background: rgba(255, 255, 255, 0.25);
-            border: 2px dashed rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            padding: 30px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .upload-box:hover {
-            background: rgba(255, 255, 255, 0.35);
-            border-color: white;
-        }
-
-        .upload-icon { font-size: 40px; margin-bottom: 12px; }
-        .upload-text { color: white; font-size: 16px; font-weight: 600; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6); }
-        .upload-subtext { color: rgba(255, 255, 255, 0.8); font-size: 13px; margin-top: 8px; }
-
-        #screenshotInput { display: none; }
-
-        .image-preview {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 12px;
-            margin: 16px 0;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .verify-btn {
-            width: 100%;
-            background-color: #10b981;
-            color: white;
-            font-weight: 800;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            font-size: 18px;
-            font-family: 'Rubik', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
-            margin-top: 16px;
-        }
-
-        .verify-btn:hover {
-            background-color: #059669;
-            transform: translateY(-2px);
-        }
-
-        .verify-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .status-message {
-            padding: 16px;
-            border-radius: 12px;
-            margin-top: 16px;
-            font-weight: 600;
-            text-align: center;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .status-loading {
-            background: rgba(59, 130, 246, 0.3);
-            border: 2px solid rgba(59, 130, 246, 0.5);
-            color: white;
-        }
-
-        .status-success {
-            background: rgba(16, 185, 129, 0.3);
-            border: 2px solid rgba(16, 185, 129, 0.5);
-            color: white;
-        }
-
-        .status-pending {
-            background: rgba(245, 158, 11, 0.3);
-            border: 2px solid rgba(245, 158, 11, 0.5);
-            color: white;
-        }
-
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -510,6 +531,7 @@
     </style>
 </head>
 <body>
+    <!-- Background container -->
     <div class="background-container">
         <div class="background-image active"></div>
         <div class="background-image"></div>
@@ -518,8 +540,10 @@
     </div>
     <div class="background-overlay"></div>
 
+    <!-- Content -->
     <div class="content-wrapper">
         <div class="page-wrapper">
+            <!-- Hero Section - NO CARD! -->
             <div style="text-align: center; margin-bottom: 30px;">
                 <div style="color: white; font-size: 40px; font-weight: 800; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); letter-spacing: 2px; margin-bottom: 10px;">STORIT</div>
                 <h1 style="margin-bottom: 0;">סטורי = בירה 🍺</h1>
@@ -545,14 +569,6 @@
                 <div class="step">
                     <div class="step-number-badge">3</div>
                     <div class="step-content">
-                        <div class="step-title">צלמו מסך</div>
-                        <div class="step-desc">העלו צילום מסך של הסטורי</div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number-badge">4</div>
-                    <div class="step-content">
                         <div class="step-title">קבלו מתנה!</div>
                         <div class="step-desc">הראו למלצר וקבלו בירה בחינם</div>
                     </div>
@@ -565,87 +581,81 @@
                 </svg>
             </div>
 
+            <!-- Form Section Card -->
             <div class="content-card" id="form">
                 <h2>מלאו כדי לעבור לסטורי</h2>
                 
                 <form id="mainForm">
                     <div class="form-group">
-                        <input type="text" id="username" class="form-input" placeholder="@yourusername" required>
+                        <input 
+                            type="text" 
+                            id="username"
+                            class="form-input" 
+                            placeholder="@yourusername"
+                            required
+                        >
                     </div>
 
                     <div class="form-group">
-                        <input type="number" id="followers" class="form-input" placeholder="מספר עוקבים" required>
+                        <input 
+                            type="number" 
+                            id="followers"
+                            class="form-input" 
+                            placeholder="מספר עוקבים"
+                            required
+                        >
                     </div>
 
                     <div class="business-search-section">
                         <div class="search-label">🔍 בחר את העסק שאתה רוצה לתייג:</div>
-                        <input type="text" id="searchInput" class="search-input" placeholder="חפש עסק לפי שם...">
+                        
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input"
+                            placeholder="חפש עסק לפי שם..."
+                            oninput="filterBusinesses()"
+                        >
+
                         <div class="business-list" id="businessList">
+                            <!-- כאן יופיעו העסקים -->
                             <div class="loading-businesses">⏳ טוען עסקים...</div>
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn" id="submitBtn" disabled>בחר עסק תחילה</button>
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                        בחר עסק תחילה
+                    </button>
                 </form>
-            </div>
-
-            <div class="upload-section" id="uploadSection" style="display: none;">
-                <h2>📸 העלו צילום מסך</h2>
-                <div class="upload-instructions">
-                    ✓ צלמו מסך של הסטורי שהעליתם<br>
-                    ✓ ודאו שהתיוג של העסק נראה בבירור
-                </div>
-
-                <div class="upload-box" id="uploadBox" onclick="document.getElementById('screenshotInput').click()">
-                    <div class="upload-icon">📤</div>
-                    <div class="upload-text">לחצו להעלאת תמונה</div>
-                    <div class="upload-subtext">או גררו תמונה לכאן</div>
-                </div>
-
-                <input type="file" id="screenshotInput" accept="image/*">
-
-                <div id="previewContainer" style="display: none;">
-                    <img id="imagePreview" class="image-preview" alt="Preview">
-                    <button class="verify-btn" id="verifyBtn">✓ אמת את הסטורי</button>
-                </div>
-
-                <div id="statusMessage" style="display: none;"></div>
             </div>
 
         </div>
     </div>
 
     <script>
-        // ===== SUPABASE INIT =====
-        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
-        const VERIFY_FUNCTION_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co/functions/v1/verify-story';
-        
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized!');
+        console.log('✅ Script loaded!');
 
-        // ===== GLOBAL VARIABLES =====
+        // ===== Business List Management =====
         let allBusinesses = [];
         let selectedBusinessData = null;
-        let currentSubmissionId = localStorage.getItem('currentSubmissionId') || null;
-        let uploadedImageBase64 = null;
 
-        // ===== LOAD BUSINESSES =====
+        // Load businesses on page load
+        window.addEventListener('load', loadBusinesses);
+
         async function loadBusinesses() {
             console.log('📥 Loading businesses...');
             const listContainer = document.getElementById('businessList');
-            listContainer.innerHTML = '<div class="loading-businesses">⏳ טוען עסקים...</div>';
             
             try {
-                const { data: businesses, error } = await supabaseClient
+                // טעינת רשימת עסקים מ-Supabase
+                const { data: businesses, error } = await supabase
                     .from('businesses')
                     .select('business_id, business_name, instagram_handle, location, category, status')
                     .eq('status', 'active');
                 
                 if (error) throw error;
                 
-                console.log('📦 Raw data:', businesses);
-                
+                // המרה לפורמט הישן
                 allBusinesses = (businesses || []).map(b => ({
                     businessId: b.business_id,
                     businessName: b.business_name,
@@ -656,98 +666,107 @@
                 
                 console.log('✅ Loaded businesses:', allBusinesses);
                 
-                if (allBusinesses.length > 0) {
-                    listContainer.innerHTML = '<div class="loading-businesses">🔍 הקלד שם עסק לחיפוש...</div>';
-                } else {
-                    listContainer.innerHTML = '<div class="loading-businesses">😔 אין עסקים זמינים כרגע</div>';
-                }
+                // לא מציגים כלום בהתחלה - רק אחרי חיפוש
                 
             } catch (error) {
-                console.error('❌ Error:', error);
-                listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינה. רענן את הדף.</div>';
+                console.error('❌ Error loading businesses:', error);
+                listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
             }
         }
 
-        // ===== DISPLAY BUSINESSES =====
         function displayBusinesses(businesses) {
             const listContainer = document.getElementById('businessList');
             listContainer.innerHTML = '';
             
             if (businesses.length === 0) {
-                listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים מתאימים</div>';
+                listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
                 return;
             }
             
             businesses.forEach(business => {
                 const item = document.createElement('div');
                 item.className = 'business-item';
-                if (selectedBusinessData && selectedBusinessData.businessId === business.businessId) {
-                    item.classList.add('selected');
-                }
-                item.onclick = function() { selectBusiness(business); };
+                item.onclick = () => selectBusiness(business);
                 
-                item.innerHTML = '<div class="business-name">' + business.businessName + '</div>' +
-                    '<div class="business-meta">' +
-                    '<span>📍 ' + business.location + '</span>' +
-                    '<span>📱 ' + business.instagramHandle + '</span>' +
-                    '</div>';
+                item.innerHTML = `
+                    <div class="business-name">${business.businessName}</div>
+                    <div class="business-meta">
+                        <span>📍 ${business.location}</span>
+                        <span>📱 ${business.instagramHandle}</span>
+                    </div>
+                `;
                 
                 listContainer.appendChild(item);
             });
         }
 
-        // ===== FILTER BUSINESSES =====
         function filterBusinesses() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             
+            // אם אין חיפוש, לא מציגים כלום
             if (searchTerm.length === 0) {
-                if (allBusinesses.length > 0) {
-                    document.getElementById('businessList').innerHTML = '<div class="loading-businesses">🔍 הקלד שם עסק לחיפוש...</div>';
-                }
+                document.getElementById('businessList').innerHTML = '';
                 return;
             }
             
-            const filtered = allBusinesses.filter(function(business) {
-                return business.businessName.toLowerCase().includes(searchTerm) ||
-                    business.location.toLowerCase().includes(searchTerm) ||
-                    business.category.toLowerCase().includes(searchTerm) ||
-                    business.instagramHandle.toLowerCase().includes(searchTerm);
-            });
+            const filtered = allBusinesses.filter(business => 
+                business.businessName.toLowerCase().includes(searchTerm) ||
+                business.location.toLowerCase().includes(searchTerm) ||
+                business.category.toLowerCase().includes(searchTerm) ||
+                business.instagramHandle.toLowerCase().includes(searchTerm)
+            );
             
             displayBusinesses(filtered);
         }
 
-        // ===== SELECT BUSINESS =====
         function selectBusiness(business) {
             console.log('✅ Selected:', business);
+            
             selectedBusinessData = business;
+            
+            // שמירה ב-localStorage
             localStorage.setItem('selectedBusiness', JSON.stringify(business));
             
+            // העתקת היוזר לקליפבורד (ללא @)
             const username = business.instagramHandle.replace('@', '');
-            navigator.clipboard.writeText(username).catch(function() {});
+            navigator.clipboard.writeText(username).then(() => {
+                console.log('📋 Copied to clipboard:', username);
+            });
             
-            filterBusinesses();
-            
+            // הפעלת כפתור submit
             document.getElementById('submitBtn').disabled = false;
-            document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✓';
+            document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✔';
             
-            showNotification('✓ ' + business.businessName + ' - ' + username + ' הועתק!');
+            // הצגת הודעה
+            showNotification(`✔ ${business.businessName} - ${username} הועתק!`);
         }
 
-        // ===== SHOW NOTIFICATION =====
         function showNotification(message) {
             const notification = document.createElement('div');
-            notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#10b981;color:white;padding:14px 24px;border-radius:10px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.3);animation:slideIn 0.3s ease;';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #10b981;
+                color: white;
+                padding: 14px 24px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 9999;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease;
+            `;
             notification.textContent = message;
             document.body.appendChild(notification);
             
-            setTimeout(function() {
+            setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(function() { notification.remove(); }, 300);
+                setTimeout(() => notification.remove(), 300);
             }, 2000);
         }
 
-        // ===== BACKGROUND ROTATION =====
+        // ===== Background image rotation =====
         let currentBg = 0;
         const backgrounds = document.querySelectorAll('.background-image');
         
@@ -756,19 +775,40 @@
             currentBg = (currentBg + 1) % backgrounds.length;
             backgrounds[currentBg].classList.add('active');
         }
+        
+        // Change background every 5 seconds
         setInterval(rotateBackground, 5000);
 
-        // ===== SCROLL TO FORM =====
         function scrollToForm() {
             document.getElementById('form').scrollIntoView({behavior: 'smooth'});
         }
 
-        // ===== SUBMIT TO SUPABASE =====
+        function copyLocation() {
+            const locationText = document.getElementById('locationText').textContent;
+            const copySuccess = document.getElementById('copySuccess');
+            
+            navigator.clipboard.writeText(locationText).then(function() {
+                copySuccess.classList.add('show');
+                setTimeout(function() {
+                    copySuccess.classList.remove('show');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Copy error:', err);
+                alert('שגיאה בהעתקה. נסה שוב.');
+            });
+        }
+
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized!');
+
         async function submitToSupabase(username, followers, businessId) {
-            console.log('📤 Sending to Supabase...');
+            console.log('📤 Sending to Supabase...', {username, followers, businessId});
             
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('submissions')
                     .insert([{
                         business_id: businessId,
@@ -783,180 +823,91 @@
                 
                 if (error) throw error;
                 
-                console.log('✅ Saved:', data);
-                currentSubmissionId = data.id;
+                console.log('✅ Data saved to Supabase:', data);
                 return data;
             } catch (error) {
-                console.error('❌ Error:', error);
+                console.error('❌ Error sending to Supabase:', error);
                 return null;
             }
         }
 
-        // ===== HANDLE IMAGE UPLOAD =====
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        function saveToLocalStorage(username, followers) {
+            console.log('💾 Saving to Local Storage...', {username, followers});
             
-            if (file.size > 5 * 1024 * 1024) {
-                alert('התמונה גדולה מדי. מקסימום 5MB.');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedImageBase64 = e.target.result;
-                document.getElementById('imagePreview').src = uploadedImageBase64;
-                document.getElementById('previewContainer').style.display = 'block';
-                document.getElementById('uploadBox').style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ===== VERIFY SCREENSHOT =====
-        async function verifyScreenshot() {
-            if (!uploadedImageBase64) {
-                alert('נא להעלות תמונה קודם');
-                return;
-            }
-            
-            const verifyBtn = document.getElementById('verifyBtn');
-            const statusMessage = document.getElementById('statusMessage');
-            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-            
-            verifyBtn.disabled = true;
-            verifyBtn.textContent = 'בודק...';
-            
-            statusMessage.style.display = 'block';
-            statusMessage.className = 'status-message status-loading';
-            statusMessage.innerHTML = '🔍 הבינה המלאכותית בודקת את התמונה...';
+            const timestamp = new Date().toLocaleString('he-IL', {
+                timeZone: 'Asia/Jerusalem'
+            });
             
             try {
-                const response = await fetch(VERIFY_FUNCTION_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
-                    },
-                    body: JSON.stringify({
-                        imageBase64: uploadedImageBase64.split(',')[1],
-                        businessHandle: currentUser.instagramHandle,
-                        submissionId: currentSubmissionId
-                    })
+                let submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+                
+                submissions.push({
+                    timestamp: timestamp,
+                    username: username,
+                    followers: followers,
+                    id: Date.now()
                 });
                 
-                const result = await response.json();
-                console.log('Verification result:', result);
-                
-                if (currentSubmissionId) {
-                    await supabaseClient
-                        .from('submissions')
-                        .update({
-                            status: result.status || 'manual_review',
-                            ai_confidence: result.confidence || 0,
-                            verified_at: result.verified ? new Date().toISOString() : null
-                        })
-                        .eq('id', currentSubmissionId);
-                }
-                
-                if (result.verified) {
-                    statusMessage.className = 'status-message status-success';
-                    statusMessage.innerHTML = '🎉 מאושר! הראה את המסך הזה למלצר וקבל את הפרס שלך!';
-                    localStorage.removeItem('currentSubmissionId');
-                } else {
-                    statusMessage.className = 'status-message status-pending';
-                    statusMessage.innerHTML = '⏳ התמונה נשלחה לבדיקה. הראה את המסך הזה למלצר.';
-                }
-                verifyBtn.style.display = 'none';
-                
+                localStorage.setItem('submissions', JSON.stringify(submissions));
+                console.log('✅ Data saved to Local Storage:', submissions);
+                return true;
             } catch (error) {
-                console.error('Verification error:', error);
-                statusMessage.className = 'status-message status-pending';
-                statusMessage.innerHTML = '⏳ התמונה נשלחה לבדיקה. הראה את המסך הזה למלצר.';
-                verifyBtn.style.display = 'none';
+                console.error('❌ Error saving to Local Storage:', error);
+                return false;
             }
         }
 
-        // ===== EVENT LISTENERS =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load businesses
-            loadBusinesses();
+        document.getElementById('mainForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('🎯 Form submitted!');
             
-            // Search input
-            document.getElementById('searchInput').addEventListener('input', filterBusinesses);
+            const submitBtn = document.getElementById('submitBtn');
+            const usernameInput = document.getElementById('username');
+            const followersInput = document.getElementById('followers');
             
-            // Screenshot input
-            document.getElementById('screenshotInput').addEventListener('change', handleImageUpload);
+            const username = usernameInput.value.trim();
+            const followers = parseInt(followersInput.value);
             
-            // Verify button
-            document.getElementById('verifyBtn').addEventListener('click', verifyScreenshot);
+            // בדיקה שנבחר עסק
+            if (!selectedBusinessData) {
+                alert('נא לבחור עסק תחילה!');
+                return;
+            }
             
-            // Form submit
-            document.getElementById('mainForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const submitBtn = document.getElementById('submitBtn');
-                const username = document.getElementById('username').value.trim();
-                const followers = parseInt(document.getElementById('followers').value);
-                
-                if (!selectedBusinessData) {
-                    alert('נא לבחור עסק תחילה!');
-                    return;
-                }
-                
-                if (followers < 400) {
-                    alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
-                    return;
-                }
-                
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'שומר...';
-                
-                localStorage.setItem('currentUser', JSON.stringify({
-                    username: username,
-                    followers: followers,
-                    businessId: selectedBusinessData.businessId,
-                    businessName: selectedBusinessData.businessName,
-                    instagramHandle: selectedBusinessData.instagramHandle
-                }));
-                
-                const savedData = await submitToSupabase(username, followers, selectedBusinessData.businessId);
-                
-                if (savedData && savedData.id) {
-                    localStorage.setItem('currentSubmissionId', savedData.id);
-                }
-                
-                window.location.href = 'instagram://story-camera';
-                
-                setTimeout(function() {
-                    document.getElementById('uploadSection').style.display = 'block';
-                    document.getElementById('uploadSection').scrollIntoView({behavior: 'smooth'});
-                    submitBtn.textContent = 'פתח שוב את אינסטגרם';
-                    submitBtn.disabled = false;
-                    submitBtn.onclick = function() { window.location.href = 'instagram://story-camera'; };
-                }, 3000);
-            });
+            console.log('Username:', username);
+            console.log('Followers:', followers);
+            console.log('Selected Business:', selectedBusinessData);
             
-            // Drag and drop
-            const uploadBox = document.getElementById('uploadBox');
-            uploadBox.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                uploadBox.style.background = 'rgba(255, 255, 255, 0.35)';
-            });
-            uploadBox.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                uploadBox.style.background = 'rgba(255, 255, 255, 0.25)';
-            });
-            uploadBox.addEventListener('drop', function(e) {
-                e.preventDefault();
-                uploadBox.style.background = 'rgba(255, 255, 255, 0.25)';
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    handleImageUpload({ target: { files: [file] } });
-                }
-            });
+            if (followers < 400) {
+                alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'שומר...';
+            
+            // שמירת הפרטים למשתמש מאוחר יותר (כולל businessId!)
+            localStorage.setItem('currentUser', JSON.stringify({
+                username, 
+                followers,
+                businessId: selectedBusinessData.businessId,
+                businessName: selectedBusinessData.businessName,
+                instagramHandle: selectedBusinessData.instagramHandle
+            }));
+            
+            // שמור ב-Supabase
+            await submitToSupabase(username, followers, selectedBusinessData.businessId);
+            
+            saveToLocalStorage(username, followers);
+            
+            // פתח אינסטגרם מיד!
+            console.log('📱 Opening Instagram immediately...');
+            window.location.href = 'instagram://story-camera';
+            
+            console.log('✅ All done!');
         });
 
-        console.log('✅ Script v2.0 loaded!');
+        console.log('✅ All functions loaded successfully!');
     </script>
 </body>
 </html>
