@@ -139,84 +139,38 @@
             z-index: 2;
         }
 
-        /* Three-step layout */
-        .steps-container {
+        /* NEW Steps Box Design */
+        .steps-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 28px 24px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             margin-bottom: 20px;
+            text-align: center;
             position: relative;
             z-index: 2;
         }
 
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 18px;
-            margin-bottom: 16px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .step:active {
-            transform: scale(0.98);
-        }
-
-        .step-number-badge {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 800;
-            color: #1e293b;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .step-content {
-            flex: 1;
-            text-align: right;
-        }
-
-        .step-title {
-            font-size: 17px;
+        .step-text {
+            font-size: 18px;
             font-weight: 700;
             color: white;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-            line-height: 1.4;
-        }
-
-        .step-desc {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.95);
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
             line-height: 1.5;
         }
 
-        /* Highlight box */
-        .highlight-box {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 24px;
-            border-radius: 16px;
-            text-align: center;
-            margin-bottom: 50px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            position: relative;
-            z-index: 2;
+        .step-arrow {
+            font-size: 28px;
+            margin: 12px 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
         }
 
-        .highlight-text {
-            color: white;
-            font-size: 24px;
+        .step-reward {
+            font-size: 20px;
             font-weight: 800;
-            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
         }
 
         /* Scroll arrow - reduced margin */
@@ -248,75 +202,6 @@
             60% {
                 transform: translateY(-5px);
             }
-        }
-
-        /* Location/tag section */
-        .location-tag-box {
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 14px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        .location-label-small {
-            font-size: 14px;
-            color: white;
-            font-weight: 600;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .copy-btn-small {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: white;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Rubik', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1e293b;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .copy-btn-small:active {
-            transform: scale(0.95);
-        }
-
-        .copy-btn-small svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .copy-success-small {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #10b981;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .copy-success-small.show {
-            opacity: 1;
         }
 
         /* Business Search Section */
@@ -484,18 +369,16 @@
                 font-size: 20px;
             }
 
-            .step {
-                padding: 14px;
+            .steps-box {
+                padding: 24px 20px;
             }
 
-            .step-number-badge {
-                width: 42px;
-                height: 42px;
-                font-size: 20px;
+            .step-text {
+                font-size: 16px;
             }
 
-            .highlight-text {
-                font-size: 20px;
+            .step-reward {
+                font-size: 18px;
             }
 
             .submit-btn {
@@ -543,36 +426,19 @@
     <!-- Content -->
     <div class="content-wrapper">
         <div class="page-wrapper">
-            <!-- Hero Section - NO CARD! -->
+            <!-- Hero Section -->
             <div style="text-align: center; margin-bottom: 30px;">
                 <div style="color: white; font-size: 40px; font-weight: 800; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); letter-spacing: 2px; margin-bottom: 10px;">STORIT</div>
                 <h1 style="margin-bottom: 0;">סטורי = בירה 🍺</h1>
             </div>
 
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number-badge">1</div>
-                    <div class="step-content">
-                        <div class="step-title">מצלמים את החוויה במקום</div>
-                        <div class="step-desc">תפסו את הרגע המושלם</div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number-badge">2</div>
-                    <div class="step-content">
-                        <div class="step-title">מעלים לאינסטגרם ומתייגים אותנו</div>
-                        <div class="step-desc">שתפו את החוויה שלכם</div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number-badge">3</div>
-                    <div class="step-content">
-                        <div class="step-title">קבלו מתנה!</div>
-                        <div class="step-desc">הראו למלצר וקבלו בירה בחינם</div>
-                    </div>
-                </div>
+            <!-- NEW Steps Box -->
+            <div class="steps-box">
+                <div class="step-text">העלו סטורי של המקום עם תיוג</div>
+                <div class="step-arrow">⬇️</div>
+                <div class="step-text">הראו למלצר</div>
+                <div class="step-arrow">⬇️</div>
+                <div class="step-reward">🍺 קבלו בירה / קינוח לבחירתכם!</div>
             </div>
 
             <div class="scroll-arrow" onclick="scrollToForm()">
@@ -614,11 +480,9 @@
                             id="searchInput" 
                             class="search-input"
                             placeholder="חפש עסק לפי שם..."
-                            oninput="filterBusinesses()"
                         >
 
                         <div class="business-list" id="businessList">
-                            <!-- כאן יופיעו העסקים -->
                             <div class="loading-businesses">⏳ טוען עסקים...</div>
                         </div>
                     </div>
@@ -633,282 +497,262 @@
     </div>
 
     <script>
-        console.log('✅ Script loaded!');
-
-        // ===== IMPORTANT: Initialize Supabase FIRST! =====
-        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized!');
-
-        // ===== Business List Management =====
-        let allBusinesses = [];
-        let selectedBusinessData = null;
-
-        // Load businesses on page load
-        window.addEventListener('load', loadBusinesses);
-
-        async function loadBusinesses() {
-            console.log('📥 Loading businesses...');
-            const listContainer = document.getElementById('businessList');
+        (function() {
+            'use strict';
             
-            try {
-                // טעינת רשימת עסקים מ-Supabase
-                const { data: businesses, error } = await supabase
-                    .from('businesses')
-                    .select('business_id, business_name, instagram_handle, location, category, status')
-                    .eq('status', 'active');
+            console.log('✅ Script loaded!');
+
+            // ===== Initialize Supabase FIRST =====
+            const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+            const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log('✅ Supabase initialized!');
+
+            // ===== Business List Management =====
+            let allBusinesses = [];
+            let selectedBusinessData = null;
+
+            // ===== Define all functions =====
+            
+            async function loadBusinesses() {
+                console.log('📥 Loading businesses...');
+                const listContainer = document.getElementById('businessList');
                 
-                if (error) throw error;
-                
-                // המרה לפורמט הישן
-                allBusinesses = (businesses || []).map(b => ({
-                    businessId: b.business_id,
-                    businessName: b.business_name,
-                    instagramHandle: b.instagram_handle,
-                    location: b.location,
-                    category: b.category
-                }));
-                
-                console.log('✅ Loaded businesses:', allBusinesses);
-                
-                // הצג הודעה שאפשר לחפש
-                listContainer.innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
-                
-            } catch (error) {
-                console.error('❌ Error loading businesses:', error);
-                listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
+                try {
+                    const { data: businesses, error } = await supabaseClient
+                        .from('businesses')
+                        .select('business_id, business_name, instagram_handle, location, category, status')
+                        .eq('status', 'active');
+                    
+                    if (error) throw error;
+                    
+                    allBusinesses = (businesses || []).map(b => ({
+                        businessId: b.business_id,
+                        businessName: b.business_name,
+                        instagramHandle: b.instagram_handle,
+                        location: b.location,
+                        category: b.category
+                    }));
+                    
+                    console.log('✅ Loaded businesses:', allBusinesses);
+                    listContainer.innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
+                    
+                } catch (error) {
+                    console.error('❌ Error loading businesses:', error);
+                    listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
+                }
             }
-        }
 
-        function displayBusinesses(businesses) {
-            const listContainer = document.getElementById('businessList');
-            listContainer.innerHTML = '';
-            
-            if (businesses.length === 0) {
-                listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
-                return;
+            function displayBusinesses(businesses) {
+                const listContainer = document.getElementById('businessList');
+                listContainer.innerHTML = '';
+                
+                if (businesses.length === 0) {
+                    listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
+                    return;
+                }
+                
+                businesses.forEach(business => {
+                    const item = document.createElement('div');
+                    item.className = 'business-item';
+                    item.onclick = () => selectBusiness(business);
+                    
+                    item.innerHTML = `
+                        <div class="business-name">${business.businessName}</div>
+                        <div class="business-meta">
+                            <span>📍 ${business.location}</span>
+                            <span>📱 ${business.instagramHandle}</span>
+                        </div>
+                    `;
+                    
+                    listContainer.appendChild(item);
+                });
             }
-            
-            businesses.forEach(business => {
-                const item = document.createElement('div');
-                item.className = 'business-item';
-                item.onclick = () => selectBusiness(business);
+
+            // Make filterBusinesses global
+            window.filterBusinesses = function() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
                 
-                item.innerHTML = `
-                    <div class="business-name">${business.businessName}</div>
-                    <div class="business-meta">
-                        <span>📍 ${business.location}</span>
-                        <span>📱 ${business.instagramHandle}</span>
-                    </div>
-                `;
+                if (searchTerm.length === 0) {
+                    document.getElementById('businessList').innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
+                    return;
+                }
                 
-                listContainer.appendChild(item);
-            });
-        }
-
-        function filterBusinesses() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            
-            // אם אין חיפוש, הצג הודעה
-            if (searchTerm.length === 0) {
-                document.getElementById('businessList').innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
-                return;
-            }
-            
-            const filtered = allBusinesses.filter(business => 
-                business.businessName.toLowerCase().includes(searchTerm) ||
-                business.location.toLowerCase().includes(searchTerm) ||
-                business.category.toLowerCase().includes(searchTerm) ||
-                business.instagramHandle.toLowerCase().includes(searchTerm)
-            );
-            
-            displayBusinesses(filtered);
-        }
-
-        function selectBusiness(business) {
-            console.log('✅ Selected:', business);
-            
-            selectedBusinessData = business;
-            
-            // שמירה ב-localStorage
-            localStorage.setItem('selectedBusiness', JSON.stringify(business));
-            
-            // העתקת היוזר לקליפבורד (ללא @)
-            const username = business.instagramHandle.replace('@', '');
-            navigator.clipboard.writeText(username).then(() => {
-                console.log('📋 Copied to clipboard:', username);
-            });
-            
-            // הפעלת כפתור submit
-            document.getElementById('submitBtn').disabled = false;
-            document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✔';
-            
-            // הצגת הודעה
-            showNotification(`✔ ${business.businessName} - ${username} הועתק!`);
-        }
-
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: #10b981;
-                color: white;
-                padding: 14px 24px;
-                border-radius: 10px;
-                font-weight: 600;
-                z-index: 9999;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-                animation: slideIn 0.3s ease;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }, 2000);
-        }
-
-        // ===== Background image rotation =====
-        let currentBg = 0;
-        const backgrounds = document.querySelectorAll('.background-image');
-        
-        function rotateBackground() {
-            backgrounds[currentBg].classList.remove('active');
-            currentBg = (currentBg + 1) % backgrounds.length;
-            backgrounds[currentBg].classList.add('active');
-        }
-        
-        // Change background every 5 seconds
-        setInterval(rotateBackground, 5000);
-
-        function scrollToForm() {
-            document.getElementById('form').scrollIntoView({behavior: 'smooth'});
-        }
-
-        function copyLocation() {
-            const locationText = document.getElementById('locationText').textContent;
-            const copySuccess = document.getElementById('copySuccess');
-            
-            navigator.clipboard.writeText(locationText).then(function() {
-                copySuccess.classList.add('show');
-                setTimeout(function() {
-                    copySuccess.classList.remove('show');
-                }, 2000);
-            }).catch(function(err) {
-                console.error('Copy error:', err);
-                alert('שגיאה בהעתקה. נסה שוב.');
-            });
-        }
-
-        async function submitToSupabase(username, followers, businessId) {
-            console.log('📤 Sending to Supabase...', {username, followers, businessId});
-            
-            try {
-                const { data, error } = await supabase
-                    .from('submissions')
-                    .insert([{
-                        business_id: businessId,
-                        username: username,
-                        instagram_followers: parseInt(followers),
-                        status: 'pending',
-                        ai_confidence: 0,
-                        created_at: new Date().toISOString()
-                    }])
-                    .select()
-                    .single();
+                const filtered = allBusinesses.filter(business => 
+                    business.businessName.toLowerCase().includes(searchTerm) ||
+                    business.location.toLowerCase().includes(searchTerm) ||
+                    business.category.toLowerCase().includes(searchTerm) ||
+                    business.instagramHandle.toLowerCase().includes(searchTerm)
+                );
                 
-                if (error) throw error;
-                
-                console.log('✅ Data saved to Supabase:', data);
-                return data;
-            } catch (error) {
-                console.error('❌ Error sending to Supabase:', error);
-                return null;
-            }
-        }
+                displayBusinesses(filtered);
+            };
 
-        function saveToLocalStorage(username, followers) {
-            console.log('💾 Saving to Local Storage...', {username, followers});
-            
-            const timestamp = new Date().toLocaleString('he-IL', {
-                timeZone: 'Asia/Jerusalem'
-            });
-            
-            try {
-                let submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+            function selectBusiness(business) {
+                console.log('✅ Selected:', business);
                 
-                submissions.push({
-                    timestamp: timestamp,
-                    username: username,
-                    followers: followers,
-                    id: Date.now()
+                selectedBusinessData = business;
+                localStorage.setItem('selectedBusiness', JSON.stringify(business));
+                
+                const username = business.instagramHandle.replace('@', '');
+                navigator.clipboard.writeText(username).then(() => {
+                    console.log('📋 Copied to clipboard:', username);
                 });
                 
-                localStorage.setItem('submissions', JSON.stringify(submissions));
-                console.log('✅ Data saved to Local Storage:', submissions);
-                return true;
-            } catch (error) {
-                console.error('❌ Error saving to Local Storage:', error);
-                return false;
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✔';
+                
+                showNotification(`✔ ${business.businessName} - ${username} הועתק!`);
             }
-        }
 
-        document.getElementById('mainForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('🎯 Form submitted!');
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const usernameInput = document.getElementById('username');
-            const followersInput = document.getElementById('followers');
-            
-            const username = usernameInput.value.trim();
-            const followers = parseInt(followersInput.value);
-            
-            // בדיקה שנבחר עסק
-            if (!selectedBusinessData) {
-                alert('נא לבחור עסק תחילה!');
-                return;
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #10b981;
+                    color: white;
+                    padding: 14px 24px;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    z-index: 9999;
+                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+                    animation: slideIn 0.3s ease;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }, 2000);
             }
-            
-            console.log('Username:', username);
-            console.log('Followers:', followers);
-            console.log('Selected Business:', selectedBusinessData);
-            
-            if (followers < 400) {
-                alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
-                return;
-            }
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'שומר...';
-            
-            // שמירת הפרטים למשתמש מאוחר יותר (כולל businessId!)
-            localStorage.setItem('currentUser', JSON.stringify({
-                username, 
-                followers,
-                businessId: selectedBusinessData.businessId,
-                businessName: selectedBusinessData.businessName,
-                instagramHandle: selectedBusinessData.instagramHandle
-            }));
-            
-            // שמור ב-Supabase
-            await submitToSupabase(username, followers, selectedBusinessData.businessId);
-            
-            saveToLocalStorage(username, followers);
-            
-            // פתח אינסטגרם מיד!
-            console.log('📱 Opening Instagram immediately...');
-            window.location.href = 'instagram://story-camera';
-            
-            console.log('✅ All done!');
-        });
 
-        console.log('✅ All functions loaded successfully!');
+            // Make scrollToForm global
+            window.scrollToForm = function() {
+                document.getElementById('form').scrollIntoView({behavior: 'smooth'});
+            };
+
+            async function submitToSupabase(username, followers, businessId) {
+                console.log('📤 Sending to Supabase...', {username, followers, businessId});
+                
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('submissions')
+                        .insert([{
+                            business_id: businessId,
+                            username: username,
+                            instagram_followers: parseInt(followers),
+                            status: 'pending',
+                            ai_confidence: 0,
+                            created_at: new Date().toISOString()
+                        }])
+                        .select()
+                        .single();
+                    
+                    if (error) throw error;
+                    
+                    console.log('✅ Data saved to Supabase:', data);
+                    return data;
+                } catch (error) {
+                    console.error('❌ Error sending to Supabase:', error);
+                    return null;
+                }
+            }
+
+            function saveToLocalStorage(username, followers) {
+                console.log('💾 Saving to Local Storage...', {username, followers});
+                
+                const timestamp = new Date().toLocaleString('he-IL', {
+                    timeZone: 'Asia/Jerusalem'
+                });
+                
+                try {
+                    let submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
+                    
+                    submissions.push({
+                        timestamp: timestamp,
+                        username: username,
+                        followers: followers,
+                        id: Date.now()
+                    });
+                    
+                    localStorage.setItem('submissions', JSON.stringify(submissions));
+                    console.log('✅ Data saved to Local Storage:', submissions);
+                    return true;
+                } catch (error) {
+                    console.error('❌ Error saving to Local Storage:', error);
+                    return false;
+                }
+            }
+
+            // ===== Background image rotation =====
+            let currentBg = 0;
+            const backgrounds = document.querySelectorAll('.background-image');
+            
+            function rotateBackground() {
+                backgrounds[currentBg].classList.remove('active');
+                currentBg = (currentBg + 1) % backgrounds.length;
+                backgrounds[currentBg].classList.add('active');
+            }
+            
+            setInterval(rotateBackground, 5000);
+
+            // ===== Event Listeners =====
+            window.addEventListener('load', loadBusinesses);
+
+            // Add input event listener for search
+            document.getElementById('searchInput').addEventListener('input', window.filterBusinesses);
+
+            document.getElementById('mainForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('🎯 Form submitted!');
+                
+                const submitBtn = document.getElementById('submitBtn');
+                const usernameInput = document.getElementById('username');
+                const followersInput = document.getElementById('followers');
+                
+                const username = usernameInput.value.trim();
+                const followers = parseInt(followersInput.value);
+                
+                if (!selectedBusinessData) {
+                    alert('נא לבחור עסק תחילה!');
+                    return;
+                }
+                
+                console.log('Username:', username);
+                console.log('Followers:', followers);
+                console.log('Selected Business:', selectedBusinessData);
+                
+                if (followers < 400) {
+                    alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'שומר...';
+                
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username, 
+                    followers,
+                    businessId: selectedBusinessData.businessId,
+                    businessName: selectedBusinessData.businessName,
+                    instagramHandle: selectedBusinessData.instagramHandle
+                }));
+                
+                await submitToSupabase(username, followers, selectedBusinessData.businessId);
+                saveToLocalStorage(username, followers);
+                
+                console.log('📱 Opening Instagram immediately...');
+                window.location.href = 'instagram://story-camera';
+                
+                console.log('✅ All done!');
+            });
+
+            console.log('✅ All functions loaded successfully!');
+        })();
     </script>
 </body>
 </html>
