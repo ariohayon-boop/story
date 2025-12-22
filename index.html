@@ -141,7 +141,7 @@
 
         /* Three-step layout */
         .steps-container {
-            margin-bottom: 50px;
+            margin-bottom: 20px;
             position: relative;
             z-index: 2;
         }
@@ -151,7 +151,7 @@
             align-items: center;
             gap: 16px;
             padding: 18px;
-            margin-bottom: 28px;
+            margin-bottom: 16px;
             background: rgba(255, 255, 255, 0.25);
             border-radius: 16px;
             transition: all 0.3s ease;
@@ -219,12 +219,12 @@
             text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* Scroll arrow */
+        /* Scroll arrow - reduced margin */
         .scroll-arrow {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
-            margin-bottom: 60vh;
+            margin-top: 10px;
+            margin-bottom: 20px;
             cursor: pointer;
             animation: bounce 2s infinite;
             position: relative;
@@ -635,6 +635,12 @@
     <script>
         console.log('✅ Script loaded!');
 
+        // ===== IMPORTANT: Initialize Supabase FIRST! =====
+        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized!');
+
         // ===== Business List Management =====
         let allBusinesses = [];
         let selectedBusinessData = null;
@@ -666,7 +672,8 @@
                 
                 console.log('✅ Loaded businesses:', allBusinesses);
                 
-                // לא מציגים כלום בהתחלה - רק אחרי חיפוש
+                // הצג הודעה שאפשר לחפש
+                listContainer.innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
                 
             } catch (error) {
                 console.error('❌ Error loading businesses:', error);
@@ -703,9 +710,9 @@
         function filterBusinesses() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             
-            // אם אין חיפוש, לא מציגים כלום
+            // אם אין חיפוש, הצג הודעה
             if (searchTerm.length === 0) {
-                document.getElementById('businessList').innerHTML = '';
+                document.getElementById('businessList').innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
                 return;
             }
             
@@ -797,12 +804,6 @@
                 alert('שגיאה בהעתקה. נסה שוב.');
             });
         }
-
-        // Initialize Supabase
-        const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized!');
 
         async function submitToSupabase(username, followers, businessId) {
             console.log('📤 Sending to Supabase...', {username, followers, businessId});
