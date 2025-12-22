@@ -31,7 +31,7 @@
             margin: 0;
         }
 
-        /* Background container - ALWAYS VISIBLE */
+        /* Background container */
         .background-container {
             position: fixed;
             top: 0;
@@ -41,7 +41,6 @@
             z-index: -2;
         }
 
-        /* Animated background images */
         .background-image {
             position: absolute;
             top: 0;
@@ -64,7 +63,6 @@
         .background-image:nth-child(3) { background-image: url('bar-bg3.jpg'); }
         .background-image:nth-child(4) { background-image: url('bar-bg4.jpg'); }
 
-        /* Dark overlay for better text readability */
         .background-overlay {
             position: fixed;
             top: 0;
@@ -75,7 +73,6 @@
             z-index: -1;
         }
 
-        /* Content wrapper */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -83,26 +80,23 @@
             min-height: 100vh;
         }
 
-        /* Page container */
         .page-wrapper {
             max-width: 480px;
             margin: 0 auto;
         }
 
-        /* Glass card - COMPATIBLE VERSION */
-        .content-card {
+        /* Main Glass Card - Contains Everything */
+        .main-card {
             background: rgba(255, 255, 255, 0.2);
-            padding: 32px 24px;
+            padding: 28px 24px;
             border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 16px;
             position: relative;
             overflow: hidden;
         }
 
-        /* Pseudo-element for blur effect */
-        .content-card::before {
+        .main-card::before {
             content: '';
             position: absolute;
             top: -10px;
@@ -115,45 +109,36 @@
             opacity: 0.8;
         }
 
-        /* Typography - WHITE for visibility */
+        /* Typography */
         h1 {
             font-size: 38px;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             color: white;
             text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 2;
             line-height: 1.3;
         }
 
         h2 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             text-align: right;
             color: white;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 2;
         }
 
-        /* NEW Steps Box Design */
-        .steps-box {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 28px 24px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 20px;
+        /* Steps Section */
+        .steps-section {
             text-align: center;
-            position: relative;
-            z-index: 2;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .step-text {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: white;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
@@ -161,144 +146,25 @@
         }
 
         .step-arrow {
-            font-size: 28px;
-            margin: 12px 0;
+            font-size: 24px;
+            margin: 10px 0;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
         }
 
         .step-reward {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 800;
             color: white;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        /* Scroll arrow - reduced margin */
-        .scroll-arrow {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            animation: bounce 2s infinite;
-            position: relative;
-            z-index: 2;
+        /* Form Section */
+        .form-section {
+            padding-top: 4px;
         }
 
-        .scroll-arrow svg {
-            width: 40px;
-            height: 40px;
-            fill: white;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* Business Search Section */
-        .business-search-section {
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        .search-label {
-            font-size: 15px;
-            color: white;
-            font-weight: 600;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 12px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.95);
-            font-family: 'Rubik', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: white;
-            background: white;
-        }
-
-        .business-list {
-            max-height: 200px;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 8px;
-        }
-
-        .business-item {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .business-item:hover {
-            background: rgba(255, 255, 255, 0.35);
-            border-color: white;
-            transform: scale(1.02);
-        }
-
-        .business-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .business-name {
-            color: white;
-            font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 4px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-        }
-
-        .business-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .loading-businesses {
-            text-align: center;
-            color: white;
-            font-size: 14px;
-            padding: 20px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Form elements */
         .form-group {
-            margin-bottom: 16px;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 14px;
         }
 
         .form-input {
@@ -324,7 +190,86 @@
             color: #94a3b8;
         }
 
-        /* Primary CTA button */
+        /* Business Selection */
+        .business-selection {
+            margin-bottom: 14px;
+        }
+
+        .business-label {
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .business-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .business-item {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 14px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .business-item:hover {
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .business-item.selected {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: white;
+        }
+
+        .business-item-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .business-name {
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .business-meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 2px;
+        }
+
+        .business-check {
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .business-item.selected .business-check {
+            opacity: 1;
+        }
+
+        .loading-text {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            padding: 16px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Submit Button */
         .submit-btn {
             width: 100%;
             background-color: white;
@@ -338,8 +283,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 2;
+            margin-top: 6px;
         }
 
         .submit-btn:active {
@@ -357,20 +301,12 @@
                 padding: 12px;
             }
 
-            .content-card {
+            .main-card {
                 padding: 24px 20px;
             }
 
             h1 {
-                font-size: 34px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            .steps-box {
-                padding: 24px 20px;
+                font-size: 32px;
             }
 
             .step-text {
@@ -378,28 +314,13 @@
             }
 
             .step-reward {
-                font-size: 18px;
+                font-size: 17px;
             }
 
             .submit-btn {
                 font-size: 16px;
                 padding: 14px;
             }
-        }
-
-        .loading-spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         @keyframes slideIn {
@@ -426,71 +347,60 @@
     <!-- Content -->
     <div class="content-wrapper">
         <div class="page-wrapper">
-            <!-- Hero Section -->
-            <div style="text-align: center; margin-bottom: 30px;">
+            <!-- Hero -->
+            <div style="text-align: center; margin-bottom: 24px;">
                 <div style="color: white; font-size: 40px; font-weight: 800; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); letter-spacing: 2px; margin-bottom: 10px;">STORIT</div>
                 <h1 style="margin-bottom: 0;">סטורי = בירה 🍺</h1>
             </div>
 
-            <!-- NEW Steps Box -->
-            <div class="steps-box">
-                <div class="step-text">העלו סטורי של המקום עם תיוג</div>
-                <div class="step-arrow">⬇️</div>
-                <div class="step-text">הראו למלצר</div>
-                <div class="step-arrow">⬇️</div>
-                <div class="step-reward">🍺 קבלו בירה / קינוח לבחירתכם!</div>
-            </div>
+            <!-- Main Card - Steps + Form Together -->
+            <div class="main-card">
+                <!-- Steps Section -->
+                <div class="steps-section">
+                    <div class="step-text">העלו סטורי של המקום עם תיוג</div>
+                    <div class="step-arrow">⬇️</div>
+                    <div class="step-text">הראו למלצר</div>
+                    <div class="step-arrow">⬇️</div>
+                    <div class="step-reward">🍺 קבלו בירה / קינוח לבחירתכם!</div>
+                </div>
 
-            <div class="scroll-arrow" onclick="scrollToForm()">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 4l-8 8 1.4 1.4 6.6-6.6 6.6 6.6L20 12z" transform="rotate(180 12 12)"/>
-                </svg>
-            </div>
-
-            <!-- Form Section Card -->
-            <div class="content-card" id="form">
-                <h2>מלאו כדי לעבור לסטורי</h2>
-                
-                <form id="mainForm">
-                    <div class="form-group">
-                        <input 
-                            type="text" 
-                            id="username"
-                            class="form-input" 
-                            placeholder="@yourusername"
-                            required
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <input 
-                            type="number" 
-                            id="followers"
-                            class="form-input" 
-                            placeholder="מספר עוקבים"
-                            required
-                        >
-                    </div>
-
-                    <div class="business-search-section">
-                        <div class="search-label">🔍 בחר את העסק שאתה רוצה לתייג:</div>
-                        
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            class="search-input"
-                            placeholder="חפש עסק לפי שם..."
-                        >
-
-                        <div class="business-list" id="businessList">
-                            <div class="loading-businesses">⏳ טוען עסקים...</div>
+                <!-- Form Section -->
+                <div class="form-section">
+                    <h2>מלאו כדי לעבור לסטורי</h2>
+                    
+                    <form id="mainForm">
+                        <div class="form-group">
+                            <input 
+                                type="text" 
+                                id="username"
+                                class="form-input" 
+                                placeholder="@yourusername"
+                                required
+                            >
                         </div>
-                    </div>
 
-                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
-                        בחר עסק תחילה
-                    </button>
-                </form>
+                        <div class="form-group">
+                            <input 
+                                type="number" 
+                                id="followers"
+                                class="form-input" 
+                                placeholder="מספר עוקבים"
+                                required
+                            >
+                        </div>
+
+                        <div class="business-selection">
+                            <span class="business-label">🏪 בחר את העסק שאתה נמצא בו:</span>
+                            <div class="business-list" id="businessList">
+                                <div class="loading-text">⏳ טוען עסקים...</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                            בחר עסק תחילה
+                        </button>
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -502,18 +412,16 @@
             
             console.log('✅ Script loaded!');
 
-            // ===== Initialize Supabase FIRST =====
+            // Initialize Supabase
             const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
             const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
             const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('✅ Supabase initialized!');
 
-            // ===== Business List Management =====
             let allBusinesses = [];
             let selectedBusinessData = null;
 
-            // ===== Define all functions =====
-            
+            // Load businesses on page load
             async function loadBusinesses() {
                 console.log('📥 Loading businesses...');
                 const listContainer = document.getElementById('businessList');
@@ -535,70 +443,61 @@
                     }));
                     
                     console.log('✅ Loaded businesses:', allBusinesses);
-                    listContainer.innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
+                    displayBusinesses();
                     
                 } catch (error) {
                     console.error('❌ Error loading businesses:', error);
-                    listContainer.innerHTML = '<div class="loading-businesses">⚠️ שגיאה בטעינת עסקים</div>';
+                    listContainer.innerHTML = '<div class="loading-text">⚠️ שגיאה בטעינת עסקים</div>';
                 }
             }
 
-            function displayBusinesses(businesses) {
+            function displayBusinesses() {
                 const listContainer = document.getElementById('businessList');
                 listContainer.innerHTML = '';
                 
-                if (businesses.length === 0) {
-                    listContainer.innerHTML = '<div class="loading-businesses">😔 לא נמצאו עסקים</div>';
+                if (allBusinesses.length === 0) {
+                    listContainer.innerHTML = '<div class="loading-text">😔 אין עסקים זמינים</div>';
                     return;
                 }
                 
-                businesses.forEach(business => {
+                allBusinesses.forEach(business => {
                     const item = document.createElement('div');
                     item.className = 'business-item';
-                    item.onclick = () => selectBusiness(business);
+                    item.onclick = () => selectBusiness(business, item);
                     
                     item.innerHTML = `
-                        <div class="business-name">${business.businessName}</div>
-                        <div class="business-meta">
-                            <span>📍 ${business.location}</span>
-                            <span>📱 ${business.instagramHandle}</span>
+                        <div class="business-item-info">
+                            <span class="business-name">${business.businessName}</span>
+                            <span class="business-meta">📍 ${business.location} • ${business.instagramHandle}</span>
                         </div>
+                        <span class="business-check">✓</span>
                     `;
                     
                     listContainer.appendChild(item);
                 });
             }
 
-            // Make filterBusinesses global
-            window.filterBusinesses = function() {
-                const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-                
-                if (searchTerm.length === 0) {
-                    document.getElementById('businessList').innerHTML = '<div class="loading-businesses">🔍 התחל להקליד כדי לחפש עסק...</div>';
-                    return;
-                }
-                
-                const filtered = allBusinesses.filter(business => 
-                    business.businessName.toLowerCase().includes(searchTerm) ||
-                    business.location.toLowerCase().includes(searchTerm) ||
-                    business.category.toLowerCase().includes(searchTerm) ||
-                    business.instagramHandle.toLowerCase().includes(searchTerm)
-                );
-                
-                displayBusinesses(filtered);
-            };
-
-            function selectBusiness(business) {
+            function selectBusiness(business, element) {
                 console.log('✅ Selected:', business);
+                
+                // Remove selection from all items
+                document.querySelectorAll('.business-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                // Add selection to clicked item
+                element.classList.add('selected');
                 
                 selectedBusinessData = business;
                 localStorage.setItem('selectedBusiness', JSON.stringify(business));
                 
+                // Copy username to clipboard
                 const username = business.instagramHandle.replace('@', '');
                 navigator.clipboard.writeText(username).then(() => {
                     console.log('📋 Copied to clipboard:', username);
                 });
                 
+                // Enable submit button
                 document.getElementById('submitBtn').disabled = false;
                 document.getElementById('submitBtn').textContent = 'מעבר לסטורי ✔';
                 
@@ -630,11 +529,6 @@
                 }, 2000);
             }
 
-            // Make scrollToForm global
-            window.scrollToForm = function() {
-                document.getElementById('form').scrollIntoView({behavior: 'smooth'});
-            };
-
             async function submitToSupabase(username, followers, businessId) {
                 console.log('📤 Sending to Supabase...', {username, followers, businessId});
                 
@@ -663,24 +557,19 @@
             }
 
             function saveToLocalStorage(username, followers) {
-                console.log('💾 Saving to Local Storage...', {username, followers});
-                
                 const timestamp = new Date().toLocaleString('he-IL', {
                     timeZone: 'Asia/Jerusalem'
                 });
                 
                 try {
                     let submissions = JSON.parse(localStorage.getItem('submissions') || '[]');
-                    
                     submissions.push({
                         timestamp: timestamp,
                         username: username,
                         followers: followers,
                         id: Date.now()
                     });
-                    
                     localStorage.setItem('submissions', JSON.stringify(submissions));
-                    console.log('✅ Data saved to Local Storage:', submissions);
                     return true;
                 } catch (error) {
                     console.error('❌ Error saving to Local Storage:', error);
@@ -688,7 +577,7 @@
                 }
             }
 
-            // ===== Background image rotation =====
+            // Background image rotation
             let currentBg = 0;
             const backgrounds = document.querySelectorAll('.background-image');
             
@@ -700,31 +589,21 @@
             
             setInterval(rotateBackground, 5000);
 
-            // ===== Event Listeners =====
+            // Event Listeners
             window.addEventListener('load', loadBusinesses);
-
-            // Add input event listener for search
-            document.getElementById('searchInput').addEventListener('input', window.filterBusinesses);
 
             document.getElementById('mainForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 console.log('🎯 Form submitted!');
                 
                 const submitBtn = document.getElementById('submitBtn');
-                const usernameInput = document.getElementById('username');
-                const followersInput = document.getElementById('followers');
-                
-                const username = usernameInput.value.trim();
-                const followers = parseInt(followersInput.value);
+                const username = document.getElementById('username').value.trim();
+                const followers = parseInt(document.getElementById('followers').value);
                 
                 if (!selectedBusinessData) {
                     alert('נא לבחור עסק תחילה!');
                     return;
                 }
-                
-                console.log('Username:', username);
-                console.log('Followers:', followers);
-                console.log('Selected Business:', selectedBusinessData);
                 
                 if (followers < 400) {
                     alert('מצטערים, הקמפיין מיועד למשתמשים עם 400 עוקבים ומעלה.');
@@ -745,13 +624,11 @@
                 await submitToSupabase(username, followers, selectedBusinessData.businessId);
                 saveToLocalStorage(username, followers);
                 
-                console.log('📱 Opening Instagram immediately...');
+                console.log('📱 Opening Instagram...');
                 window.location.href = 'instagram://story-camera';
-                
-                console.log('✅ All done!');
             });
 
-            console.log('✅ All functions loaded successfully!');
+            console.log('✅ All functions loaded!');
         })();
     </script>
 </body>
