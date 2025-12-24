@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>הצטרפו אלינו | STORIT</title>
     
+    <!-- Favicon - prevents 404 error -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -908,14 +911,14 @@
 
     <script>
         // ===== STORIT Signup Page =====
-        // Version: 2.0 - Clean build
-        console.log('✅ Signup page loaded - v2.0');
+        // Version: 2.1 - Added favicon
+        console.log('✅ Signup page loaded - v2.1');
 
         // Supabase Configuration
         const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
         
-        // Initialize Supabase client (SINGLE DECLARATION)
+        // Initialize Supabase client
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized!');
 
@@ -1134,6 +1137,8 @@
                 const reward = document.getElementById('reward').value.trim();
                 const minFollowers = parseInt(document.getElementById('minFollowers').value);
 
+                console.log('📝 Creating business:', businessName);
+
                 // Check if email already exists
                 const checkResult = await supabaseClient
                     .from('businesses')
@@ -1160,6 +1165,8 @@
                     status: 'active'
                 };
 
+                console.log('📤 Sending to Supabase:', insertData);
+
                 // Insert into database
                 const insertResult = await supabaseClient
                     .from('businesses')
@@ -1167,9 +1174,12 @@
                     .select()
                     .single();
 
-                if (insertResult.error) throw insertResult.error;
+                if (insertResult.error) {
+                    console.error('❌ Supabase error:', insertResult.error);
+                    throw insertResult.error;
+                }
 
-                console.log('✅ Business created:', insertResult.data);
+                console.log('✅ Business created successfully:', insertResult.data);
 
                 // Save business ID for Instagram connect
                 createdBusinessId = businessId;
