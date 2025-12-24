@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>התחברות | STORIT</title>
     
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -307,24 +310,6 @@
             display: flex;
         }
 
-        /* Success message */
-        .success-message {
-            background: rgba(46, 213, 115, 0.1);
-            border: 1px solid rgba(46, 213, 115, 0.3);
-            border-radius: 10px;
-            padding: 14px 18px;
-            margin-bottom: 24px;
-            color: var(--success-color);
-            font-size: 14px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .success-message.show {
-            display: flex;
-        }
-
         /* Divider */
         .divider {
             display: flex;
@@ -624,13 +609,16 @@
     </div>
 
     <script>
-        console.log('✅ Login page loaded!');
+        // ===== STORIT Login Page =====
+        // Version: 2.0 - Fixed supabase naming
+        console.log('✅ Login page loaded - v2.0');
 
-        // Initialize Supabase
+        // Supabase Configuration
         const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase client (renamed to avoid conflict)
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized!');
 
         // Toggle password visibility
@@ -672,13 +660,13 @@
             document.getElementById('resetErrorMessage').classList.remove('show');
         }
 
-        // Simple hash function for password comparison
+        // Hash password using SHA-256
         async function hashPassword(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
         }
 
         // Login form submit
@@ -697,8 +685,8 @@
                 // Hash the entered password
                 const passwordHash = await hashPassword(password);
 
-                // Find business by email (column is admin_email)
-                const { data: business, error } = await supabase
+                // Find business by email
+                const { data: business, error } = await supabaseClient
                     .from('businesses')
                     .select('*')
                     .eq('admin_email', email)
@@ -737,7 +725,7 @@
             }
         });
 
-        // Reset password form - calls Edge Function to send real email
+        // Reset password form
         document.getElementById('resetForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -755,7 +743,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
                     },
                     body: JSON.stringify({ email: resetEmail })
                 });
@@ -766,7 +754,7 @@
                     throw new Error(result.error || 'שגיאה בשליחה');
                 }
 
-                // Show success (always show success for security - don't reveal if email exists)
+                // Show success
                 document.getElementById('resetFormView').style.display = 'none';
                 document.getElementById('resetSuccessView').style.display = 'block';
 
@@ -793,6 +781,8 @@
                 closeResetModal();
             }
         });
+
+        console.log('✅ All event listeners attached!');
     </script>
 </body>
 </html>
