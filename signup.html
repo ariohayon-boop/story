@@ -907,13 +907,16 @@
     </div>
 
     <script>
-        console.log('✅ Signup page loaded!');
+        // ===== STORIT Signup Page =====
+        // Version: 2.0 - Clean build
+        console.log('✅ Signup page loaded - v2.0');
 
-        // Initialize Supabase (ONLY ONCE!)
+        // Supabase Configuration
         const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase client (SINGLE DECLARATION)
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized!');
 
         // Facebook OAuth settings
@@ -924,7 +927,7 @@
         let currentStep = 1;
         let createdBusinessId = null;
 
-        // Toggle password
+        // Toggle password visibility
         function togglePassword(inputId, button) {
             const input = document.getElementById(inputId);
             if (input.type === 'password') {
@@ -945,7 +948,7 @@
             togglePassword('confirmPassword', this);
         });
 
-        // Show error
+        // Show error message
         function showError(message) {
             const errorDiv = document.getElementById('errorMessage');
             document.getElementById('errorText').textContent = message;
@@ -953,11 +956,12 @@
             errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
+        // Hide error message
         function hideError() {
             document.getElementById('errorMessage').classList.remove('show');
         }
 
-        // Validation
+        // Validate form step
         function validateStep(step) {
             if (step === 1) {
                 const businessName = document.getElementById('businessName').value.trim();
@@ -1013,33 +1017,31 @@
             return true;
         }
 
-        // Navigation functions
+        // Navigate to next step
         function nextStep(fromStep) {
             hideError();
-
-            // Validate current step
             if (!validateStep(fromStep)) return;
 
-            // Move to next step
-            document.getElementById(`step${fromStep}`).classList.remove('active');
-            document.getElementById(`step${fromStep + 1}`).classList.add('active');
+            document.getElementById('step' + fromStep).classList.remove('active');
+            document.getElementById('step' + (fromStep + 1)).classList.add('active');
             
-            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
-            document.getElementById(`step${fromStep}Indicator`).classList.add('completed');
-            document.getElementById(`step${fromStep + 1}Indicator`).classList.add('active');
+            document.getElementById('step' + fromStep + 'Indicator').classList.remove('active');
+            document.getElementById('step' + fromStep + 'Indicator').classList.add('completed');
+            document.getElementById('step' + (fromStep + 1) + 'Indicator').classList.add('active');
             
             currentStep = fromStep + 1;
         }
 
+        // Navigate to previous step
         function prevStep(fromStep) {
             hideError();
 
-            document.getElementById(`step${fromStep}`).classList.remove('active');
-            document.getElementById(`step${fromStep - 1}`).classList.add('active');
+            document.getElementById('step' + fromStep).classList.remove('active');
+            document.getElementById('step' + (fromStep - 1)).classList.add('active');
             
-            document.getElementById(`step${fromStep}Indicator`).classList.remove('active');
-            document.getElementById(`step${fromStep - 1}Indicator`).classList.remove('completed');
-            document.getElementById(`step${fromStep - 1}Indicator`).classList.add('active');
+            document.getElementById('step' + fromStep + 'Indicator').classList.remove('active');
+            document.getElementById('step' + (fromStep - 1) + 'Indicator').classList.remove('completed');
+            document.getElementById('step' + (fromStep - 1) + 'Indicator').classList.add('active');
             
             currentStep = fromStep - 1;
         }
@@ -1061,21 +1063,21 @@
             prevStep(3);
         });
 
-        // Hash password
+        // Hash password using SHA-256
         async function hashPassword(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
         }
 
-        // Generate business ID
+        // Generate unique business ID
         function generateBusinessId() {
             return 'biz_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
         }
 
-        // Connect Instagram
+        // Connect Instagram via Facebook OAuth
         function connectInstagram() {
             const businessId = createdBusinessId || localStorage.getItem('loggedInBusinessId');
             
@@ -1090,16 +1092,14 @@
             
             // Build OAuth URL
             const authUrl = 
-                `https://www.facebook.com/v18.0/dialog/oauth?` +
-                `client_id=${FB_APP_ID}` +
-                `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-                `&scope=${SCOPES}` +
-                `&state=${businessId}` +
-                `&response_type=code`;
+                'https://www.facebook.com/v18.0/dialog/oauth?' +
+                'client_id=' + FB_APP_ID +
+                '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
+                '&scope=' + SCOPES +
+                '&state=' + businessId +
+                '&response_type=code';
             
             console.log('Redirecting to Facebook OAuth:', authUrl);
-            
-            // Redirect to Facebook
             window.location.href = authUrl;
         }
 
@@ -1112,7 +1112,7 @@
         document.getElementById('connectInstagramBtn').addEventListener('click', connectInstagram);
         document.getElementById('skipInstagramLink').addEventListener('click', skipInstagramConnect);
 
-        // Form submit
+        // Form submission handler
         document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             hideError();
@@ -1135,21 +1135,21 @@
                 const minFollowers = parseInt(document.getElementById('minFollowers').value);
 
                 // Check if email already exists
-                const { data: existingBusiness, error: checkError } = await supabase
+                const checkResult = await supabaseClient
                     .from('businesses')
                     .select('admin_email')
                     .eq('admin_email', email)
                     .single();
 
-                if (existingBusiness && !checkError) {
+                if (checkResult.data && !checkResult.error) {
                     throw new Error('כתובת האימייל כבר רשומה במערכת');
                 }
 
                 // Hash password
                 const passwordHash = await hashPassword(password);
 
-                // Create business
-                let insertData = {
+                // Prepare business data
+                const insertData = {
                     business_id: businessId,
                     business_name: businessName,
                     instagram_handle: instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle,
@@ -1160,15 +1160,16 @@
                     status: 'active'
                 };
 
-                let { data, error } = await supabase
+                // Insert into database
+                const insertResult = await supabaseClient
                     .from('businesses')
                     .insert([insertData])
                     .select()
                     .single();
 
-                if (error) throw error;
+                if (insertResult.error) throw insertResult.error;
 
-                console.log('✅ Business created:', data);
+                console.log('✅ Business created:', insertResult.data);
 
                 // Save business ID for Instagram connect
                 createdBusinessId = businessId;
@@ -1179,7 +1180,7 @@
                 localStorage.setItem('loggedInInstagram', instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle);
                 localStorage.setItem('loggedInEmail', email);
 
-                // Show success with Instagram connect
+                // Show success view
                 document.getElementById('formContent').style.display = 'none';
                 document.getElementById('successView').style.display = 'block';
 
@@ -1189,9 +1190,9 @@
                 // Better error messages
                 let errorMsg = 'שגיאה ביצירת החשבון. נסו שוב.';
                 
-                if (error.message?.includes('duplicate') || error.message?.includes('unique')) {
+                if (error.message && (error.message.includes('duplicate') || error.message.includes('unique'))) {
                     errorMsg = 'כתובת האימייל כבר רשומה במערכת';
-                } else if (error.message?.includes('column') || error.code === '42703') {
+                } else if (error.message && (error.message.includes('column') || error.code === '42703')) {
                     errorMsg = 'שגיאת מערכת - יש לעדכן את מבנה הטבלה בסופאבייס';
                     console.error('Missing columns in database. Run the migration SQL.');
                 } else if (error.message) {
