@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>דשבורד ניהול - קמפיין אינסטגרם</title>
+    <title>דשבורד ניהול | STORIT</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
     
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -398,13 +401,16 @@
     </div>
 
     <script>
-        console.log('✅ Admin page loaded!');
+        // ===== STORIT Admin Dashboard =====
+        // Version: 2.0 - Fixed supabase naming
+        console.log('✅ Admin page loaded - v2.0');
 
-        // Initialize Supabase
+        // Supabase Configuration
         const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyYnpvZnFneXVra2Rqd3VtZGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxODc5NDMsImV4cCI6MjA4MDc2Mzk0M30.sk_nAuY-lERhsodcaqzEsNRlgAa5lT3fQvegrYn7GZk';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase client (renamed to avoid conflict)
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized!');
 
         // Check login
@@ -416,14 +422,6 @@
             console.log('❌ Not logged in, redirecting...');
             window.location.href = 'login.html';
         }
-
-        // התנתקות אוטומטית בסגירת הדפדפן/טאב
-        window.addEventListener('beforeunload', function() {
-            localStorage.removeItem('loggedInBusinessId');
-            localStorage.removeItem('loggedInBusinessName');
-            localStorage.removeItem('loggedInInstagram');
-            localStorage.removeItem('loggedInPasswordHash');
-        });
 
         // Update header
         document.getElementById('businessName').textContent = businessName || 'העסק שלי';
@@ -440,7 +438,7 @@
                 console.log('📊 Loading dashboard data for:', businessId);
 
                 // Fetch only VERIFIED submissions from Supabase
-                const { data: submissions, error } = await supabase
+                const { data: submissions, error } = await supabaseClient
                     .from('submissions')
                     .select('*')
                     .eq('business_id', businessId)
@@ -463,16 +461,8 @@
 
             } catch (error) {
                 console.error('❌ Error loading data:', error);
-                document.getElementById('submissionsBody').innerHTML = `
-                    <tr>
-                        <td colspan="4">
-                            <div class="empty-state">
-                                <div class="empty-state-icon">⚠️</div>
-                                <div>שגיאה בטעינת נתונים: ${error.message}</div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+                document.getElementById('submissionsBody').innerHTML = 
+                    '<tr><td colspan="4"><div class="empty-state"><div class="empty-state-icon">⚠️</div><div>שגיאה בטעינת נתונים: ' + error.message + '</div></div></td></tr>';
             }
         }
 
@@ -488,15 +478,15 @@
             switch(currentFilter) {
                 case 'today':
                     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    return allSubmissions.filter(s => new Date(s.created_at) >= today);
+                    return allSubmissions.filter(function(s) { return new Date(s.created_at) >= today; });
                 
                 case 'week':
                     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                    return allSubmissions.filter(s => new Date(s.created_at) >= weekAgo);
+                    return allSubmissions.filter(function(s) { return new Date(s.created_at) >= weekAgo; });
                 
                 case 'month':
                     const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-                    return allSubmissions.filter(s => new Date(s.created_at) >= monthAgo);
+                    return allSubmissions.filter(function(s) { return new Date(s.created_at) >= monthAgo; });
                 
                 default:
                     return allSubmissions;
@@ -510,15 +500,15 @@
             switch(storiesFilter) {
                 case 'today':
                     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    return allSubmissions.filter(s => new Date(s.created_at) >= today);
+                    return allSubmissions.filter(function(s) { return new Date(s.created_at) >= today; });
                 
                 case 'week':
                     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                    return allSubmissions.filter(s => new Date(s.created_at) >= weekAgo);
+                    return allSubmissions.filter(function(s) { return new Date(s.created_at) >= weekAgo; });
                 
                 case 'month':
                     const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-                    return allSubmissions.filter(s => new Date(s.created_at) >= monthAgo);
+                    return allSubmissions.filter(function(s) { return new Date(s.created_at) >= monthAgo; });
                 
                 default:
                     return allSubmissions;
@@ -532,7 +522,7 @@
             document.getElementById('totalStories').textContent = storiesFiltered.length;
             
             // Stories subtext
-            let storiesSubtext = '';
+            var storiesSubtext = '';
             if (storiesFilter === 'today') storiesSubtext = 'היום';
             else if (storiesFilter === 'week') storiesSubtext = 'השבוע';
             else if (storiesFilter === 'month') storiesSubtext = 'החודש';
@@ -541,14 +531,15 @@
             
             // Total views (filtered)
             const viewsFiltered = getFilteredSubmissions();
-            const totalViews = viewsFiltered.reduce((sum, s) => {
-                return sum + calculateViews(s.instagram_followers || 0);
-            }, 0);
+            var totalViews = 0;
+            for (var i = 0; i < viewsFiltered.length; i++) {
+                totalViews += calculateViews(viewsFiltered[i].instagram_followers || 0);
+            }
             
             document.getElementById('totalViews').textContent = totalViews.toLocaleString('he-IL');
             
             // Views subtext
-            let viewsSubtext = '';
+            var viewsSubtext = '';
             if (currentFilter === 'today') viewsSubtext = 'היום';
             else if (currentFilter === 'week') viewsSubtext = 'השבוע';
             else if (currentFilter === 'month') viewsSubtext = 'החודש';
@@ -562,27 +553,18 @@
             const tbody = document.getElementById('submissionsBody');
             
             if (allSubmissions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4">
-                            <div class="empty-state">
-                                <div class="empty-state-icon">📭</div>
-                                <div>עדיין אין סטוריז</div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><div class="empty-state-icon">📭</div><div>עדיין אין סטוריז</div></div></td></tr>';
                 return;
             }
 
-            // הצג 2 אחרונים או הכל
-            const submissionsToShow = showAllHistory 
-                ? allSubmissions 
-                : allSubmissions.slice(0, 2);
+            // Show 2 or all
+            const submissionsToShow = showAllHistory ? allSubmissions : allSubmissions.slice(0, 2);
 
-            tbody.innerHTML = submissionsToShow.map(submission => {
-                const date = new Date(submission.created_at);
-                const formattedDate = date.toLocaleString('he-IL', {
+            var html = '';
+            for (var i = 0; i < submissionsToShow.length; i++) {
+                var submission = submissionsToShow[i];
+                var date = new Date(submission.created_at);
+                var formattedDate = date.toLocaleString('he-IL', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
@@ -590,20 +572,19 @@
                     minute: '2-digit'
                 });
 
-                const followers = submission.instagram_followers || 0;
-                const views = calculateViews(followers);
+                var followers = submission.instagram_followers || 0;
+                var views = calculateViews(followers);
 
-                return `
-                    <tr>
-                        <td>${formattedDate}</td>
-                        <td>@${submission.username || 'לא ידוע'}</td>
-                        <td>${followers.toLocaleString('he-IL')}</td>
-                        <td>${views.toLocaleString('he-IL')}</td>
-                    </tr>
-                `;
-            }).join('');
+                html += '<tr>' +
+                    '<td>' + formattedDate + '</td>' +
+                    '<td>@' + (submission.username || 'לא ידוע') + '</td>' +
+                    '<td>' + followers.toLocaleString('he-IL') + '</td>' +
+                    '<td>' + views.toLocaleString('he-IL') + '</td>' +
+                    '</tr>';
+            }
+            tbody.innerHTML = html;
             
-            // עדכון כפתור
+            // Update button
             const btn = document.getElementById('toggleHistoryBtn');
             if (allSubmissions.length <= 2) {
                 btn.style.display = 'none';
@@ -618,7 +599,6 @@
             showAllHistory = !showAllHistory;
             updateSubmissionsTable();
             
-            // גלילה למעלה אם מציגים רק 2
             if (!showAllHistory) {
                 document.querySelector('.data-section').scrollIntoView({behavior: 'smooth'});
             }
@@ -629,10 +609,11 @@
             currentFilter = filter;
             
             // Update active button in views card only
-            const viewsCard = event.target.closest('.stat-card');
-            viewsCard.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            var viewsCard = event.target.closest('.stat-card');
+            var buttons = viewsCard.querySelectorAll('.filter-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
             event.target.classList.add('active');
             
             // Update stats
@@ -644,10 +625,11 @@
             storiesFilter = filter;
             
             // Update active button in stories card only
-            const storiesCard = event.target.closest('.stat-card');
-            storiesCard.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            var storiesCard = event.target.closest('.stat-card');
+            var buttons = storiesCard.querySelectorAll('.filter-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
             event.target.classList.add('active');
             
             // Update stats
@@ -672,6 +654,7 @@
             localStorage.removeItem('loggedInBusinessName');
             localStorage.removeItem('loggedInInstagram');
             localStorage.removeItem('loggedInPasswordHash');
+            localStorage.removeItem('loggedInEmail');
             window.location.href = 'login.html';
         }
 
