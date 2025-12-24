@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>הצטרפו אלינו | STORIT</title>
     
-    <!-- Favicon - prevents 404 error -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
     
     <!-- Supabase JS -->
@@ -26,7 +26,6 @@
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.4);
             --gradient-primary: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
-            --gradient-instagram: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737);
             --error-color: #ff4757;
             --success-color: #2ed573;
         }
@@ -50,7 +49,6 @@
             overflow-x: hidden;
         }
 
-        /* Background Effects */
         .bg-grid {
             position: fixed;
             top: 0;
@@ -99,7 +97,6 @@
             75% { transform: translate(-60px, -30px) scale(1.05); }
         }
 
-        /* Container */
         .signup-container {
             position: relative;
             z-index: 1;
@@ -108,7 +105,6 @@
             margin: 40px 0;
         }
 
-        /* Logo */
         .logo-section {
             text-align: center;
             margin-bottom: 32px;
@@ -132,7 +128,6 @@
             font-weight: 500;
         }
 
-        /* Card */
         .signup-card {
             background: var(--dark-surface);
             border-radius: 24px;
@@ -169,7 +164,6 @@
             font-size: 15px;
         }
 
-        /* Progress Steps */
         .progress-steps {
             display: flex;
             justify-content: center;
@@ -193,7 +187,6 @@
             background: var(--success-color);
         }
 
-        /* Form */
         .form-section {
             display: none;
         }
@@ -204,14 +197,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .section-title {
@@ -242,10 +229,6 @@
 
         .form-group {
             margin-bottom: 20px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
         }
 
         .form-label {
@@ -282,10 +265,6 @@
             box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.1);
         }
 
-        .form-input.error {
-            border-color: var(--error-color);
-        }
-
         .form-select {
             width: 100%;
             padding: 14px 18px;
@@ -295,7 +274,6 @@
             color: var(--text-primary);
             font-size: 15px;
             font-family: 'Heebo', sans-serif;
-            transition: all 0.3s ease;
             cursor: pointer;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
@@ -313,7 +291,6 @@
             color: var(--text-primary);
         }
 
-        /* Password field */
         .password-wrapper {
             position: relative;
         }
@@ -328,11 +305,6 @@
             color: var(--text-muted);
             cursor: pointer;
             font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .password-toggle:hover {
-            color: var(--neon-cyan);
         }
 
         .password-hint {
@@ -341,7 +313,6 @@
             margin-top: 6px;
         }
 
-        /* Buttons */
         .button-row {
             display: flex;
             gap: 12px;
@@ -394,35 +365,6 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        .btn-instagram {
-            width: 100%;
-            padding: 18px;
-            background: var(--gradient-instagram);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'Heebo', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 20px rgba(131, 58, 180, 0.4);
-        }
-
-        .btn-instagram:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(131, 58, 180, 0.5);
-        }
-
-        .btn-instagram:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
         .spinner {
             width: 20px;
             height: 20px;
@@ -436,7 +378,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Messages */
         .message {
             border-radius: 10px;
             padding: 14px 18px;
@@ -457,7 +398,6 @@
             display: flex;
         }
 
-        /* Login link */
         .login-link {
             text-align: center;
             margin-top: 24px;
@@ -477,7 +417,6 @@
             text-decoration: underline;
         }
 
-        /* Success View */
         .success-view {
             display: none;
             text-align: center;
@@ -538,89 +477,6 @@
             box-shadow: 0 15px 40px rgba(0, 245, 255, 0.3);
         }
 
-        /* Instagram Connect Section */
-        .instagram-connect-section {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .instagram-connect-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instagram-info-box {
-            background: rgba(131, 58, 180, 0.1);
-            border: 1px solid rgba(131, 58, 180, 0.3);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .instagram-info-box p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.8;
-            margin: 0;
-        }
-
-        .instagram-info-box strong {
-            color: var(--text-primary);
-        }
-
-        .instagram-steps {
-            margin: 16px 0;
-        }
-
-        .instagram-steps .step {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .instagram-steps .step-num {
-            background: rgba(131, 58, 180, 0.3);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .instagram-note {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-top: 16px;
-            text-align: center;
-        }
-
-        .skip-link {
-            display: block;
-            text-align: center;
-            margin-top: 16px;
-            color: var(--text-muted);
-            font-size: 14px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .skip-link:hover {
-            color: var(--text-secondary);
-        }
-
-        /* Responsive */
         @media (max-width: 520px) {
             .signup-card {
                 padding: 32px 24px;
@@ -645,12 +501,10 @@
     </style>
 </head>
 <body>
-    <!-- Background Effects -->
     <div class="bg-grid"></div>
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
 
-    <!-- Signup Container -->
     <div class="signup-container">
         <div class="logo-section">
             <div class="logo">STORIT</div>
@@ -658,7 +512,6 @@
         </div>
 
         <div class="signup-card">
-            <!-- Form Content -->
             <div id="formContent">
                 <div class="card-header">
                     <h1 class="card-title">יצירת חשבון חדש</h1>
@@ -686,26 +539,13 @@
 
                         <div class="form-group">
                             <label class="form-label">שם העסק <span class="required">*</span></label>
-                            <input 
-                                type="text" 
-                                id="businessName"
-                                class="form-input" 
-                                placeholder="לדוגמה: הבר של יוסי"
-                                required
-                            >
+                            <input type="text" id="businessName" class="form-input" placeholder="לדוגמה: הבר של יוסי" required>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">יוזר אינסטגרם <span class="required">*</span></label>
-                                <input 
-                                    type="text" 
-                                    id="instagramHandle"
-                                    class="form-input" 
-                                    placeholder="@yourbusiness"
-                                    required
-                                    style="direction: ltr; text-align: right;"
-                                >
+                                <input type="text" id="instagramHandle" class="form-input" placeholder="@yourbusiness" required style="direction: ltr; text-align: right;">
                             </div>
 
                             <div class="form-group">
@@ -723,13 +563,7 @@
 
                         <div class="form-group">
                             <label class="form-label">מיקום העסק <span class="required">*</span></label>
-                            <input 
-                                type="text" 
-                                id="location"
-                                class="form-input" 
-                                placeholder="עיר או שכונה"
-                                required
-                            >
+                            <input type="text" id="location" class="form-input" placeholder="עיר או שכונה" required>
                         </div>
 
                         <div class="button-row">
@@ -749,47 +583,23 @@
 
                         <div class="form-group">
                             <label class="form-label">אימייל <span class="required">*</span></label>
-                            <input 
-                                type="email" 
-                                id="email"
-                                class="form-input" 
-                                placeholder="your@email.com"
-                                required
-                                style="direction: ltr; text-align: right;"
-                            >
+                            <input type="email" id="email" class="form-input" placeholder="your@email.com" required style="direction: ltr; text-align: right;">
                             <div class="password-hint">ישמש להתחברות ולאיפוס סיסמה</div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">סיסמה <span class="required">*</span></label>
                             <div class="password-wrapper">
-                                <input 
-                                    type="password" 
-                                    id="password"
-                                    class="form-input" 
-                                    placeholder="לפחות 8 תווים"
-                                    required
-                                    minlength="8"
-                                >
-                                <button type="button" class="password-toggle" id="passwordToggle1">
-                                    👁️
-                                </button>
+                                <input type="password" id="password" class="form-input" placeholder="לפחות 8 תווים" required minlength="8">
+                                <button type="button" class="password-toggle" id="passwordToggle1">👁️</button>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">אימות סיסמה <span class="required">*</span></label>
                             <div class="password-wrapper">
-                                <input 
-                                    type="password" 
-                                    id="confirmPassword"
-                                    class="form-input" 
-                                    placeholder="הזינו שוב את הסיסמה"
-                                    required
-                                >
-                                <button type="button" class="password-toggle" id="passwordToggle2">
-                                    👁️
-                                </button>
+                                <input type="password" id="confirmPassword" class="form-input" placeholder="הזינו שוב את הסיסמה" required>
+                                <button type="button" class="password-toggle" id="passwordToggle2">👁️</button>
                             </div>
                         </div>
 
@@ -811,13 +621,7 @@
 
                         <div class="form-group">
                             <label class="form-label">מה הפרס שתציעו? <span class="required">*</span></label>
-                            <input 
-                                type="text" 
-                                id="reward"
-                                class="form-input" 
-                                placeholder="לדוגמה: בירה חינם, קינוח, 10% הנחה..."
-                                required
-                            >
+                            <input type="text" id="reward" class="form-input" placeholder="לדוגמה: בירה חינם, קינוח, 10% הנחה..." required>
                         </div>
 
                         <div class="form-group">
@@ -846,73 +650,27 @@
                 </div>
             </div>
 
-            <!-- Success View with Instagram Connect -->
+            <!-- Success View - Simplified -->
             <div class="success-view" id="successView">
                 <div class="success-icon">🎉</div>
                 <h2 class="success-title">החשבון נוצר בהצלחה!</h2>
                 <p class="success-subtitle">
                     ברוכים הבאים ל-STORIT!
                     <br>
-                    עכשיו בואו נחבר את חשבון Instagram שלכם.
+                    אתם מועברים לדשבורד שלכם...
                 </p>
-
-                <!-- Instagram Connect Section -->
-                <div class="instagram-connect-section">
-                    <h3 class="instagram-connect-title">
-                        📸 חיבור Instagram (מומלץ)
-                    </h3>
-
-                    <div class="instagram-info-box">
-                        <p>
-                            <strong>📌 חשוב לדעת:</strong><br>
-                            אנחנו <strong>לא</strong> שומרים את שם המשתמש והסיסמה שלך.
-                        </p>
-                        
-                        <div class="instagram-steps">
-                            <div class="step">
-                                <span class="step-num">1</span>
-                                <span>תלחץ על "חבר Instagram"</span>
-                            </div>
-                            <div class="step">
-                                <span class="step-num">2</span>
-                                <span>תועבר לדף Facebook מאובטח</span>
-                            </div>
-                            <div class="step">
-                                <span class="step-num">3</span>
-                                <span>תאשר שהאפליקציה יכולה לראות סטוריז שמתייגים אותך</span>
-                            </div>
-                            <div class="step">
-                                <span class="step-num">4</span>
-                                <span>תחזור אלינו - והכל מוכן!</span>
-                            </div>
-                        </div>
-
-                        <p style="margin-top: 16px;">
-                            <strong>🔒 זה בטוח ומוגן לחלוטין על ידי Facebook.</strong>
-                        </p>
-                    </div>
-
-                    <button class="btn-instagram" id="connectInstagramBtn">
-                        <span>📸</span>
-                        <span>חבר את חשבון Instagram שלי</span>
-                    </button>
-
-                    <p class="instagram-note">
-                        * חייב להיות חשבון Instagram Business מחובר לדף Facebook
-                    </p>
-
-                    <span class="skip-link" id="skipInstagramLink">
-                        דלג לעכשיו →
-                    </span>
-                </div>
+                <button class="success-btn" onclick="window.location.href='admin.html'">
+                    <span>🚀</span>
+                    <span>כניסה לדשבורד</span>
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         // ===== STORIT Signup Page =====
-        // Version: 2.1 - Added favicon
-        console.log('✅ Signup page loaded - v2.1');
+        // Version: 3.0 - Removed Facebook connect, direct to dashboard
+        console.log('✅ Signup page loaded - v3.0');
 
         // Supabase Configuration
         const SUPABASE_URL = 'https://xrbzofqgyukkdjwumdft.supabase.co';
@@ -922,17 +680,11 @@
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('✅ Supabase initialized!');
 
-        // Facebook OAuth settings
-        const FB_APP_ID = '2700329290344167';
-        const REDIRECT_URI = 'https://story-seven-psi.vercel.app/oauth-callback.html';
-        const SCOPES = 'instagram_basic,instagram_manage_insights,pages_read_engagement,pages_show_list';
-
         let currentStep = 1;
-        let createdBusinessId = null;
 
         // Toggle password visibility
         function togglePassword(inputId, button) {
-            const input = document.getElementById(inputId);
+            var input = document.getElementById(inputId);
             if (input.type === 'password') {
                 input.type = 'text';
                 button.textContent = '🙈';
@@ -942,7 +694,6 @@
             }
         }
 
-        // Event listeners for password toggles
         document.getElementById('passwordToggle1').addEventListener('click', function() {
             togglePassword('password', this);
         });
@@ -951,76 +702,48 @@
             togglePassword('confirmPassword', this);
         });
 
-        // Show error message
         function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
+            var errorDiv = document.getElementById('errorMessage');
             document.getElementById('errorText').textContent = message;
             errorDiv.classList.add('show');
             errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Hide error message
         function hideError() {
             document.getElementById('errorMessage').classList.remove('show');
         }
 
-        // Validate form step
         function validateStep(step) {
             if (step === 1) {
-                const businessName = document.getElementById('businessName').value.trim();
-                const instagramHandle = document.getElementById('instagramHandle').value.trim();
-                const category = document.getElementById('category').value;
-                const location = document.getElementById('location').value.trim();
+                var businessName = document.getElementById('businessName').value.trim();
+                var instagramHandle = document.getElementById('instagramHandle').value.trim();
+                var category = document.getElementById('category').value;
+                var location = document.getElementById('location').value.trim();
 
-                if (!businessName) {
-                    showError('נא להזין את שם העסק');
-                    return false;
-                }
-                if (!instagramHandle) {
-                    showError('נא להזין יוזר אינסטגרם');
-                    return false;
-                }
-                if (!category) {
-                    showError('נא לבחור קטגוריה');
-                    return false;
-                }
-                if (!location) {
-                    showError('נא להזין מיקום');
-                    return false;
-                }
+                if (!businessName) { showError('נא להזין את שם העסק'); return false; }
+                if (!instagramHandle) { showError('נא להזין יוזר אינסטגרם'); return false; }
+                if (!category) { showError('נא לבחור קטגוריה'); return false; }
+                if (!location) { showError('נא להזין מיקום'); return false; }
             }
 
             if (step === 2) {
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
+                var email = document.getElementById('email').value.trim();
+                var password = document.getElementById('password').value;
+                var confirmPassword = document.getElementById('confirmPassword').value;
 
-                if (!email || !email.includes('@')) {
-                    showError('נא להזין כתובת אימייל תקינה');
-                    return false;
-                }
-                if (password.length < 8) {
-                    showError('הסיסמה חייבת להכיל לפחות 8 תווים');
-                    return false;
-                }
-                if (password !== confirmPassword) {
-                    showError('הסיסמאות לא תואמות');
-                    return false;
-                }
+                if (!email || email.indexOf('@') === -1) { showError('נא להזין כתובת אימייל תקינה'); return false; }
+                if (password.length < 8) { showError('הסיסמה חייבת להכיל לפחות 8 תווים'); return false; }
+                if (password !== confirmPassword) { showError('הסיסמאות לא תואמות'); return false; }
             }
 
             if (step === 3) {
-                const reward = document.getElementById('reward').value.trim();
-                if (!reward) {
-                    showError('נא להזין את הפרס שתציעו');
-                    return false;
-                }
+                var reward = document.getElementById('reward').value.trim();
+                if (!reward) { showError('נא להזין את הפרס שתציעו'); return false; }
             }
 
             return true;
         }
 
-        // Navigate to next step
         function nextStep(fromStep) {
             hideError();
             if (!validateStep(fromStep)) return;
@@ -1035,7 +758,6 @@
             currentStep = fromStep + 1;
         }
 
-        // Navigate to previous step
         function prevStep(fromStep) {
             hideError();
 
@@ -1049,98 +771,47 @@
             currentStep = fromStep - 1;
         }
 
-        // Event listeners for navigation buttons
-        document.getElementById('step1NextBtn').addEventListener('click', function() {
-            nextStep(1);
-        });
+        document.getElementById('step1NextBtn').addEventListener('click', function() { nextStep(1); });
+        document.getElementById('step2BackBtn').addEventListener('click', function() { prevStep(2); });
+        document.getElementById('step2NextBtn').addEventListener('click', function() { nextStep(2); });
+        document.getElementById('step3BackBtn').addEventListener('click', function() { prevStep(3); });
 
-        document.getElementById('step2BackBtn').addEventListener('click', function() {
-            prevStep(2);
-        });
-
-        document.getElementById('step2NextBtn').addEventListener('click', function() {
-            nextStep(2);
-        });
-
-        document.getElementById('step3BackBtn').addEventListener('click', function() {
-            prevStep(3);
-        });
-
-        // Hash password using SHA-256
         async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            var encoder = new TextEncoder();
+            var data = encoder.encode(password);
+            var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            var hashArray = Array.from(new Uint8Array(hashBuffer));
             return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
         }
 
-        // Generate unique business ID
         function generateBusinessId() {
             return 'biz_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
         }
 
-        // Connect Instagram via Facebook OAuth
-        function connectInstagram() {
-            const businessId = createdBusinessId || localStorage.getItem('loggedInBusinessId');
-            
-            if (!businessId) {
-                alert('שגיאה: לא נמצא מזהה עסק. נא ליצור חשבון תחילה.');
-                return;
-            }
-            
-            const btn = document.getElementById('connectInstagramBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<div class="spinner" style="border-color: rgba(255,255,255,0.3); border-top-color: white;"></div><span>מכין...</span>';
-            
-            // Build OAuth URL
-            const authUrl = 
-                'https://www.facebook.com/v18.0/dialog/oauth?' +
-                'client_id=' + FB_APP_ID +
-                '&redirect_uri=' + encodeURIComponent(REDIRECT_URI) +
-                '&scope=' + SCOPES +
-                '&state=' + businessId +
-                '&response_type=code';
-            
-            console.log('Redirecting to Facebook OAuth:', authUrl);
-            window.location.href = authUrl;
-        }
-
-        // Skip Instagram connect
-        function skipInstagramConnect() {
-            window.location.href = 'admin.html';
-        }
-
-        // Event listeners for Instagram buttons
-        document.getElementById('connectInstagramBtn').addEventListener('click', connectInstagram);
-        document.getElementById('skipInstagramLink').addEventListener('click', skipInstagramConnect);
-
-        // Form submission handler
         document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             hideError();
 
             if (!validateStep(3)) return;
 
-            const submitBtn = document.getElementById('submitBtn');
+            var submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<div class="spinner"></div><span>יוצר חשבון...</span>';
 
             try {
-                const businessId = generateBusinessId();
-                const businessName = document.getElementById('businessName').value.trim();
-                const instagramHandle = document.getElementById('instagramHandle').value.trim();
-                const category = document.getElementById('category').value;
-                const location = document.getElementById('location').value.trim();
-                const email = document.getElementById('email').value.trim().toLowerCase();
-                const password = document.getElementById('password').value;
-                const reward = document.getElementById('reward').value.trim();
-                const minFollowers = parseInt(document.getElementById('minFollowers').value);
+                var businessId = generateBusinessId();
+                var businessName = document.getElementById('businessName').value.trim();
+                var instagramHandle = document.getElementById('instagramHandle').value.trim();
+                var category = document.getElementById('category').value;
+                var location = document.getElementById('location').value.trim();
+                var email = document.getElementById('email').value.trim().toLowerCase();
+                var password = document.getElementById('password').value;
+                var reward = document.getElementById('reward').value.trim();
 
                 console.log('📝 Creating business:', businessName);
 
                 // Check if email already exists
-                const checkResult = await supabaseClient
+                var checkResult = await supabaseClient
                     .from('businesses')
                     .select('admin_email')
                     .eq('admin_email', email)
@@ -1151,13 +822,13 @@
                 }
 
                 // Hash password
-                const passwordHash = await hashPassword(password);
+                var passwordHash = await hashPassword(password);
 
                 // Prepare business data
-                const insertData = {
+                var insertData = {
                     business_id: businessId,
                     business_name: businessName,
-                    instagram_handle: instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle,
+                    instagram_handle: instagramHandle.charAt(0) === '@' ? instagramHandle : '@' + instagramHandle,
                     category: category,
                     location: location,
                     admin_email: email,
@@ -1168,7 +839,7 @@
                 console.log('📤 Sending to Supabase:', insertData);
 
                 // Insert into database
-                const insertResult = await supabaseClient
+                var insertResult = await supabaseClient
                     .from('businesses')
                     .insert([insertData])
                     .select()
@@ -1181,30 +852,28 @@
 
                 console.log('✅ Business created successfully:', insertResult.data);
 
-                // Save business ID for Instagram connect
-                createdBusinessId = businessId;
-
                 // Save to localStorage for auto-login
                 localStorage.setItem('loggedInBusinessId', businessId);
                 localStorage.setItem('loggedInBusinessName', businessName);
-                localStorage.setItem('loggedInInstagram', instagramHandle.startsWith('@') ? instagramHandle : '@' + instagramHandle);
+                localStorage.setItem('loggedInInstagram', insertData.instagram_handle);
                 localStorage.setItem('loggedInEmail', email);
 
                 // Show success view
                 document.getElementById('formContent').style.display = 'none';
                 document.getElementById('successView').style.display = 'block';
 
+                // Auto redirect after 2 seconds
+                setTimeout(function() {
+                    window.location.href = 'admin.html';
+                }, 2000);
+
             } catch (error) {
                 console.error('❌ Signup error:', error);
                 
-                // Better error messages
-                let errorMsg = 'שגיאה ביצירת החשבון. נסו שוב.';
+                var errorMsg = 'שגיאה ביצירת החשבון. נסו שוב.';
                 
-                if (error.message && (error.message.includes('duplicate') || error.message.includes('unique'))) {
+                if (error.message && (error.message.indexOf('duplicate') !== -1 || error.message.indexOf('unique') !== -1)) {
                     errorMsg = 'כתובת האימייל כבר רשומה במערכת';
-                } else if (error.message && (error.message.includes('column') || error.code === '42703')) {
-                    errorMsg = 'שגיאת מערכת - יש לעדכן את מבנה הטבלה בסופאבייס';
-                    console.error('Missing columns in database. Run the migration SQL.');
                 } else if (error.message) {
                     errorMsg = error.message;
                 }
