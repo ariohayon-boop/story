@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4F46E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <title>אימון פעיל - GymTracker</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/workout.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Loading -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>טוען...</p>
+    </div>
+
+    <!-- Offline Banner -->
+    <div id="offline-banner" class="offline-banner hidden">
+        <span>📴 מצב אופליין - הנתונים יישמרו מקומית</span>
+    </div>
+
+    <div id="app" class="app-container no-nav">
+        
+        <!-- Step 1: Exercise Selection -->
+        <div id="step-selection" class="step active">
+            <header class="workout-header">
+                <button class="icon-btn" onclick="window.location.href='index.html'">→</button>
+                <h1>בחירת תרגילים</h1>
+                <button id="start-training-btn" class="btn btn-primary btn-sm" disabled>התחל (0)</button>
+            </header>
+            
+            <div class="search-container">
+                <input type="text" id="exercise-search" placeholder="🔍 חפש תרגיל...">
+            </div>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">הכל</button>
+                <button class="filter-tab" data-filter="Chest">חזה</button>
+                <button class="filter-tab" data-filter="Back">גב</button>
+                <button class="filter-tab" data-filter="Legs">רגליים</button>
+                <button class="filter-tab" data-filter="Shoulders">כתפיים</button>
+                <button class="filter-tab" data-filter="Arms">ידיים</button>
+                <button class="filter-tab" data-filter="Core">בטן</button>
+            </div>
+            
+            <div id="exercise-list" class="exercise-list"></div>
+            
+            <button id="add-custom-btn" class="btn btn-secondary btn-full mt-md">
+                ➕ הוסף תרגיל מותאם אישית
+            </button>
+        </div>
+        
+        <!-- Step 2: Active Workout -->
+        <div id="step-workout" class="step">
+            <header class="workout-header workout-active-header">
+                <button id="cancel-workout-btn" class="icon-btn danger">✕</button>
+                <div class="header-center">
+                    <h1>💪 אימון פעיל</h1>
+                    <div class="workout-timer">⏱️ <span id="timer-display">00:00:00</span></div>
+                </div>
+                <button id="add-more-btn" class="icon-btn">➕</button>
+            </header>
+            
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            
+            <div id="workout-exercises" class="workout-exercises"></div>
+            
+            <div class="finish-container">
+                <button id="finish-workout-btn" class="btn btn-primary btn-large">✅ סיים אימון</button>
+            </div>
+        </div>
+        
+        <!-- Step 3: Summary -->
+        <div id="step-summary" class="step">
+            <div class="summary-content">
+                <div class="summary-icon">🎉</div>
+                <h2>כל הכבוד!</h2>
+                
+                <div class="summary-stats">
+                    <div class="summary-stat">
+                        <span class="stat-value" id="summary-duration">00:00</span>
+                        <span class="stat-label">זמן</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="stat-value" id="summary-exercises">0</span>
+                        <span class="stat-label">תרגילים</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="stat-value" id="summary-sets">0</span>
+                        <span class="stat-label">סטים</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="stat-value" id="summary-volume">0</span>
+                        <span class="stat-label">נפח (ק"ג)</span>
+                    </div>
+                </div>
+                
+                <div id="new-prs" class="new-prs hidden">
+                    <h3>🏆 שיאים חדשים!</h3>
+                    <div id="prs-list"></div>
+                </div>
+                
+                <div class="form-group mt-lg">
+                    <label for="workout-name">שם האימון</label>
+                    <input type="text" id="workout-name" placeholder="Push Day, Leg Day...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="workout-notes">הערות</label>
+                    <textarea id="workout-notes" rows="2" placeholder="איך הרגשת?"></textarea>
+                </div>
+                
+                <button id="save-workout-btn" class="btn btn-primary btn-large btn-full">💾 שמור אימון</button>
+                <button id="discard-btn" class="btn btn-text mt-md">מחק</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Exercise Modal -->
+    <div id="custom-exercise-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>הוסף תרגיל חדש</h2>
+            <form id="custom-exercise-form">
+                <div class="form-group">
+                    <label for="custom-name">שם התרגיל</label>
+                    <input type="text" id="custom-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-muscle">קבוצת שרירים</label>
+                    <select id="custom-muscle" required>
+                        <option value="">בחר</option>
+                        <option value="Chest">חזה</option>
+                        <option value="Back">גב</option>
+                        <option value="Legs">רגליים</option>
+                        <option value="Shoulders">כתפיים</option>
+                        <option value="Arms">ידיים</option>
+                        <option value="Core">בטן</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="WorkoutApp.closeModal()">ביטול</button>
+                    <button type="submit" class="btn btn-primary">הוסף</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/supabase-client.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/workout-manager.js"></script>
+</body>
+</html>
