@@ -1,0 +1,491 @@
+/* ====================================
+   Workout Page Specific Styles
+   ==================================== */
+
+/* No bottom nav on workout page */
+.app-container.no-nav {
+    padding-bottom: 0;
+}
+
+/* ====================================
+   Step Management
+   ==================================== */
+
+.step {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.step.active {
+    display: flex;
+}
+
+/* ====================================
+   Workout Header
+   ==================================== */
+
+.workout-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    z-index: 100;
+}
+
+.workout-header h1 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    flex: 1;
+    text-align: center;
+}
+
+.workout-active-header {
+    flex-wrap: wrap;
+}
+
+.workout-active-header .header-center {
+    flex: 1;
+    text-align: center;
+}
+
+.workout-timer {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.icon-btn.danger {
+    color: var(--error);
+}
+
+/* ====================================
+   Search & Filters
+   ==================================== */
+
+.search-container {
+    padding: var(--spacing-md);
+    position: sticky;
+    top: 60px;
+    background: var(--bg-primary);
+    z-index: 50;
+}
+
+.search-container input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: var(--spacing-xs);
+    padding: 0 var(--spacing-md) var(--spacing-md);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.filter-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-tab {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-full);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+}
+
+.filter-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* ====================================
+   Exercise List (Selection)
+   ==================================== */
+
+.exercise-list {
+    flex: 1;
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.exercise-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.exercise-item:hover {
+    border-color: var(--primary);
+}
+
+.exercise-item.selected {
+    border-color: var(--primary);
+    background: rgba(79, 70, 229, 0.1);
+}
+
+.exercise-item.selected::after {
+    content: '✓';
+    color: var(--primary);
+    font-weight: bold;
+    margin-right: auto;
+}
+
+.exercise-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.exercise-details {
+    flex: 1;
+}
+
+.exercise-name {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.exercise-muscle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.exercise-last {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* ====================================
+   Progress Bar
+   ==================================== */
+
+.progress-bar-container {
+    height: 4px;
+    background: var(--border-color);
+    position: sticky;
+    top: 108px;
+    z-index: 50;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--secondary);
+    transition: width 0.3s ease;
+}
+
+/* ====================================
+   Workout Exercises (Active)
+   ==================================== */
+
+.workout-exercises {
+    flex: 1;
+    padding: var(--spacing-md);
+    padding-bottom: 120px;
+}
+
+.workout-exercise-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.exercise-header {
+    background: var(--bg-secondary);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.exercise-header-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.exercise-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.exercise-header .muscle-tag {
+    font-size: 0.75rem;
+    background: var(--primary);
+    color: white;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+}
+
+.exercise-header-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.exercise-previous {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(79, 70, 229, 0.1);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.exercise-previous strong {
+    color: var(--text-primary);
+}
+
+/* Sets Table */
+.sets-container {
+    padding: var(--spacing-md);
+}
+
+.sets-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr 1fr 40px;
+    gap: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.set-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr 1fr 40px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.set-row:last-child {
+    border-bottom: none;
+}
+
+.set-number {
+    width: 32px;
+    height: 32px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.set-input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.set-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.set-input.completed {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--success);
+}
+
+.set-check {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border-color);
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.set-check.checked {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+/* Add Set Button */
+.add-set-row {
+    padding: var(--spacing-sm) 0;
+}
+
+.add-set-btn {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+}
+
+.add-set-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* ====================================
+   Finish Container
+   ==================================== */
+
+.finish-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ====================================
+   Summary Page
+   ==================================== */
+
+.summary-content {
+    flex: 1;
+    padding: var(--spacing-xl) var(--spacing-md);
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.summary-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.summary-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.summary-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+}
+
+.summary-stat .stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.summary-stat .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* New PRs */
+.new-prs {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    color: #000;
+}
+
+.new-prs h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.pr-item {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* ====================================
+   Modal Styles
+   ==================================== */
+
+.modal-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+.modal-actions .btn {
+    flex: 1;
+}
+
+/* ====================================
+   Button Sizes
+   ==================================== */
+
+.btn-sm {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.875rem;
+}
