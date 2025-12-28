@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4F46E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>GymTracker - מעקב אימונים</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Chart.js for statistics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>טוען...</p>
+    </div>
+
+    <!-- Offline Banner -->
+    <div id="offline-banner" class="offline-banner hidden">
+        <span>📴 מצב אופליין - הנתונים יסונכרנו כשתחזור לאינטרנט</span>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">💪 GymTracker</h1>
+                <button id="theme-toggle" class="icon-btn" aria-label="החלף ערכת נושא">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h2 id="greeting">היי! 👋</h2>
+                <p class="subtitle" id="streak-display">מוכן לאימון?</p>
+            </section>
+
+            <!-- Start Workout CTA -->
+            <section class="cta-section">
+                <button id="start-workout-btn" class="btn btn-primary btn-large">
+                    <span class="btn-icon">🏋️</span>
+                    <span class="btn-text">התחל אימון</span>
+                </button>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="quick-stats">
+                <div class="stat-card">
+                    <span class="stat-value" id="weekly-workouts">0</span>
+                    <span class="stat-label">אימונים השבוע</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="monthly-workouts">0</span>
+                    <span class="stat-label">אימונים החודש</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="current-streak">0</span>
+                    <span class="stat-label">🔥 רצף ימים</span>
+                </div>
+            </section>
+
+            <!-- Recent Workouts -->
+            <section class="recent-workouts">
+                <div class="section-header">
+                    <h3>אימונים אחרונים</h3>
+                    <button id="view-all-btn" class="btn btn-text">הצג הכל →</button>
+                </div>
+                
+                <div id="recent-workouts-list" class="workouts-list">
+                    <!-- Empty State -->
+                    <div class="empty-state" id="empty-workouts">
+                        <span class="empty-icon">🎯</span>
+                        <p>עדיין אין אימונים</p>
+                        <p class="empty-subtitle">התחל את האימון הראשון שלך!</p>
+                    </div>
+                    
+                    <!-- Workouts will be loaded here dynamically -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">בית</span>
+            </a>
+            <a href="exercises.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">תרגילים</span>
+            </a>
+            <a href="stats.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">סטטיסטיקות</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">הגדרות</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- Auth Modal (for login/signup) -->
+    <div id="auth-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>התחברות</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">אימייל</label>
+                    <input type="email" id="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">סיסמה</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">התחבר</button>
+            </form>
+            <p class="auth-toggle">
+                אין לך חשבון? 
+                <button id="toggle-signup" class="btn btn-text">הירשם</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/supabase-client.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/gym-tracker/service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
