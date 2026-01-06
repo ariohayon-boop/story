@@ -4,249 +4,508 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatBot Pro - שיחות</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/config.js"></script>
-    <script>tailwind.config={theme:{extend:{colors:{primary:'#00D4AA','primary-dark':'#00A080',secondary:'#0066FF',dark:'#1A1A2E',success:'#00E676'}}}}</script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00D4AA',
+                        'primary-dark': '#00A080',
+                        secondary: '#0066FF',
+                        dark: '#1A1A2E',
+                        success: '#00E676',
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        *{font-family:'Heebo',sans-serif}.glass{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3)}.gradient-bg{background:linear-gradient(135deg,#f5f7fa 0%,#e4e8ec 100%)}.gradient-primary{background:linear-gradient(135deg,#00D4AA 0%,#00A080 100%)}.gradient-secondary{background:linear-gradient(135deg,#0066FF 0%,#0052CC 100%)}.card-hover{transition:all .3s cubic-bezier(.4,0,.2,1)}.card-hover:hover{transform:translateY(-2px);box-shadow:0 8px 30px 0 rgba(31,38,135,.1)}.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:skeleton-loading 1.5s infinite}@keyframes skeleton-loading{0%{background-position:200% 0}100%{background-position:-200% 0}}.sidebar-item{transition:all .2s ease}.sidebar-item:hover{background:rgba(0,212,170,.1)}.sidebar-item.active{background:rgba(0,212,170,.15);border-right:3px solid #00D4AA}@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}.toast{animation:slideIn .3s ease}.pulse-dot{animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#f1f1f1;border-radius:3px}::-webkit-scrollbar-thumb{background:#c1c1c1;border-radius:3px}.badge-success{background:rgba(0,230,118,.15);color:#00C853}.badge-warning{background:rgba(255,193,7,.15);color:#FF9800}.badge-info{background:rgba(0,102,255,.15);color:#0066FF}.badge-error{background:rgba(244,67,54,.15);color:#F44336}.badge-gray{background:rgba(158,158,158,.15);color:#757575}
+        * { font-family: 'Heebo', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .gradient-bg { background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); }
+        .gradient-primary { background: linear-gradient(135deg, #00D4AA 0%, #00A080 100%); }
+        .gradient-secondary { background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 30px 0 rgba(31, 38, 135, 0.1); }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .sidebar-item { transition: all 0.2s ease; }
+        .sidebar-item:hover { background: rgba(0, 212, 170, 0.1); }
+        .sidebar-item.active { background: rgba(0, 212, 170, 0.15); border-right: 3px solid #00D4AA; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .toast { animation: slideIn 0.3s ease; }
+        .pulse-dot { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+        .badge-success { background: rgba(0, 230, 118, 0.15); color: #00C853; }
+        .badge-warning { background: rgba(255, 193, 7, 0.15); color: #FF9800; }
+        .badge-error { background: rgba(244, 67, 54, 0.15); color: #F44336; }
+        .badge-info { background: rgba(0, 102, 255, 0.15); color: #0066FF; }
+        .badge-gray { background: rgba(158, 158, 158, 0.15); color: #757575; }
+        .chat-bubble { max-width: 80%; }
+        .chat-bubble.customer { background: #f0f0f0; border-radius: 18px 18px 18px 4px; }
+        .chat-bubble.bot { background: linear-gradient(135deg, #00D4AA 0%, #00A080 100%); color: white; border-radius: 18px 18px 4px 18px; }
     </style>
 </head>
 <body class="gradient-bg min-h-screen">
+    
     <div id="toast-container" class="fixed top-4 left-4 z-50 flex flex-col gap-2"></div>
+    
     <div class="flex min-h-screen">
+        
+        <!-- Sidebar -->
         <aside class="sidebar w-64 bg-white shadow-lg fixed h-full z-40">
-            <div class="p-6 border-b border-gray-100"><div class="flex items-center gap-3"><div class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center"><i data-lucide="message-square" class="w-5 h-5 text-white"></i></div><div><h1 class="text-lg font-bold text-dark">ChatBot Pro</h1><p class="text-xs text-gray-500">ניהול בוט וואטסאפ</p></div></div></div>
-            <nav class="p-4"><ul class="space-y-1">
-                <li><a href="index.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>דשבורד</span></a></li>
-                <li><a href="conversations.html" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-dark"><i data-lucide="message-circle" class="w-5 h-5"></i><span>שיחות</span><span class="mr-auto bg-primary text-white text-xs px-2 py-0.5 rounded-full" id="unread-count">0</span></a></li>
-                <li><a href="knowledge.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="book-open" class="w-5 h-5"></i><span>מאגר מידע</span></a></li>
-                <li><a href="settings.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="settings" class="w-5 h-5"></i><span>הגדרות</span></a></li>
-            </ul></nav>
-            <div class="absolute bottom-0 w-full p-4 border-t border-gray-100"><div class="glass rounded-xl p-3"><div class="flex items-center gap-3"><div class="w-3 h-3 bg-success rounded-full pulse-dot"></div><div><p class="text-sm font-medium text-dark">מצב דמו</p><p class="text-xs text-gray-500">נתונים לדוגמה</p></div></div></div></div>
-        </aside>
-        <main class="flex-1 mr-64 p-8">
-            <header class="flex items-center justify-between mb-8 opacity-0" id="header">
-                <div><h2 class="text-2xl font-bold text-dark">שיחות 💬</h2><p class="text-gray-500">היסטוריית כל השיחות עם לקוחות</p></div>
+            <div class="p-6 border-b border-gray-100">
                 <div class="flex items-center gap-3">
-                    <button onclick="markAllAsRead()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors flex items-center gap-2"><i data-lucide="check-check" class="w-4 h-4"></i>סמן הכל כנקרא</button>
-                    <button onclick="exportConversations()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i>ייצוא</button>
+                    <div class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center">
+                        <i data-lucide="message-square" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-dark">ChatBot Pro</h1>
+                        <p class="text-xs text-gray-500">ניהול בוט וואטסאפ</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <li><a href="index.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>דשבורד</span></a></li>
+                    <li><a href="conversations.html" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-dark"><i data-lucide="message-circle" class="w-5 h-5"></i><span>שיחות</span></a></li>
+                    <li><a href="knowledge.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="book-open" class="w-5 h-5"></i><span>מאגר מידע</span></a></li>
+                    <li><a href="appointments.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="calendar" class="w-5 h-5"></i><span>פגישות</span></a></li>
+                    <li><a href="settings.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="settings" class="w-5 h-5"></i><span>הגדרות</span></a></li>
+                </ul>
+            </nav>
+            
+            <div class="absolute bottom-0 w-full p-4 border-t border-gray-100">
+                <div class="glass rounded-xl p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 bg-success rounded-full pulse-dot"></div>
+                        <div>
+                            <p class="text-sm font-medium text-dark">וואטסאפ מחובר</p>
+                            <p class="text-xs text-gray-500">מצב דמו</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 mr-64 p-8">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-8 opacity-0" id="header">
+                <div>
+                    <h2 class="text-2xl font-bold text-dark">שיחות 💬</h2>
+                    <p class="text-gray-500">צפה בכל השיחות עם הלקוחות</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="exportConversations()" class="flex items-center gap-2 px-4 py-2 bg-white rounded-xl hover:shadow-md transition-all">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        ייצוא
+                    </button>
                 </div>
             </header>
+            
+            <!-- Filters -->
             <section class="glass rounded-2xl p-4 mb-6 opacity-0" id="filters-section">
                 <div class="flex flex-wrap items-center gap-4">
-                    <div class="flex-1 min-w-64 relative"><i data-lucide="search" class="w-5 h-5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2"></i><input type="text" id="search-input" placeholder="חפש לפי שם, טלפון או הודעה..." class="w-full pr-10 pl-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white transition-all"></div>
-                    <select id="status-filter" class="px-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary"><option value="">כל הסטטוסים</option><option value="answered">✓ נענה</option><option value="no_answer">⏳ ממתין למענה</option><option value="scheduling">📅 קביעת פגישה</option></select>
-                    <select id="read-filter" class="px-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary"><option value="">הכל</option><option value="unread">📩 לא נקראו</option><option value="read">✓ נקראו</option></select>
+                    <div class="flex-1 min-w-64 relative">
+                        <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="search-input" placeholder="חפש לפי שם, טלפון או תוכן..." 
+                               class="w-full pr-10 pl-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white transition-all">
+                    </div>
+                    
+                    <select id="status-filter" class="px-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary">
+                        <option value="">כל הסטטוסים</option>
+                        <option value="answered">✓ נענו</option>
+                        <option value="no_answer">⏳ ממתינים</option>
+                        <option value="scheduling">📅 פגישות</option>
+                    </select>
+                    
+                    <select id="date-filter" class="px-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary">
+                        <option value="">כל הזמנים</option>
+                        <option value="today">היום</option>
+                        <option value="week">השבוע</option>
+                        <option value="month">החודש</option>
+                    </select>
                 </div>
             </section>
+            
+            <!-- Stats -->
             <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 opacity-0" id="stats-bar">
-                <div class="glass rounded-xl p-4 flex items-center gap-3"><div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center"><i data-lucide="message-square" class="w-5 h-5 text-primary"></i></div><div><p class="text-xl font-bold text-dark" id="total-conversations">0</p><p class="text-xs text-gray-500">סה"כ שיחות</p></div></div>
-                <div class="glass rounded-xl p-4 flex items-center gap-3"><div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i></div><div><p class="text-xl font-bold text-dark" id="answered-count">0</p><p class="text-xs text-gray-500">נענו</p></div></div>
-                <div class="glass rounded-xl p-4 flex items-center gap-3"><div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center"><i data-lucide="clock" class="w-5 h-5 text-orange-600"></i></div><div><p class="text-xl font-bold text-dark" id="pending-count">0</p><p class="text-xs text-gray-500">ממתינים</p></div></div>
-                <div class="glass rounded-xl p-4 flex items-center gap-3"><div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center"><i data-lucide="trending-up" class="w-5 h-5 text-blue-600"></i></div><div><p class="text-xl font-bold text-dark" id="answer-rate">0%</p><p class="text-xs text-gray-500">אחוז מענה</p></div></div>
-            </section>
-            <section class="glass rounded-2xl p-6 opacity-0" id="conversations-section">
-                <div class="space-y-3" id="conversations-list">
-                    <div class="conversation-skeleton flex items-center gap-4 p-4 border border-gray-100 rounded-xl"><div class="skeleton w-12 h-12 rounded-full"></div><div class="flex-1"><div class="skeleton h-4 w-32 mb-2 rounded"></div><div class="skeleton h-3 w-full rounded"></div></div><div class="skeleton h-6 w-20 rounded-full"></div></div>
-                    <div class="conversation-skeleton flex items-center gap-4 p-4 border border-gray-100 rounded-xl"><div class="skeleton w-12 h-12 rounded-full"></div><div class="flex-1"><div class="skeleton h-4 w-32 mb-2 rounded"></div><div class="skeleton h-3 w-full rounded"></div></div><div class="skeleton h-6 w-20 rounded-full"></div></div>
-                    <div class="conversation-skeleton flex items-center gap-4 p-4 border border-gray-100 rounded-xl"><div class="skeleton w-12 h-12 rounded-full"></div><div class="flex-1"><div class="skeleton h-4 w-32 mb-2 rounded"></div><div class="skeleton h-3 w-full rounded"></div></div><div class="skeleton h-6 w-20 rounded-full"></div></div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+                        <i data-lucide="message-square" class="w-5 h-5 text-primary"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="stat-total">0</p>
+                        <p class="text-xs text-gray-500">סה"כ שיחות</p>
+                    </div>
                 </div>
-                <div class="hidden text-center py-16" id="empty-state"><div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center"><i data-lucide="message-square-off" class="w-12 h-12 text-gray-400"></i></div><h3 class="text-xl font-bold text-dark mb-2">אין שיחות</h3><p class="text-gray-500">ברגע שלקוחות ישלחו הודעות, הן יופיעו כאן</p></div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="stat-answered">0</p>
+                        <p class="text-xs text-gray-500">נענו</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="clock" class="w-5 h-5 text-orange-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="stat-pending">0</p>
+                        <p class="text-xs text-gray-500">ממתינים</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="percent" class="w-5 h-5 text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="stat-rate">0%</p>
+                        <p class="text-xs text-gray-500">אחוז מענה</p>
+                    </div>
+                </div>
             </section>
+            
+            <!-- Conversations List -->
+            <section class="glass rounded-2xl overflow-hidden opacity-0" id="conversations-section">
+                <div class="divide-y divide-gray-100" id="conversations-list">
+                    <!-- Loading -->
+                    <div class="conversation-skeleton p-4">
+                        <div class="flex items-center gap-4">
+                            <div class="skeleton w-12 h-12 rounded-full"></div>
+                            <div class="flex-1">
+                                <div class="skeleton h-4 w-32 mb-2 rounded"></div>
+                                <div class="skeleton h-3 w-full rounded"></div>
+                            </div>
+                            <div class="skeleton h-6 w-20 rounded-full"></div>
+                        </div>
+                    </div>
+                    <div class="conversation-skeleton p-4">
+                        <div class="flex items-center gap-4">
+                            <div class="skeleton w-12 h-12 rounded-full"></div>
+                            <div class="flex-1">
+                                <div class="skeleton h-4 w-32 mb-2 rounded"></div>
+                                <div class="skeleton h-3 w-full rounded"></div>
+                            </div>
+                            <div class="skeleton h-6 w-20 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Empty State -->
+                <div class="hidden text-center py-16" id="empty-state">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="message-square-off" class="w-10 h-10 text-gray-400"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-dark mb-2">אין שיחות</h4>
+                    <p class="text-gray-500">לא נמצאו שיחות התואמות את החיפוש</p>
+                </div>
+            </section>
+            
         </main>
     </div>
+    
+    <!-- Conversation Detail Modal -->
     <div id="detail-modal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDetailModal()"></div>
-        <div class="absolute top-0 left-0 h-full w-full max-w-xl bg-white shadow-2xl overflow-y-auto" style="animation: slideFromLeft 0.3s ease">
-            <div class="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between z-10">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDetailModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden" style="animation: modalIn 0.3s ease">
+            <div class="flex items-center justify-between p-6 border-b border-gray-100">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 gradient-secondary rounded-full flex items-center justify-center"><span class="text-white font-bold" id="detail-initials">--</span></div>
-                    <div><h3 class="font-bold text-dark" id="detail-name">טוען...</h3><p class="text-sm text-gray-500" id="detail-phone"></p></div>
+                    <div class="w-12 h-12 gradient-secondary rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold" id="modal-initials">--</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-dark" id="modal-name">שם הלקוח</h3>
+                        <p class="text-sm text-gray-500" id="modal-phone">טלפון</p>
+                    </div>
                 </div>
-                <button onclick="closeDetailModal()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors"><i data-lucide="x" class="w-5 h-5 text-gray-500"></i></button>
+                <button onclick="closeDetailModal()" class="p-2 hover:bg-gray-100 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                </button>
             </div>
-            <div class="p-4 space-y-4" id="detail-content">
-                <div class="bg-gray-50 rounded-xl p-4"><p class="text-sm text-gray-500 mb-1">הודעת הלקוח:</p><p class="text-dark" id="detail-message"></p><p class="text-xs text-gray-400 mt-2" id="detail-time"></p></div>
-                <div class="bg-primary/10 rounded-xl p-4"><p class="text-sm text-gray-500 mb-1">תשובת הבוט:</p><p class="text-dark whitespace-pre-line" id="detail-response"></p><div class="flex items-center gap-2 mt-2"><span class="text-xs px-2 py-1 rounded-full" id="detail-status"></span><span class="text-xs text-gray-400" id="detail-confidence"></span></div></div>
-                <div class="border-t border-gray-100 pt-4"><p class="text-sm font-medium text-dark mb-3">פעולות:</p><div class="flex flex-wrap gap-2">
-                    <button onclick="addToKnowledge()" class="px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary-dark transition-colors flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>הוסף למאגר</button>
-                    <button onclick="markAsHandled()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors flex items-center gap-2"><i data-lucide="check" class="w-4 h-4"></i>סמן כטופל</button>
-                </div></div>
+            
+            <div class="p-6 max-h-96 overflow-y-auto" id="modal-chat">
+                <!-- Chat bubbles will be inserted here -->
+            </div>
+            
+            <div class="p-6 border-t border-gray-100 bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-500" id="modal-time">זמן</span>
+                    <span class="text-sm" id="modal-status-badge">סטטוס</span>
+                    <span class="text-sm text-gray-500 mr-auto" id="modal-confidence">ביטחון AI: --</span>
+                </div>
             </div>
         </div>
     </div>
-    <style>@keyframes slideFromLeft{from{transform:translateX(-100%)}to{transform:translateX(0)}}</style>
-<script>
-const BUSINESS_ID = getBusinessId();
-let conversations = [];
-let selectedConversation = null;
-
-lucide.createIcons();
-gsap.set('#header', { opacity: 0, y: -20 });
-gsap.set('#filters-section', { opacity: 0, y: 20 });
-gsap.set('#stats-bar', { opacity: 0, y: 20 });
-gsap.set('#conversations-section', { opacity: 0, y: 20 });
-
-function initAnimations() {
-    gsap.to('#header', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-    gsap.to('#filters-section', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.2 });
-    gsap.to('#stats-bar', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.3 });
-    gsap.to('#conversations-section', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.4 });
-}
-
-async function loadConversations() {
-    try {
-        if (isDemoMode()) { conversations = [...DEMO_DATA.conversations]; }
-        else {
-            const db = getSupabase();
-            const { data, error } = await db.from('conversations').select('*').eq('business_id', BUSINESS_ID).order('timestamp', { ascending: false });
-            if (error) throw error;
-            conversations = data || [];
+    
+    <style>
+        @keyframes modalIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+    </style>
+    
+    <script>
+        // ============================================
+        // State
+        // ============================================
+        const BUSINESS_ID = getBusinessId();
+        let conversations = [];
+        let selectedConversation = null;
+        
+        // ============================================
+        // Initialize
+        // ============================================
+        lucide.createIcons();
+        
+        gsap.set('#header', { opacity: 0, y: -20 });
+        gsap.set('#filters-section', { opacity: 0, y: 20 });
+        gsap.set('#stats-bar', { opacity: 0, y: 20 });
+        gsap.set('#conversations-section', { opacity: 0, y: 20 });
+        
+        function initAnimations() {
+            gsap.to('#header', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+            gsap.to('#filters-section', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.2 });
+            gsap.to('#stats-bar', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.3 });
+            gsap.to('#conversations-section', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.4 });
         }
-        renderConversations();
-        updateStats();
-    } catch (error) {
-        console.error('Error:', error);
-        conversations = [...DEMO_DATA.conversations];
-        renderConversations();
-        updateStats();
-    }
-}
-
-function renderConversations(items = conversations) {
-    const list = document.getElementById('conversations-list');
-    const emptyState = document.getElementById('empty-state');
-    list.querySelectorAll('.conversation-skeleton, .conversation-item').forEach(el => el.remove());
-    if (items.length === 0) { emptyState.classList.remove('hidden'); return; }
-    emptyState.classList.add('hidden');
-    items.forEach((conv, index) => {
-        const displayName = conv.customer_name || formatPhone(conv.customer_phone);
-        const badge = RESPONSE_TYPE_LABELS[conv.response_type] || RESPONSE_TYPE_LABELS.answered;
-        const card = document.createElement('div');
-        card.className = `conversation-item card-hover flex items-center gap-4 p-4 border rounded-xl cursor-pointer ${!conv.is_read ? 'border-primary/30 bg-primary/5' : 'border-gray-100'}`;
-        card.style.opacity = '0';
-        card.innerHTML = `
-            <div class="w-12 h-12 gradient-secondary rounded-full flex items-center justify-center flex-shrink-0"><span class="text-white font-bold">${getInitials(displayName)}</span></div>
-            <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1">
-                    <h4 class="font-medium text-dark">${displayName}</h4>
-                    <span class="text-xs text-gray-400">${getTimeAgo(conv.timestamp)}</span>
-                    ${!conv.is_read ? '<span class="w-2 h-2 bg-primary rounded-full"></span>' : ''}
+        
+        // ============================================
+        // Data Loading
+        // ============================================
+        async function loadConversations() {
+            try {
+                if (isDemoMode()) {
+                    conversations = [...DEMO_DATA.conversations];
+                } else {
+                    const db = getSupabase();
+                    const { data, error } = await db
+                        .from('conversations')
+                        .select('*')
+                        .eq('business_id', BUSINESS_ID)
+                        .order('timestamp', { ascending: false });
+                    
+                    if (error) throw error;
+                    conversations = data || [];
+                }
+                
+                renderConversations();
+                updateStats();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                conversations = [...DEMO_DATA.conversations];
+                renderConversations();
+                updateStats();
+            }
+        }
+        
+        // ============================================
+        // Render
+        // ============================================
+        function renderConversations(items = conversations) {
+            const list = document.getElementById('conversations-list');
+            const emptyState = document.getElementById('empty-state');
+            
+            list.querySelectorAll('.conversation-skeleton').forEach(el => el.remove());
+            list.querySelectorAll('.conversation-item').forEach(el => el.remove());
+            
+            if (items.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            items.forEach((conv, index) => {
+                const displayName = conv.customer_name || formatPhone(conv.customer_phone);
+                const badge = RESPONSE_TYPE_LABELS[conv.response_type] || RESPONSE_TYPE_LABELS.answered;
+                
+                const row = document.createElement('div');
+                row.className = 'conversation-item p-4 hover:bg-gray-50 cursor-pointer transition-colors';
+                row.style.opacity = '0';
+                row.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 gradient-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold">${getInitials(displayName)}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-medium text-dark">${displayName}</h4>
+                                ${!conv.is_read ? '<span class="w-2 h-2 bg-primary rounded-full"></span>' : ''}
+                                <span class="text-xs text-gray-400 mr-auto">${getTimeAgo(conv.timestamp)}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 truncate">${conv.message}</p>
+                        </div>
+                        <span class="${badge.class} text-xs px-3 py-1 rounded-full flex-shrink-0">${badge.text}</span>
+                    </div>
+                `;
+                
+                row.onclick = () => openDetailModal(conv);
+                list.appendChild(row);
+                
+                gsap.to(row, { opacity: 1, duration: 0.3, delay: index * 0.05, ease: 'power2.out' });
+            });
+            
+            lucide.createIcons();
+        }
+        
+        function updateStats() {
+            const total = conversations.length;
+            const answered = conversations.filter(c => c.response_type === 'answered').length;
+            const pending = conversations.filter(c => c.response_type === 'no_answer').length;
+            const rate = total > 0 ? Math.round((answered / total) * 100) : 0;
+            
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-answered').textContent = answered;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-rate').textContent = rate + '%';
+        }
+        
+        // ============================================
+        // Filters
+        // ============================================
+        document.getElementById('search-input').addEventListener('input', filterConversations);
+        document.getElementById('status-filter').addEventListener('change', filterConversations);
+        document.getElementById('date-filter').addEventListener('change', filterConversations);
+        
+        function filterConversations() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const status = document.getElementById('status-filter').value;
+            const date = document.getElementById('date-filter').value;
+            
+            let filtered = conversations;
+            
+            if (search) {
+                filtered = filtered.filter(c => 
+                    (c.customer_name || '').toLowerCase().includes(search) ||
+                    (c.customer_phone || '').includes(search) ||
+                    (c.message || '').toLowerCase().includes(search)
+                );
+            }
+            
+            if (status) {
+                filtered = filtered.filter(c => c.response_type === status);
+            }
+            
+            if (date) {
+                const now = new Date();
+                filtered = filtered.filter(c => {
+                    const convDate = new Date(c.timestamp);
+                    if (date === 'today') return convDate.toDateString() === now.toDateString();
+                    if (date === 'week') return (now - convDate) < 7 * 24 * 60 * 60 * 1000;
+                    if (date === 'month') return (now - convDate) < 30 * 24 * 60 * 60 * 1000;
+                    return true;
+                });
+            }
+            
+            renderConversations(filtered);
+        }
+        
+        // ============================================
+        // Detail Modal
+        // ============================================
+        function openDetailModal(conv) {
+            selectedConversation = conv;
+            const displayName = conv.customer_name || formatPhone(conv.customer_phone);
+            const badge = RESPONSE_TYPE_LABELS[conv.response_type] || RESPONSE_TYPE_LABELS.answered;
+            
+            document.getElementById('modal-initials').textContent = getInitials(displayName);
+            document.getElementById('modal-name').textContent = displayName;
+            document.getElementById('modal-phone').textContent = formatPhone(conv.customer_phone);
+            document.getElementById('modal-time').textContent = getTimeAgo(conv.timestamp);
+            document.getElementById('modal-status-badge').innerHTML = `<span class="${badge.class} px-2 py-1 rounded-full text-xs">${badge.text}</span>`;
+            document.getElementById('modal-confidence').textContent = conv.ai_confidence ? `ביטחון AI: ${Math.round(conv.ai_confidence * 100)}%` : '';
+            
+            const chatContainer = document.getElementById('modal-chat');
+            chatContainer.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-start">
+                        <div class="chat-bubble customer px-4 py-3">
+                            <p class="text-dark">${conv.message}</p>
+                        </div>
+                    </div>
+                    ${conv.bot_response ? `
+                        <div class="flex justify-end">
+                            <div class="chat-bubble bot px-4 py-3">
+                                <p class="whitespace-pre-line">${conv.bot_response}</p>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="text-center py-4">
+                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">הבוט לא מצא תשובה מתאימה</span>
+                        </div>
+                    `}
                 </div>
-                <p class="text-sm text-gray-600 truncate">${conv.message}</p>
-            </div>
-            <span class="${badge.class} text-xs px-3 py-1 rounded-full flex-shrink-0">${badge.text}</span>
-        `;
-        card.onclick = () => openDetailModal(conv);
-        list.appendChild(card);
-        gsap.to(card, { opacity: 1, y: 0, duration: 0.3, delay: index * 0.05, ease: 'power2.out' });
-    });
-    lucide.createIcons();
-}
-
-function updateStats() {
-    const total = conversations.length;
-    const answered = conversations.filter(c => c.response_type === 'answered').length;
-    const pending = conversations.filter(c => c.response_type === 'no_answer' || c.needs_followup).length;
-    const unread = conversations.filter(c => !c.is_read).length;
-    const rate = total > 0 ? Math.round((answered / total) * 100) : 0;
-    document.getElementById('total-conversations').textContent = total;
-    document.getElementById('answered-count').textContent = answered;
-    document.getElementById('pending-count').textContent = pending;
-    document.getElementById('answer-rate').textContent = rate + '%';
-    document.getElementById('unread-count').textContent = unread;
-}
-
-function openDetailModal(conv) {
-    selectedConversation = conv;
-    const displayName = conv.customer_name || formatPhone(conv.customer_phone);
-    const badge = RESPONSE_TYPE_LABELS[conv.response_type] || RESPONSE_TYPE_LABELS.answered;
-    document.getElementById('detail-initials').textContent = getInitials(displayName);
-    document.getElementById('detail-name').textContent = displayName;
-    document.getElementById('detail-phone').textContent = formatPhone(conv.customer_phone);
-    document.getElementById('detail-message').textContent = conv.message;
-    document.getElementById('detail-time').textContent = formatDate(conv.timestamp) + ' ' + formatTime(conv.timestamp);
-    document.getElementById('detail-response').textContent = conv.bot_response || 'לא נשלחה תשובה';
-    document.getElementById('detail-status').textContent = badge.text;
-    document.getElementById('detail-status').className = `text-xs px-2 py-1 rounded-full ${badge.class}`;
-    document.getElementById('detail-confidence').textContent = conv.ai_confidence ? `ביטחון: ${Math.round(conv.ai_confidence * 100)}%` : '';
-    document.getElementById('detail-modal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    if (!conv.is_read) { conv.is_read = true; renderConversations(); updateStats(); }
-    lucide.createIcons();
-}
-
-function closeDetailModal() {
-    document.getElementById('detail-modal').classList.add('hidden');
-    document.body.style.overflow = '';
-    selectedConversation = null;
-}
-
-function addToKnowledge() {
-    if (!selectedConversation) return;
-    const question = selectedConversation.message;
-    closeDetailModal();
-    window.location.href = `knowledge.html?add=true&question=${encodeURIComponent(question)}`;
-}
-
-function markAsHandled() {
-    if (!selectedConversation) return;
-    selectedConversation.needs_followup = false;
-    showToast('השיחה סומנה כטופלה');
-    closeDetailModal();
-    renderConversations();
-    updateStats();
-}
-
-function markAllAsRead() {
-    conversations.forEach(c => c.is_read = true);
-    renderConversations();
-    updateStats();
-    showToast('כל השיחות סומנו כנקראו');
-}
-
-function exportConversations() {
-    const csv = ['שם,טלפון,הודעה,תשובה,סטטוס,תאריך'];
-    conversations.forEach(c => {
-        csv.push(`"${c.customer_name || ''}","${c.customer_phone}","${c.message}","${c.bot_response || ''}","${c.response_type}","${c.timestamp}"`);
-    });
-    const blob = new Blob(['\ufeff' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'conversations.csv';
-    link.click();
-    showToast('הקובץ הורד בהצלחה');
-}
-
-document.getElementById('search-input').addEventListener('input', filterConversations);
-document.getElementById('status-filter').addEventListener('change', filterConversations);
-document.getElementById('read-filter').addEventListener('change', filterConversations);
-
-function filterConversations() {
-    const search = document.getElementById('search-input').value.toLowerCase();
-    const status = document.getElementById('status-filter').value;
-    const readFilter = document.getElementById('read-filter').value;
-    let filtered = conversations;
-    if (search) filtered = filtered.filter(c => (c.customer_name || '').toLowerCase().includes(search) || c.customer_phone.includes(search) || c.message.toLowerCase().includes(search));
-    if (status) filtered = filtered.filter(c => c.response_type === status);
-    if (readFilter === 'unread') filtered = filtered.filter(c => !c.is_read);
-    else if (readFilter === 'read') filtered = filtered.filter(c => c.is_read);
-    renderConversations(filtered);
-}
-
-// Check URL for filter param
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('filter') === 'no_answer') {
-    document.getElementById('status-filter').value = 'no_answer';
-}
-
-document.addEventListener('DOMContentLoaded', () => { initAnimations(); loadConversations(); });
-</script>
+            `;
+            
+            document.getElementById('detail-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+        
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+            selectedConversation = null;
+        }
+        
+        // ============================================
+        // Export
+        // ============================================
+        function exportConversations() {
+            const csv = [
+                ['תאריך', 'שם', 'טלפון', 'הודעה', 'תשובה', 'סטטוס'].join(','),
+                ...conversations.map(c => [
+                    new Date(c.timestamp).toLocaleDateString('he-IL'),
+                    c.customer_name || '',
+                    c.customer_phone,
+                    `"${(c.message || '').replace(/"/g, '""')}"`,
+                    `"${(c.bot_response || '').replace(/"/g, '""')}"`,
+                    c.response_type
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `conversations_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            
+            showToast('הקובץ יורד...');
+        }
+        
+        // ============================================
+        // Init
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initAnimations();
+            loadConversations();
+            
+            // Check for filter param
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('filter') === 'no_answer') {
+                document.getElementById('status-filter').value = 'no_answer';
+                setTimeout(filterConversations, 500);
+            }
+        });
+    </script>
+    
 </body>
 </html>
