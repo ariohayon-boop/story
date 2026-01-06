@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Pro - מאגר מידע</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00D4AA',
+                        'primary-dark': '#00A080',
+                        secondary: '#0066FF',
+                        dark: '#1A1A2E',
+                        success: '#00E676',
+                    },
+                    fontFamily: {
+                        heebo: ['Heebo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Heebo', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .gradient-bg { background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); }
+        .gradient-primary { background: linear-gradient(135deg, #00D4AA 0%, #00A080 100%); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 30px 0 rgba(31, 38, 135, 0.1); }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .sidebar-item { transition: all 0.2s ease; }
+        .sidebar-item:hover { background: rgba(0, 212, 170, 0.1); }
+        .sidebar-item.active { background: rgba(0, 212, 170, 0.15); border-right: 3px solid #00D4AA; }
+        .modal-overlay { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
+        .modal-content { animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .toast { animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .category-pricing { background: rgba(0, 212, 170, 0.15); color: #00A080; }
+        .category-services { background: rgba(0, 102, 255, 0.15); color: #0066FF; }
+        .category-hours { background: rgba(255, 193, 7, 0.15); color: #FF9800; }
+        .category-location { background: rgba(156, 39, 176, 0.15); color: #9C27B0; }
+        .category-terms { background: rgba(244, 67, 54, 0.15); color: #F44336; }
+        .category-technical { background: rgba(96, 125, 139, 0.15); color: #607D8B; }
+        .category-faq { background: rgba(0, 230, 118, 0.15); color: #00C853; }
+        .category-other { background: rgba(158, 158, 158, 0.15); color: #757575; }
+        .toggle-switch { position: relative; width: 48px; height: 24px; background: #e5e7eb; border-radius: 12px; cursor: pointer; transition: background 0.3s; }
+        .toggle-switch.active { background: #00D4AA; }
+        .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: transform 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .toggle-switch.active::after { transform: translateX(24px); }
+        .pulse-dot { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 left-4 z-50 flex flex-col gap-2"></div>
+    
+    <div class="flex min-h-screen">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 bg-white shadow-lg fixed h-full z-40">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center">
+                        <i data-lucide="message-square" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-dark">ChatBot Pro</h1>
+                        <p class="text-xs text-gray-500">ניהול בוט וואטסאפ</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <li><a href="dashboard.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>דשבורד</span></a></li>
+                    <li><a href="conversations.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="message-circle" class="w-5 h-5"></i><span>שיחות</span></a></li>
+                    <li><a href="knowledge.html" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-dark"><i data-lucide="book-open" class="w-5 h-5"></i><span>מאגר מידע</span></a></li>
+                    <li><a href="appointments.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="calendar" class="w-5 h-5"></i><span>פגישות</span></a></li>
+                    <li><a href="settings.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:text-dark"><i data-lucide="settings" class="w-5 h-5"></i><span>הגדרות</span></a></li>
+                </ul>
+            </nav>
+            
+            <div class="absolute bottom-0 w-full p-4 border-t border-gray-100">
+                <div class="glass rounded-xl p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 bg-success rounded-full pulse-dot"></div>
+                        <div>
+                            <p class="text-sm font-medium text-dark">וואטסאפ מחובר</p>
+                            <p class="text-xs text-gray-500" id="whatsapp-number">052-1234567</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="flex-1 mr-64 p-8">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-8 opacity-0" id="header">
+                <div>
+                    <h2 class="text-2xl font-bold text-dark">מאגר מידע 📚</h2>
+                    <p class="text-gray-500">נהל את השאלות והתשובות שהבוט יודע לענות עליהן</p>
+                </div>
+                <button onclick="openModal()" class="gradient-primary text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-shadow flex items-center gap-2">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                    הוסף שאלה חדשה
+                </button>
+            </header>
+            
+            <!-- Search & Filters -->
+            <section class="glass rounded-2xl p-4 mb-6 opacity-0" id="filters-section">
+                <div class="flex flex-wrap items-center gap-4">
+                    <!-- Search -->
+                    <div class="flex-1 min-w-64 relative">
+                        <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="search-input" placeholder="חפש שאלה או תשובה..." 
+                               class="w-full pr-10 pl-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary focus:bg-white transition-all">
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <select id="category-filter" class="px-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary">
+                        <option value="">כל הקטגוריות</option>
+                        <option value="pricing">💰 מחירים</option>
+                        <option value="services">🛠️ שירותים</option>
+                        <option value="hours">🕐 שעות פעילות</option>
+                        <option value="location">📍 מיקום</option>
+                        <option value="terms">📋 תנאים</option>
+                        <option value="technical">⚙️ טכני</option>
+                        <option value="faq">❓ שאלות נפוצות</option>
+                        <option value="other">📁 אחר</option>
+                    </select>
+                    
+                    <!-- Status Filter -->
+                    <select id="status-filter" class="px-4 py-3 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary">
+                        <option value="">הכל</option>
+                        <option value="active">✅ פעילים</option>
+                        <option value="inactive">❌ מושבתים</option>
+                    </select>
+                </div>
+            </section>
+            
+            <!-- Stats Bar -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 opacity-0" id="stats-bar">
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+                        <i data-lucide="database" class="w-5 h-5 text-primary"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="total-questions">0</p>
+                        <p class="text-xs text-gray-500">סה"כ שאלות</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="active-questions">0</p>
+                        <p class="text-xs text-gray-500">פעילים</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="layers" class="w-5 h-5 text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="total-categories">0</p>
+                        <p class="text-xs text-gray-500">קטגוריות</p>
+                    </div>
+                </div>
+                <div class="glass rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold text-dark" id="ai-coverage">0%</p>
+                        <p class="text-xs text-gray-500">כיסוי AI</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Knowledge Items Grid -->
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="knowledge-grid">
+                <!-- Loading Skeletons -->
+                <div class="knowledge-skeleton glass rounded-xl p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="skeleton h-6 w-24 rounded"></div>
+                        <div class="skeleton h-6 w-12 rounded-full"></div>
+                    </div>
+                    <div class="skeleton h-5 w-full rounded mb-2"></div>
+                    <div class="skeleton h-4 w-3/4 rounded"></div>
+                </div>
+                <div class="knowledge-skeleton glass rounded-xl p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="skeleton h-6 w-24 rounded"></div>
+                        <div class="skeleton h-6 w-12 rounded-full"></div>
+                    </div>
+                    <div class="skeleton h-5 w-full rounded mb-2"></div>
+                    <div class="skeleton h-4 w-3/4 rounded"></div>
+                </div>
+            </section>
+            
+            <!-- Empty State -->
+            <div class="hidden text-center py-16" id="empty-state">
+                <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i data-lucide="book-x" class="w-12 h-12 text-gray-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-dark mb-2">אין עדיין שאלות במאגר</h3>
+                <p class="text-gray-500 mb-6">התחל להוסיף שאלות ותשובות כדי שהבוט יוכל לענות ללקוחות</p>
+                <button onclick="openModal()" class="gradient-primary text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-shadow inline-flex items-center gap-2">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                    הוסף שאלה ראשונה
+                </button>
+            </div>
+            
+        </main>
+    </div>
+    
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0" onclick="closeModal()"></div>
+        <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-dark" id="modal-title">הוסף שאלה חדשה</h3>
+                <button onclick="closeModal()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                    <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <form id="knowledge-form" class="p-6 space-y-6">
+                <input type="hidden" id="edit-id">
+                
+                <!-- Category -->
+                <div>
+                    <label class="block text-sm font-medium text-dark mb-2">קטגוריה *</label>
+                    <select id="form-category" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">בחר קטגוריה</option>
+                        <option value="pricing">💰 מחירים</option>
+                        <option value="services">🛠️ שירותים</option>
+                        <option value="hours">🕐 שעות פעילות</option>
+                        <option value="location">📍 מיקום והגעה</option>
+                        <option value="terms">📋 תנאים ומדיניות</option>
+                        <option value="technical">⚙️ שאלות טכניות</option>
+                        <option value="faq">❓ שאלות נפוצות</option>
+                        <option value="other">📁 אחר</option>
+                    </select>
+                </div>
+                
+                <!-- Question -->
+                <div>
+                    <label class="block text-sm font-medium text-dark mb-2">השאלה *</label>
+                    <input type="text" id="form-question" required placeholder='לדוגמה: "כמה עולה?"' 
+                           class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <p class="text-xs text-gray-500 mt-1">כתוב את השאלה כפי שהלקוח היה שואל אותה</p>
+                </div>
+                
+                <!-- Answer -->
+                <div>
+                    <label class="block text-sm font-medium text-dark mb-2">התשובה *</label>
+                    <textarea id="form-answer" required rows="5" placeholder="כתוב תשובה מפורטת וידידותית..."
+                              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+                    <p class="text-xs text-gray-500 mt-1">💡 טיפ: השתמש באימוג'ים ושורות חדשות לקריאות טובה יותר</p>
+                </div>
+                
+                <!-- Keywords -->
+                <div>
+                    <label class="block text-sm font-medium text-dark mb-2">מילות מפתח (אופציונלי)</label>
+                    <input type="text" id="form-keywords" placeholder="מחיר, עלות, כמה, תעריף"
+                           class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <p class="text-xs text-gray-500 mt-1">הפרד בפסיקים. מילים אלה יעזרו לבוט למצוא את התשובה</p>
+                </div>
+                
+                <!-- Priority -->
+                <div>
+                    <label class="block text-sm font-medium text-dark mb-2">עדיפות</label>
+                    <div class="flex items-center gap-4">
+                        <input type="range" id="form-priority" min="0" max="10" value="0" 
+                               class="flex-1 accent-primary">
+                        <span id="priority-value" class="text-sm font-medium text-dark w-8 text-center">0</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">עדיפות גבוהה = יוצג ראשון במקרה של התלבטות</p>
+                </div>
+                
+                <!-- Active Toggle -->
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div>
+                        <p class="font-medium text-dark">שאלה פעילה</p>
+                        <p class="text-sm text-gray-500">הבוט ישתמש בשאלה הזו לענות ללקוחות</p>
+                    </div>
+                    <div id="form-active" class="toggle-switch active" onclick="toggleActive()"></div>
+                </div>
+            </form>
+            
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-100">
+                <button onclick="closeModal()" class="px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
+                    ביטול
+                </button>
+                <button onclick="saveKnowledge()" class="gradient-primary text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-shadow flex items-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    <span id="save-btn-text">שמור</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0" onclick="closeDeleteModal()"></div>
+        <div class="modal-content absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                <i data-lucide="trash-2" class="w-8 h-8 text-red-500"></i>
+            </div>
+            <h3 class="text-xl font-bold text-dark mb-2">למחוק את השאלה?</h3>
+            <p class="text-gray-500 mb-6">הפעולה הזו לא ניתנת לביטול. הבוט לא יוכל לענות על שאלה זו יותר.</p>
+            <div class="flex items-center justify-center gap-3">
+                <button onclick="closeDeleteModal()" class="px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
+                    ביטול
+                </button>
+                <button onclick="confirmDelete()" class="bg-red-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-red-600 transition-colors">
+                    כן, מחק
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // ============================================
+        // Configuration
+        // ============================================
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const BUSINESS_ID = new URLSearchParams(window.location.search).get('business_id') || 'demo';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // State
+        let knowledgeItems = [];
+        let deleteItemId = null;
+        let isEditMode = false;
+        
+        // Category translations
+        const categoryLabels = {
+            pricing: '💰 מחירים',
+            services: '🛠️ שירותים',
+            hours: '🕐 שעות פעילות',
+            location: '📍 מיקום',
+            terms: '📋 תנאים',
+            technical: '⚙️ טכני',
+            faq: '❓ שאלות נפוצות',
+            other: '📁 אחר'
+        };
+        
+        // ============================================
+        // Initialize
+        // ============================================
+        lucide.createIcons();
+        
+        // Animations
+        gsap.set('#header', { opacity: 0, y: -20 });
+        gsap.set('#filters-section', { opacity: 0, y: 20 });
+        gsap.set('#stats-bar', { opacity: 0, y: 20 });
+        
+        function initAnimations() {
+            gsap.to('#header', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+            gsap.to('#filters-section', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.2 });
+            gsap.to('#stats-bar', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.3 });
+        }
+        
+        // ============================================
+        // Toast
+        // ============================================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-orange-500';
+            toast.className = `toast ${bgColor} text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3`;
+            toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle' : 'x-circle'}" class="w-5 h-5"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // ============================================
+        // Data Loading
+        // ============================================
+        async function loadKnowledge() {
+            try {
+                if (BUSINESS_ID === 'demo') {
+                    // Demo data
+                    knowledgeItems = [
+                        { id: '1', category: 'pricing', question: 'כמה עולה להשכיר יאכטה?', answer: 'המחירים משתנים לפי גודל היאכטה והמועד:\n\n🚤 יאכטה קטנה: 3,500-4,500 ₪\n🛥️ יאכטה בינונית: 5,000-6,500 ₪\n⛵ יאכטה גדולה: 7,000-9,000 ₪', keywords: ['מחיר', 'עלות', 'כמה'], is_active: true, priority: 10 },
+                        { id: '2', category: 'hours', question: 'מתי אתם פתוחים?', answer: '📅 ימים א-ה: 09:00-18:00\n📅 יום ו: 09:00-14:00\n📅 שבת: סגור', keywords: ['שעות', 'פתוח'], is_active: true, priority: 5 },
+                        { id: '3', category: 'services', question: 'מה כולל השייט?', answer: '✅ קפטן מקצועי\n✅ דלק\n✅ ציוד בטיחות\n✅ מערכת סאונד', keywords: ['כולל', 'שייט'], is_active: true, priority: 8 },
+                        { id: '4', category: 'location', question: 'איפה אתם נמצאים?', answer: '📍 מרינה הרצליה, רציף 3\nרח\' המרינה 15, הרצליה פיתוח', keywords: ['איפה', 'מיקום'], is_active: true, priority: 5 },
+                        { id: '5', category: 'terms', question: 'מה מדיניות הביטולים?', answer: '✅ עד 7 ימים לפני - ביטול חינם\n⚠️ 3-7 ימים - 50%\n❌ פחות מ-3 ימים - ללא החזר', keywords: ['ביטול', 'החזר'], is_active: false, priority: 3 }
+                    ];
+                } else {
+                    const { data, error } = await supabase
+                        .from('knowledge_base')
+                        .select('*')
+                        .eq('business_id', BUSINESS_ID)
+                        .order('priority', { ascending: false });
+                    
+                    if (error) throw error;
+                    knowledgeItems = data || [];
+                }
+                
+                renderKnowledge();
+                updateStats();
+                
+            } catch (error) {
+                console.error('Error loading knowledge:', error);
+                showToast('שגיאה בטעינת המידע', 'error');
+            }
+        }
+        
+        // ============================================
+        // Render
+        // ============================================
+        function renderKnowledge(items = knowledgeItems) {
+            const grid = document.getElementById('knowledge-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            // Remove skeletons
+            grid.querySelectorAll('.knowledge-skeleton').forEach(el => el.remove());
+            // Remove existing items
+            grid.querySelectorAll('.knowledge-item').forEach(el => el.remove());
+            
+            if (items.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = `knowledge-item card-hover glass rounded-xl p-5 ${!item.is_active ? 'opacity-60' : ''}`;
+                card.style.opacity = '0';
+                
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="category-${item.category} text-xs px-3 py-1 rounded-full font-medium">
+                            ${categoryLabels[item.category] || item.category}
+                        </span>
+                        <div class="flex items-center gap-2">
+                            ${!item.is_active ? '<span class="text-xs text-gray-400">מושבת</span>' : ''}
+                            <div class="relative">
+                                <button onclick="toggleMenu('${item.id}')" class="p-1 hover:bg-gray-100 rounded-lg transition-colors">
+                                    <i data-lucide="more-vertical" class="w-4 h-4 text-gray-400"></i>
+                                </button>
+                                <div id="menu-${item.id}" class="hidden absolute left-0 top-full mt-1 bg-white rounded-lg shadow-lg border border-gray-100 py-1 min-w-32 z-10">
+                                    <button onclick="editItem('${item.id}')" class="w-full px-4 py-2 text-right text-sm hover:bg-gray-50 flex items-center gap-2">
+                                        <i data-lucide="edit-2" class="w-4 h-4"></i> ערוך
+                                    </button>
+                                    <button onclick="toggleItemActive('${item.id}')" class="w-full px-4 py-2 text-right text-sm hover:bg-gray-50 flex items-center gap-2">
+                                        <i data-lucide="${item.is_active ? 'eye-off' : 'eye'}" class="w-4 h-4"></i> 
+                                        ${item.is_active ? 'השבת' : 'הפעל'}
+                                    </button>
+                                    <button onclick="deleteItem('${item.id}')" class="w-full px-4 py-2 text-right text-sm text-red-500 hover:bg-red-50 flex items-center gap-2">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i> מחק
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-dark mb-2">${item.question}</h4>
+                    <p class="text-sm text-gray-600 whitespace-pre-line line-clamp-3">${item.answer}</p>
+                    ${item.keywords && item.keywords.length > 0 ? `
+                        <div class="flex flex-wrap gap-1 mt-3">
+                            ${item.keywords.slice(0, 4).map(k => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">${k}</span>`).join('')}
+                            ${item.keywords.length > 4 ? `<span class="text-xs text-gray-400">+${item.keywords.length - 4}</span>` : ''}
+                        </div>
+                    ` : ''}
+                `;
+                
+                grid.appendChild(card);
+                lucide.createIcons();
+                
+                // Animate in
+                gsap.to(card, { opacity: 1, y: 0, duration: 0.3, delay: index * 0.05, ease: 'power2.out' });
+            });
+        }
+        
+        function updateStats() {
+            const total = knowledgeItems.length;
+            const active = knowledgeItems.filter(i => i.is_active).length;
+            const categories = [...new Set(knowledgeItems.map(i => i.category))].length;
+            const coverage = total > 0 ? Math.round((active / total) * 100) : 0;
+            
+            document.getElementById('total-questions').textContent = total;
+            document.getElementById('active-questions').textContent = active;
+            document.getElementById('total-categories').textContent = categories;
+            document.getElementById('ai-coverage').textContent = coverage + '%';
+        }
+        
+        // ============================================
+        // Menu & Actions
+        // ============================================
+        function toggleMenu(id) {
+            // Close all other menus
+            document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+                if (menu.id !== `menu-${id}`) menu.classList.add('hidden');
+            });
+            document.getElementById(`menu-${id}`).classList.toggle('hidden');
+        }
+        
+        // Close menus on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('[id^="menu-"]') && !e.target.closest('button')) {
+                document.querySelectorAll('[id^="menu-"]').forEach(menu => menu.classList.add('hidden'));
+            }
+        });
+        
+        function editItem(id) {
+            const item = knowledgeItems.find(i => i.id === id);
+            if (!item) return;
+            
+            isEditMode = true;
+            document.getElementById('edit-id').value = id;
+            document.getElementById('modal-title').textContent = 'ערוך שאלה';
+            document.getElementById('save-btn-text').textContent = 'עדכן';
+            
+            document.getElementById('form-category').value = item.category;
+            document.getElementById('form-question').value = item.question;
+            document.getElementById('form-answer').value = item.answer;
+            document.getElementById('form-keywords').value = (item.keywords || []).join(', ');
+            document.getElementById('form-priority').value = item.priority || 0;
+            document.getElementById('priority-value').textContent = item.priority || 0;
+            
+            const toggle = document.getElementById('form-active');
+            toggle.classList.toggle('active', item.is_active);
+            
+            openModal();
+        }
+        
+        async function toggleItemActive(id) {
+            const item = knowledgeItems.find(i => i.id === id);
+            if (!item) return;
+            
+            const newStatus = !item.is_active;
+            
+            if (BUSINESS_ID !== 'demo') {
+                const { error } = await supabase
+                    .from('knowledge_base')
+                    .update({ is_active: newStatus })
+                    .eq('id', id);
+                
+                if (error) {
+                    showToast('שגיאה בעדכון', 'error');
+                    return;
+                }
+            }
+            
+            item.is_active = newStatus;
+            renderKnowledge();
+            updateStats();
+            showToast(newStatus ? 'השאלה הופעלה' : 'השאלה הושבתה');
+        }
+        
+        function deleteItem(id) {
+            deleteItemId = id;
+            document.getElementById('delete-modal').classList.remove('hidden');
+        }
+        
+        async function confirmDelete() {
+            if (!deleteItemId) return;
+            
+            if (BUSINESS_ID !== 'demo') {
+                const { error } = await supabase
+                    .from('knowledge_base')
+                    .delete()
+                    .eq('id', deleteItemId);
+                
+                if (error) {
+                    showToast('שגיאה במחיקה', 'error');
+                    closeDeleteModal();
+                    return;
+                }
+            }
+            
+            knowledgeItems = knowledgeItems.filter(i => i.id !== deleteItemId);
+            renderKnowledge();
+            updateStats();
+            closeDeleteModal();
+            showToast('השאלה נמחקה');
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').classList.add('hidden');
+            deleteItemId = null;
+        }
+        
+        // ============================================
+        // Modal
+        // ============================================
+        function openModal() {
+            document.getElementById('modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.body.style.overflow = '';
+            resetForm();
+        }
+        
+        function resetForm() {
+            isEditMode = false;
+            document.getElementById('edit-id').value = '';
+            document.getElementById('modal-title').textContent = 'הוסף שאלה חדשה';
+            document.getElementById('save-btn-text').textContent = 'שמור';
+            document.getElementById('knowledge-form').reset();
+            document.getElementById('priority-value').textContent = '0';
+            document.getElementById('form-active').classList.add('active');
+        }
+        
+        function toggleActive() {
+            document.getElementById('form-active').classList.toggle('active');
+        }
+        
+        // Priority slider
+        document.getElementById('form-priority').addEventListener('input', (e) => {
+            document.getElementById('priority-value').textContent = e.target.value;
+        });
+        
+        // ============================================
+        // Save
+        // ============================================
+        async function saveKnowledge() {
+            const category = document.getElementById('form-category').value;
+            const question = document.getElementById('form-question').value.trim();
+            const answer = document.getElementById('form-answer').value.trim();
+            const keywordsStr = document.getElementById('form-keywords').value.trim();
+            const priority = parseInt(document.getElementById('form-priority').value);
+            const isActive = document.getElementById('form-active').classList.contains('active');
+            
+            if (!category || !question || !answer) {
+                showToast('נא למלא את כל השדות הנדרשים', 'error');
+                return;
+            }
+            
+            const keywords = keywordsStr ? keywordsStr.split(',').map(k => k.trim()).filter(k => k) : [];
+            
+            const data = {
+                category,
+                question,
+                answer,
+                keywords,
+                priority,
+                is_active: isActive
+            };
+            
+            if (isEditMode) {
+                const id = document.getElementById('edit-id').value;
+                
+                if (BUSINESS_ID !== 'demo') {
+                    const { error } = await supabase
+                        .from('knowledge_base')
+                        .update(data)
+                        .eq('id', id);
+                    
+                    if (error) {
+                        showToast('שגיאה בעדכון', 'error');
+                        return;
+                    }
+                }
+                
+                const index = knowledgeItems.findIndex(i => i.id === id);
+                if (index !== -1) {
+                    knowledgeItems[index] = { ...knowledgeItems[index], ...data };
+                }
+                
+                showToast('השאלה עודכנה בהצלחה!');
+                
+            } else {
+                if (BUSINESS_ID !== 'demo') {
+                    const { data: newItem, error } = await supabase
+                        .from('knowledge_base')
+                        .insert({ ...data, business_id: BUSINESS_ID })
+                        .select()
+                        .single();
+                    
+                    if (error) {
+                        showToast('שגיאה בשמירה', 'error');
+                        return;
+                    }
+                    
+                    knowledgeItems.unshift(newItem);
+                } else {
+                    knowledgeItems.unshift({ id: Date.now().toString(), ...data });
+                }
+                
+                showToast('השאלה נוספה בהצלחה!');
+            }
+            
+            renderKnowledge();
+            updateStats();
+            closeModal();
+        }
+        
+        // ============================================
+        // Search & Filter
+        // ============================================
+        document.getElementById('search-input').addEventListener('input', filterKnowledge);
+        document.getElementById('category-filter').addEventListener('change', filterKnowledge);
+        document.getElementById('status-filter').addEventListener('change', filterKnowledge);
+        
+        function filterKnowledge() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+            const status = document.getElementById('status-filter').value;
+            
+            let filtered = knowledgeItems;
+            
+            if (search) {
+                filtered = filtered.filter(item => 
+                    item.question.toLowerCase().includes(search) ||
+                    item.answer.toLowerCase().includes(search) ||
+                    (item.keywords || []).some(k => k.toLowerCase().includes(search))
+                );
+            }
+            
+            if (category) {
+                filtered = filtered.filter(item => item.category === category);
+            }
+            
+            if (status === 'active') {
+                filtered = filtered.filter(item => item.is_active);
+            } else if (status === 'inactive') {
+                filtered = filtered.filter(item => !item.is_active);
+            }
+            
+            renderKnowledge(filtered);
+        }
+        
+        // ============================================
+        // Init
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initAnimations();
+            loadKnowledge();
+        });
+    </script>
+    
+</body>
+</html>
